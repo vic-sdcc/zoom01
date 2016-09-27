@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="skillsAM"/>
+        <composite:attribute name="skillsD"/>
+        <composite:attribute name="skillsL"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="skillsPanel"
+                 style="border: transparent">
+            <ui:repeat var="skls" 
+                       value="#{cc.attrs.skillsD.skillsAL}" 
+                       varStatus="sklsLoop">
+                <p:row rendered="#{cc.attrs.skillsD.skillsAL.size() gt 0}">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="skill data"
+                                             actionListener="#{cc.attrs.skillsD.removeSkills(sklsLoop.index)}" 
+                                             immediate="true" 
+                                             update=":#{p:component('skillsPanel')}"
+                                             icon="ui-icon-minus" 
+                                             styleClass="ui-btn ui-shadow ui-corner-all"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-1">
+                            <p:outputLabel for="skillsCode#{cc.attrs.skillsD.skillsAL.size()}" 
+                                           value="Skill:" 
+                                           style="padding: 5px"
+                                           rendered="#{not membershipType.updateM and not membershipType.updateA}"/>
+                            <p:outputLabel for="skillsCode#{cc.attrs.skillsD.skillsAL.size()}"
+                                           value="Skill:"
+                                           title="#{skillsData.skillsMemAL[sklsLoop.index].tempSkills}"
+                                           rendered="#{skillsData.skillsMemAL[sklsLoop.index].skillsCode.skillsCode eq 'xxxxxx' and membershipType.updateM}"
+                                           style="padding: 5px"/>
+                            <p:outputLabel for="skillsCode#{cc.attrs.skillsD.skillsAL.size()}"
+                                           value="Skill:"
+                                           title="#{skillsData.skillsAssocAL[sklsLoop.index].tempSkills}"
+                                           rendered="#{skillsData.skillsAssocAL[sklsLoop.index].skillsCode.skillsCode eq 'xxxxxx' and membershipType.updateA}"
+                                           style="padding: 5px"/>
+                            <p:outputLabel for="skillsCode#{cc.attrs.skillsD.skillsAL.size()}"
+                                           value="Skill:"
+                                           rendered="#{skillsData.skillsMemAL[sklsLoop.index].skillsCode.skillsCode ne 'xxxxxx' and membershipType.updateM}"
+                                           style="padding: 5px"/>
+                            <p:outputLabel for="skillsCode#{cc.attrs.skillsD.skillsAL.size()}"
+                                           value="Skill:"
+                                           rendered="#{skillsData.skillsAssocAL[sklsLoop.index].skillsCode.skillsCode ne 'xxxxxx' and membershipType.updateA}"
+                                           style="padding: 5px"/>
+                        </div>
+                        <div class="ui-grid-col-3">
+                            <p:autoComplete id="skillsCode#{cc.attrs.skillsD.skillsAL.size()}"
+                                            label="Skill#{sklsLoop.index}"
+                                            value="#{skls.skillsName}"
+                                            completeMethod="#{autoComplete.completeSkills}"
+                                            emptyMessage="no records found."
+                                            queryDelay="500"
+                                            scrollHeight="200"
+                                            style="width: 300px"
+                                            required="true"
+                                            forceSelection="true">
+                                <p:ajax process="@this"
+                                        event="itemSelect"/>
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:autoComplete>
+                            <!--value="{skillsData.stringAL[sklsLoop.index]}"-->
+                        </div>
+                    </div>
+                </p:row>
+            </ui:repeat>
+            <p:commandButton value="skill data"
+                             actionListener="#{cc.attrs.skillsD.addSkills}" 
+                             update=":#{p:component('skillsPanel')},:#{p:component('growl')}" 
+                             icon="ui-icon-plus" 
+                             styleClass="ui-btn ui-shadow ui-corner-all"
+                             rendered="#{cc.attrs.skillsD.skillsAL.size() lt 10}"/>
+        </p:panel>
+    </composite:implementation>
+</html>

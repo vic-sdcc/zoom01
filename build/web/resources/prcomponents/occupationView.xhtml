@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="skills"/>
+        <composite:attribute name="employment"/>
+        <composite:attribute name="business"/>
+        <composite:attribute name="otherSoi"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="occupationPanel" style="border: white; font-size: small">
+            <p:outputLabel value="Occupation: #{cc.attrs.member.preoccupation}"/>
+            <br/>
+            <p:outputLabel value="Employment" style="font-weight: bold;"/>
+            <prcc:employmentView id="employment"
+                                 member="#{cc.attrs.member}"
+                                 employment="#{cc.attrs.employment}"/>
+            <br/>
+            <p:outputLabel value="Business" style="font-weight: bold;"/>
+            <prcc:businessView id="business"
+                               member="#{cc.attrs.member}"
+                               business="#{cc.attrs.business}"/>
+            <br/>
+            <p:outputLabel value="Other S.O.I." style="font-weight: bold;"/>
+            <prcc:otherSourceView id="otherSoi"
+                                  member="#{cc.attrs.member}"
+                                  otherSoi="#{cc.attrs.otherSoi}"/>
+            <br/>
+            <p:outputLabel value="Skills" style="font-weight: bold;"/>
+            <prcc:skillsView id="skills"
+                             member="#{cc.attrs.member}"
+                             skills="#{cc.attrs.skills}"/>
+        </p:panel>
+    </composite:implementation>
+</html>

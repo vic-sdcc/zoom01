@@ -1,0 +1,713 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define id="mainContent" name="content">
+            <p:growl id="message" showDetail="true" />
+            <f:event type="preRenderView" 
+                     listener="#{checkUser.init}"/>
+            <h:form id="accessMessage" 
+                    rendered="#{not checkUser.showContent}">
+                <h:outputText value="You do not have the roles required to access this portlet."/>
+            </h:form>
+            <h:form id="mainForm" rendered="#{checkUser.showContent}">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+                <p:dialog widgetVar="statusDialog" showHeader="false" resizable="false">
+                    <p:graphicImage value="/resources/images/ajax_load.gif"/>
+                </p:dialog>
+                <p:panel style="border: white" id="filterPanel">
+                    <div class="ui-grid ui-grid-responsive">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-6">
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Filter by" style="font-weight: bold"/>
+                                        <br/>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="PT Number: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectOneMenu style="min-width: 200px" value="#{memberFilterData.ouCodeID}" 
+                                                         filterMatchMode="startsWith" 
+                                                         filter="true">
+                                            <f:selectItem noSelectionOption="true" itemLabel="Select PT Number" itemValue=""/>
+                                            <f:selectItems value="#{returnObject.ouList()}" 
+                                                           var="ou" 
+                                                           itemLabel="#{ou.ouShortName}"
+                                                           itemValue="#{ou.ouCode}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Member Status: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectOneMenu id="memStat" style="min-width: 200px" value="#{memberFilterData.status}" disabled="#{memberFilterData.current}">
+                                            <p:ajax event="change" update=":#{p:component('currentStat')}"/>
+                                            <f:selectItem noSelectionOption="true" itemLabel="Select Status"/>
+                                            <f:selectItems value="#{returnObject.memStatList()}" 
+                                                           var="stat" 
+                                                           itemLabel="#{stat.statusName}"
+                                                           itemValue="#{stat.memStatus}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Current: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectBooleanCheckbox id="currentStat" value="#{memberFilterData.current}" disabled="#{not empty memberFilterData.status}">
+                                            <p:ajax event="change" update=":#{p:component('memStat')}"/>
+                                        </p:selectBooleanCheckbox>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Membership date: "/>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:calendar id="dateFrom" 
+                                                    value="#{memberFilterData.membershipDateFrom}" 
+                                                    yearRange="#{1900}:#{currentDate}" 
+                                                    maxdate="#{currentDate}" 
+                                                    pattern="MMM dd yyyy"
+                                                    placeholder="From"
+                                                    onclick="this.select()"
+                                                    navigator="true">
+                                            <p:ajax event="dateSelect" update=":#{p:component('dateTo')}" listener="#{memberFilterData.setMembershipDateTo(null)}"/>
+                                            <p:ajax event="keyup" update=":#{p:component('dateTo')}" listener="#{memberFilterData.setMembershipDateTo(null)}"/>
+                                        </p:calendar>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:calendar id="dateTo" 
+                                                    value="#{memberFilterData.membershipDateTo}"
+                                                    yearRange="#{memberFilterData.membershipDateFrom.year + 1900}:#{currentDate}"
+                                                    maxdate="#{currentDate}" 
+                                                    mindate="#{memberFilterData.membershipDateFrom}"
+                                                    pattern="MMM dd yyyy"
+                                                    placeholder="To"
+                                                    onclick="this.select()"
+                                                    navigator="true"
+                                                    disabled="#{empty memberFilterData.membershipDateFrom}">
+                                            <p:ajax event="dateSelect" update=":#{p:component('dateFrom')}"/>
+                                            <p:ajax event="keyup" update=":#{p:component('dateFrom')}"/>
+                                        </p:calendar>
+                                    </div>
+                                </div>
+
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Age Bracket: "/>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:inputText id="ageFrom" value="#{memberFilterData.ageFrom}" 
+                                                     placeholder="From"
+                                                     onclick="this.select()"
+                                                     onkeypress="return isNumberKey(event.keyCode)" 
+                                                     type="number">
+                                            <p:ajax event="keyup" 
+                                                    update=":#{p:component('ageTo')}"
+                                                    listener="#{memberFilterData.setAgeTo(null)}"/>
+                                        </p:inputText>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:inputText id="ageTo" value="#{memberFilterData.ageTo}" 
+                                                     placeholder="To" 
+                                                     onclick="this.select()"
+                                                     onkeypress="return isNumberKey(event.keyCode)" 
+                                                     type="number"
+                                                     disabled="#{empty memberFilterData.ageFrom}">
+                                            <p:ajax event="blur" 
+                                                    update=":#{p:component('ageTo')}"/>
+                                            <f:validateLongRange minimum="#{memberFilterData.ageTo eq 0 ? 0 : memberFilterData.ageFrom}"/>
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Occupation: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectOneMenu style="min-width: 200px" value="#{memberFilterData.occupation}"
+                                                         filterMatchMode="startsWith" 
+                                                         filter="true">
+                                            <f:selectItem noSelectionOption="true" itemLabel="Select Status"/>
+                                            <f:selectItems value="#{returnObject.memOccupationList()}" 
+                                                           var="occption" 
+                                                           itemLabel="#{occption}"
+                                                           itemValue="#{occption}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Rank Position: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:autoComplete id="skillRankPos" 
+                                                        value="#{memberFilterData.rankPos}"
+                                                        emptyMessage="no records found."
+                                                        queryDelay="500"
+                                                        scrollHeight="200"
+                                                        onclick="this.select()"
+                                                        completeMethod="#{autoComplete.completeEmplRank}">
+                                        </p:autoComplete>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Income Bracket: Php "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectOneMenu style="min-width: 200px" value="#{memberFilterData.compensation}">
+                                            <f:selectItem noSelectionOption="true" itemLabel="Select Bracket" itemValue=""/>
+                                            <f:selectItem itemLabel="999.00 - Below" itemValue="999.00 - Below"/>
+                                            <f:selectItem itemLabel="1,000.00 - 10,000.00" itemValue="1,000.00 - 10,000.00"/>
+                                            <f:selectItem itemLabel="10,001.00 - 15,000.00" itemValue="10,001.00 - 15,000.00"/>
+                                            <f:selectItem itemLabel="15,001.00 - 20,000.00" itemValue="15,001.00 - 20,000.00"/>
+                                            <f:selectItem itemLabel="20,001.00 - 30,000.00" itemValue="20,001.00 - 30,000.00"/>
+                                            <f:selectItem itemLabel="30,001.00 - 40,000.00" itemValue="30,001.00 - 40,000.00"/>
+                                            <f:selectItem itemLabel="40,001.00 - 50,000.00" itemValue="40,001.00 - 50,000.00"/>
+                                            <f:selectItem itemLabel="50,001.00 - Above" itemValue="50,001.00 - Above"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Person Status: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectOneMenu style="min-width: 200px" value="#{memberFilterData.personStat}">
+                                            <f:selectItem noSelectionOption="true" itemLabel="Select Status" itemValue=""/>
+                                            <f:selectItem itemLabel="Alive" itemValue="true"/>
+                                            <f:selectItem itemLabel="Deceased" itemValue="false"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Membership Type: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectOneMenu style="min-width: 200px" value="#{memberFilterData.membershipType}">
+                                            <f:selectItem noSelectionOption="true" itemLabel="Select Type" itemValue=""/>
+                                            <f:selectItem itemLabel="Regular" itemValue="Regular"/>
+                                            <f:selectItem itemLabel="Associate" itemValue="Associate"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Skill: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:autoComplete id="skillAuto" 
+                                                        value="#{memberFilterData.skill}"
+                                                        emptyMessage="no records found."
+                                                        queryDelay="500"
+                                                        scrollHeight="200"
+                                                        onclick="this.select()"
+                                                        completeMethod="#{autoComplete.completeSkills}">
+                                        </p:autoComplete>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Gender: "/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectOneMenu style="min-width: 200px" value="#{memberFilterData.gender}">
+                                            <f:selectItem noSelectionOption="true" itemLabel="Select Type" itemValue=""/>
+                                            <f:selectItem itemLabel="Male" itemValue="M"/>
+                                            <f:selectItem itemLabel="Female" itemValue="F"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="Sort By" style="font-weight: bold"/>
+                                        <br/>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <h:panelGrid columns="2">
+                                            <p:selectBooleanCheckbox value="#{sortOrderString.alphabetical}">
+                                                <p:ajax listener="#{sortOrderString.alphabetical()}"/>
+                                            </p:selectBooleanCheckbox>
+
+                                            <p:outputLabel value="Alphabetical" style="margin-left: 7px"/>
+                                        </h:panelGrid>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <h:panelGrid columns="2">
+                                            <p:selectBooleanCheckbox value="#{sortOrderString.memberNumber}">
+                                                <p:ajax listener="#{sortOrderString.memberNumber()}"/>
+                                            </p:selectBooleanCheckbox>
+
+                                            <p:outputLabel value="Member Number" style="margin-left: 7px"/>
+                                        </h:panelGrid>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <h:panelGrid columns="2">
+                                            <p:selectBooleanCheckbox value="#{sortOrderString.membershipDate}">
+                                                <p:ajax listener="#{sortOrderString.membershipDate()}"/>
+                                            </p:selectBooleanCheckbox>
+
+                                            <p:outputLabel value="Membership Date" style="margin-left: 7px"/>
+                                        </h:panelGrid>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <h:panelGrid columns="2">
+                                            <p:selectBooleanCheckbox value="#{sortOrderString.orgUnit}">
+                                                <p:ajax listener="#{sortOrderString.orgUnit()}"/>
+                                            </p:selectBooleanCheckbox>
+
+                                            <p:outputLabel value="PT Number" style="margin-left: 7px"/>
+                                        </h:panelGrid>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-6">
+                                        <h:panelGrid id="countPnl" style="border-color: white;" columns="3">
+                                            <p:outputLabel value="Count" style="margin-right: 30px;"/>
+                                            <p:outputLabel value=": "/>
+                                            <p:outputLabel value="#{memberData.memberViewList.size() + associateData.associateViewList.size()}"
+                                                           rendered="#{memberData.memberViewList.size() gt 0 or associateData.associateViewList.size() gt 0}"/>
+                                            <p:outputLabel value="0" rendered="#{memberData.memberViewList.size() lt 1 and associateData.associateViewList.size() lt 1}"/>
+
+                                            <p:outputLabel value="Total" style="margin-right: 30px;"/>
+                                            <p:outputLabel value=": "/>
+                                            <p:outputLabel value="#{((memberData.memberViewList.size() + associateData.associateViewList.size())/memberCount.total)}" 
+                                                           rendered="#{memberData.memberViewList.size() gt 0 or associateData.associateViewList.size() gt 0}">
+                                                <f:convertNumber pattern="##.##%"/>
+                                            </p:outputLabel>
+                                            <p:outputLabel value="0%" rendered="#{memberData.memberViewList.size() lt 1 and associateData.associateViewList.size() lt 1}"/>
+
+                                            <p:outputLabel value="Current" style="margin-right: 30px;"/>
+                                            <p:outputLabel value=": "/>
+                                            <p:outputLabel value="#{((memberData.memberViewList.size() + associateData.associateViewList.size())/memberCount.current)}"
+                                                           rendered="#{memberData.memberViewList.size() gt 0 or associateData.associateViewList.size() gt 0}">
+                                                <f:convertNumber pattern="##.##%"/>
+                                            </p:outputLabel>
+                                            <p:outputLabel value="0%" rendered="#{memberData.memberViewList.size() lt 1 and associateData.associateViewList.size() lt 1}"/>
+                                        </h:panelGrid>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+                <p:commandButton value="Proceed" 
+                                 icon="ui-icon-document"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-document"
+                                 style="margin-right: 7px;"
+                                 update=":#{p:component('MemberTabView')}, :#{p:component('filterPanel')}">
+                    <f:actionListener binding="#{associateData.setAssociateViewList(generateData.associateList(memberFilterData,sortOrderString))}"/>
+                    <f:actionListener binding="#{memberData.setMemberViewList(generateData.memberList(memberFilterData,sortOrderString))}"/>
+                    <f:actionListener binding="#{memberCount.initVal()}"/>
+                </p:commandButton>
+                <p:commandButton value="Clear Filters" 
+                                 icon="ui-icon-document"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-document"
+                                 style="margin-right: 7px;"
+                                 update=":#{p:component('filterPanel')}, :#{p:component('MemberTabView')}">
+                    <f:actionListener binding="#{memberFilterData.beanclear()}"/>
+                    <f:actionListener binding="#{sortOrderString.beanclear()}"/>
+                    <f:actionListener binding="#{sortOrderString.beanclear2()}"/>
+                    <f:actionListener binding="#{memberData.beanclear()}"/>
+                    <f:actionListener binding="#{associateData.beanclear()}"/>
+                </p:commandButton>
+                <br/><br/>
+                <p:tabView id="MemberTabView">
+                    <p:tab title="Regular Member" id="regTab">
+                        <p>
+                            <p:dataTable id="memberViewList"
+                                         value="#{memberData.memberViewList}" 
+                                         var="member"
+                                         scrollHeight="200"
+                                         scrollRows="100"
+                                         scrollable="true"
+                                         liveScroll="true"
+                                         rowIndexVar="rowIndex" 
+                                         reflow="true">
+                                <p:column style="width: 30%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Member No." />
+                                    </f:facet>
+                                    <h:outputText value="#{member.memNo}" 
+                                                  style="display:inline-block"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Full Name" />
+                                    </f:facet>
+                                    <h:outputText value="#{member.PPrefix} #{member.firstName} #{member.middleName} #{member.lastName} #{member.suffix}" 
+                                                  style="display:inline-block"/>
+                                </p:column>
+                                <p:column style="width: 20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="PT Number" />
+                                    </f:facet>
+                                    <h:outputText value="#{member.ouCode.ouShortName}" 
+                                                  style="display:inline-block"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p>
+                        <br/>
+                        <p>
+                            <span>
+                                <p:commandButton id="prntReg" 
+                                                 value="Print"
+                                                 icon="ui-icon-print"
+                                                 styleClass="ui-btn ui-btn-icon-left ui-icon-print"
+                                                 style="margin-right: 7px;"
+                                                 disabled="#{memberData.memberViewList.size() eq 0}"
+                                                 immediate="true"
+                                                 actionListener="#{membershipType.setMemberType('Regular')}">
+                                    <p:ajax listener="#{navigation.printMember()}"/>
+                                </p:commandButton>
+                                <p:commandButton id="clrReg"
+                                                 value="Clear List"
+                                                 styleClass="ui-btn ui-btn-icon-left"
+                                                 style="margin-right: 7px;"
+                                                 disabled="#{memberData.memberViewList.size() eq 0}"
+                                                 update="memberViewList, prntReg, clrReg"
+                                                 rendered="false">
+                                    <p:ajax listener="#{memberData.beanclear()}"/>
+                                </p:commandButton>
+                                <p:commandButton value="Export"
+                                                 icon="ui-icon-document"
+                                                 styleClass="ui-btn ui-btn-icon-left ui-icon-document"
+                                                 style="margin-right: 7px;"
+                                                 disabled="#{memberData.memberViewList.size() eq 0}"
+                                                 onclick="PF('exprtMemDlg').show();">
+                                </p:commandButton>
+                            </span>
+                        </p>
+
+                        <p:dialog header="Export File" widgetVar="exprtMemDlg" modal="true" 
+                                  height="400" resizable="false">
+                            <h:panelGrid columns="1">
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="Address: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[0]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Gender: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[1]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Civil Status: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[2]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Birthdate: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[3]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="TIN: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[4]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Pag-Ibig: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[5]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Philhealth: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[6]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="SSS: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[7]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="GSIS: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[8]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Membership Date: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[9]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Membership Status: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[10]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Skill: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[11]}" disabled="#{empty memberFilterData.skill}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Compensation Bracket: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[12]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Educational Attainment: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[13]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Rank Position: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[14]}" disabled="#{empty memberFilterData.rankPos}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+                                </h:panelGrid>
+                                <p:inputText value="#{exportData.filename}" placeholder="#{'Filename'}" 
+                                             onclick="this.select()">
+                                    <p:ajax process="@this" event="blur"/>
+                                    <p:ajax process="@this" event="keyup"/>
+                                </p:inputText>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="OK" process="@this" ajax="true"
+                                                 actionListener="#{exportData.memberList(memberData.memberViewList,memberFilterData)}"
+                                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                 oncomplete="PF('exprtMemDlg').hide();"
+                                                 update=":message"/>
+                                <p:commandButton value="Cancel" type="button" 
+                                                 styleClass="ui-confirmdialog-no" icon="ui-icon-close" 
+                                                 onclick="PF('exprtMemDlg').hide();"/>
+                            </h:panelGrid>
+                        </p:dialog>
+
+                        <p:dialog header="Basic Member Info" widgetVar="memberDialog" modal="true" 
+                                  showEffect="fade" 
+                                  hideEffect="fade" 
+                                  resizable="false">
+                            <p:outputPanel id="memberDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" rendered="#{not empty memberData.selectedMember}" columnClasses="label,value">
+                                    <h:outputText value="Account No.:" />
+                                    <h:outputText value="#{memberData.selectedMember.scAcctno}" />
+
+                                    <h:outputText value="Name" />
+                                    <h:outputText value="#{memberData.selectedMember.PPrefix} #{memberData.selectedMember.lastName}, #{memberData.selectedMember.firstName} #{memberData.selectedMember.middleName} #{memberData.selectedMember.suffix}"/>
+
+                                    <h:outputText value="Birthdate:" />
+                                    <h:outputText value="#{dateFormat.formatDate(memberData.selectedMember.birthdate, 'MMM dd yyyy')}" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </p:tab>
+                    <p:tab title="Associate Member" id="assocTab">
+                        <p>
+                            <p:dataTable id="associateViewList"
+                                         value="#{associateData.associateViewList}" 
+                                         var="associate"
+                                         scrollHeight="200"
+                                         scrollRows="100"
+                                         scrollable="true"
+                                         liveScroll="true"
+                                         rowIndexVar="rowIndex" 
+                                         reflow="true">
+                                <p:column style="width: 30%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Member No." />
+                                    </f:facet>
+                                    <h:outputText value="#{associate.memNo}" 
+                                                  style="display:inline-block"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Full Name" />
+                                    </f:facet>
+                                    <h:outputText value="#{associate.PPrefix} #{associate.firstName} #{associate.middleName} #{associate.lastName} #{associate.suffix}" 
+                                                  style="display:inline-block"/>
+                                </p:column>
+                                <p:column style="width: 20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="PT Number" />
+                                    </f:facet>
+                                    <h:outputText value="#{associate.ouCode.ouShortName}" 
+                                                  style="display:inline-block"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p>
+                        <br/>
+                        <p>
+                            <span>
+                                <p:commandButton id="prntAssoc"
+                                                 value="Print"
+                                                 icon="ui-icon-print"
+                                                 styleClass="ui-btn ui-btn-icon-left ui-icon-print"
+                                                 style="margin-right: 7px;"
+                                                 disabled="#{associateData.associateViewList.size() eq 0}"
+                                                 immediate="true"
+                                                 actionListener="#{membershipType.setMemberType('Associate')}">
+                                    <p:ajax listener="#{navigation.printMember()}"/>
+                                </p:commandButton>
+                                <p:commandButton id="clrAssoc"
+                                                 value="Clear List"
+                                                 styleClass="ui-btn ui-btn-icon-left"
+                                                 style="margin-right: 7px;"
+                                                 disabled="#{associateData.associateViewList.size() eq 0}"
+                                                 update="associateViewList, prntAssoc, clrAssoc"
+                                                 rendered="false">
+                                    <p:ajax listener="#{associateData.beanclear()}"/>
+                                </p:commandButton>
+                                <p:commandButton value="Export"
+                                                 icon="ui-icon-document"
+                                                 styleClass="ui-btn ui-btn-icon-left ui-icon-document"
+                                                 style="margin-right: 7px;"
+                                                 disabled="#{associateData.associateViewList.size() eq 0}"
+                                                 onclick="PF('exprtAssDlg').show();">
+                                </p:commandButton>
+                            </span>
+                        </p>
+
+                        <p:dialog header="Export File" widgetVar="exprtAssDlg" modal="true" 
+                                  height="400" resizable="false">
+                            <h:panelGrid columns="1">
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="Address: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[0]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Gender: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[1]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Civil Status: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[2]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Birthdate: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[3]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="TIN: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[4]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Pag-Ibig: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[5]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Philhealth: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[6]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="SSS: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[7]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="GSIS: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[8]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Membership Date: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[9]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Membership Status: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[10]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Skill: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[11]}" disabled="#{empty memberFilterData.skill}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Compensation Bracket: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[12]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Educational Attainment: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[13]}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+
+                                    <p:outputLabel value="Rank Position: " style="margin-top: -10px"/>
+                                    <p:selectBooleanCheckbox value="#{exportData.exportColumns[14]}" disabled="#{empty memberFilterData.rankPos}" style="margin-top: -10px">
+                                        <p:ajax event="change" process="@this"/>
+                                    </p:selectBooleanCheckbox>
+                                </h:panelGrid>
+                                <p:inputText value="#{exportData.filename}" placeholder="#{'Filename'}" 
+                                             onclick="this.select()">
+                                    <p:ajax process="@this" event="blur"/>
+                                    <p:ajax process="@this" event="keyup"/>
+                                </p:inputText>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="OK" process="@this" ajax="true"
+                                                 actionListener="#{exportData.associateList(associateData.associateViewList,memberFilterData)}"
+                                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                                 oncomplete="PF('exprtAssDlg').hide();"
+                                                 update=":message"/>
+                                <p:commandButton value="Cancel" type="button" 
+                                                 styleClass="ui-confirmdialog-no" icon="ui-icon-close" 
+                                                 onclick="PF('exprtAssDlg').hide();"/>
+                            </h:panelGrid>
+                        </p:dialog>
+
+                        <p:dialog header="Basic Member Info" widgetVar="associateDialog" modal="true" 
+                                  showEffect="fade" 
+                                  hideEffect="fade" 
+                                  resizable="false">
+                            <p:outputPanel id="associateDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" rendered="#{not empty associateData.selectedAssociate}" columnClasses="label,value">
+                                    <h:outputText value="Account No.:" />
+                                    <h:outputText value="#{associateData.selectedAssociate.scAcctno}" />
+
+                                    <h:outputText value="Name" />
+                                    <h:outputText value="#{associateData.selectedAssociate.PPrefix} #{associateData.selectedAssociate.lastName}, #{associateData.selectedAssociate.firstName} #{associateData.selectedAssociate.middleName}. #{associateData.selectedAssociate.suffix}"/>
+
+                                    <h:outputText value="Birthdate:" />
+                                    <h:outputText value="#{dateFormat.formatDate(associateData.selectedAssociate.birthdate, 'MMM dd yyyy')}" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,641 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="pan"/>
+        <composite:attribute name="addlA"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="addressPanel"
+                 style="border: transparent">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="residenceType" 
+                                   value="Residence Type:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:selectOneMenu id="residenceType" 
+                                     label="Residence Type"
+                                     value="#{cc.attrs.member.residenceType}" 
+                                     style="width: 220px" 
+                                     required="true">
+                        <f:selectItem itemLabel="" 
+                                      itemValue="" 
+                                      noSelectionOption="true"/>
+                        <f:selectItem itemLabel="OWNED" 
+                                      itemValue="O"/>
+                        <f:selectItem itemLabel="RENTED" 
+                                      itemValue="R"/>
+                        <f:selectItem itemLabel="LIVING WITH RELATIVES" 
+                                      itemValue="L"/>
+                        <f:selectItem itemLabel="MORTGAGE" 
+                                      itemValue="M"/>
+                        <f:selectItem itemLabel="NO DATA" 
+                                      itemValue="N"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="street" 
+                                   value="Street:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="street" 
+                                 label="Street"
+                                 value="#{cc.attrs.applicant.street}"
+                                 onblur="value = value.toUpperCase()"
+                                 style="width: 300px"
+                                 required="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="barangay"
+                                   value="Barangay:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="barangay" 
+                                 label="Barangay"
+                                 value="#{cc.attrs.applicant.barangay}"
+                                 onblur="value = value.toUpperCase()"
+                                 required="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="cityMun" 
+                                   value="City/Municipality:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="cityMun" 
+                                 label="City/Municipality"
+                                 value="#{cc.attrs.applicant.cityMun}"
+                                 onblur="value = value.toUpperCase()"
+                                 required="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="province" 
+                                   value="Province:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="province" 
+                                 label="Province"
+                                 value="#{cc.attrs.applicant.province}"
+                                 onblur="value = value.toUpperCase()"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="zipCode" 
+                                   value="ZIP Code:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputMask id="zipCode" 
+                                 label="ZIP Code"
+                                 value="#{cc.attrs.member.zipCode}" 
+                                 mask="9999"
+                                 size="4"
+                                 style="width: 40px"
+                                 required="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="region" 
+                                   value="Region:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:selectOneMenu id="region" 
+                                     label="Region"
+                                     value="#{cc.attrs.applicant.region}" 
+                                     style="width: 80px"
+                                     filter="true" 
+                                     filterMatchMode="startsWith">
+                        <f:selectItem itemLabel="" 
+                                      itemValue="" 
+                                      noSelectionOption="true"/>
+                        <f:selectItem itemLabel="NCR" 
+                                      itemValue="NCR"/>
+                        <f:selectItem itemLabel="I" 
+                                      itemValue ="I"/>
+                        <f:selectItem itemLabel="II" 
+                                      itemValue="II"/>
+                        <f:selectItem itemLabel="III" 
+                                      itemValue="III"/>
+                        <f:selectItem itemLabel="IV-A" 
+                                      itemValue="IV-A"/>
+                        <f:selectItem itemLabel="IV-B" 
+                                      itemValue="IV-B"/>
+                        <f:selectItem itemLabel="V" 
+                                      itemValue="V"/>
+                        <f:selectItem itemLabel="VI" 
+                                      itemValue="VI"/>
+                        <f:selectItem itemLabel="VII" 
+                                      itemValue="VII"/>
+                        <f:selectItem itemLabel="VIII" 
+                                      itemValue="VIII"/>
+                        <f:selectItem itemLabel="IX" 
+                                      itemValue="IX"/>
+                        <f:selectItem itemLabel="X" 
+                                      itemValue="X"/>
+                        <f:selectItem itemLabel="XI" 
+                                      itemValue="XI"/>
+                        <f:selectItem itemLabel="XII" 
+                                      itemValue="XII"/>
+                        <f:selectItem itemLabel="XIII" 
+                                      itemValue="XIII"/>
+                        <f:selectItem itemLabel="XVIII" 
+                                      itemValue="XVIII"/>
+                        <f:selectItem itemLabel="ARMM" 
+                                      itemValue="ARMM"/>
+                        <f:selectItem itemLabel="CAR" 
+                                      itemValue="CAR"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <p:panel id="additionalAddress" 
+                     style="border: transparent">
+                <p:separator/>
+                <h4>
+                    <p:outputLabel value="Additional Addresses"/>
+                </h4>
+                <p:panel id="alternateAddress" 
+                         style="border: transparent">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="alternate"
+                                             actionListener="#{panelToggle.toggle1}"
+                                             immediate="true"
+                                             update=":#{p:component('addressPanel')}"
+                                             icon="ui-icon-minus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"
+                                             rendered="#{cc.attrs.pan.add2}"/>
+                            <p:commandButton value="alternate"
+                                             actionListener="#{panelToggle.toggle1}"
+                                             update=":#{p:component('addressPanel')},:#{p:component('growl')}"
+                                             icon="ui-icon-plus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"
+                                             rendered="#{not cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlStreet1" 
+                                           value="Street:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlStreet1" 
+                                         label="Street1"
+                                         value="#{cc.attrs.addlA.addlAddressAL[0].street}" 
+                                         onblur="value = value.toUpperCase()"
+                                         style="width: 300px"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlBarangay1" 
+                                           value="Barangay:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlBarangay1" 
+                                         label="Barangay1"
+                                         value="#{cc.attrs.addlA.addlAddressAL[0].barangay}" 
+                                         onblur="value = value.toUpperCase()"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="cityMun1" 
+                                           value="City/Municipality:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="cityMun1" 
+                                         label="City/Municipality1"
+                                         value="#{cc.attrs.addlA.addlAddressAL[0].cityMun}" 
+                                         onblur="value = value.toUpperCase()"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlProvince1" 
+                                           value="Province:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlProvince1" 
+                                         label="Province1"
+                                         value="#{cc.attrs.addlA.addlAddressAL[0].province}" 
+                                         onblur="value = value.toUpperCase()"
+                                         rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlZipcode1" 
+                                           value="ZIP Code:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputMask id="addlZipcode1" 
+                                         label="ZIP Code1"
+                                         value="#{cc.attrs.addlA.addlAddressAL[0].zipcode}" 
+                                         mask="9999" 
+                                         size="4"
+                                         style="width: 40px"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlRegion1" 
+                                           value="Region:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="addlRegion1" 
+                                             label="Region1" 
+                                             value="#{cc.attrs.addlA.addlAddressAL[0].region}"
+                                             style="width: 80px"
+                                             filter="true" 
+                                             filterMatchMode="startsWith"
+                                             rendered="#{cc.attrs.pan.add2}">
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="NCR" 
+                                              itemValue="NCR"/>
+                                <f:selectItem itemLabel="I" 
+                                              itemValue ="I"/>
+                                <f:selectItem itemLabel="II" 
+                                              itemValue="II"/>
+                                <f:selectItem itemLabel="III" 
+                                              itemValue="III"/>
+                                <f:selectItem itemLabel="IV-A" 
+                                              itemValue="IV-A"/>
+                                <f:selectItem itemLabel="IV-B" 
+                                              itemValue="IV-B"/>
+                                <f:selectItem itemLabel="V" 
+                                              itemValue="V"/>
+                                <f:selectItem itemLabel="VI" 
+                                              itemValue="VI"/>
+                                <f:selectItem itemLabel="VII" 
+                                              itemValue="VII"/>
+                                <f:selectItem itemLabel="VIII" 
+                                              itemValue="VIII"/>
+                                <f:selectItem itemLabel="IX" 
+                                              itemValue="IX"/>
+                                <f:selectItem itemLabel="X" 
+                                              itemValue="X"/>
+                                <f:selectItem itemLabel="XI" 
+                                              itemValue="XI"/>
+                                <f:selectItem itemLabel="XII" 
+                                              itemValue="XII"/>
+                                <f:selectItem itemLabel="XIII" 
+                                              itemValue="XIII"/>
+                                <f:selectItem itemLabel="XVIII" 
+                                              itemValue="XVIII"/>
+                                <f:selectItem itemLabel="ARMM" 
+                                              itemValue="ARMM"/>
+                                <f:selectItem itemLabel="CAR" 
+                                              itemValue="CAR"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </p:panel>
+                <p:panel id="previousAddress" 
+                         style="border: transparent">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="previous"
+                                             actionListener="#{panelToggle.toggle2}"
+                                             immediate="true"
+                                             update=":#{p:component('addressPanel')}"
+                                             icon="ui-icon-minus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"
+                                             rendered="#{cc.attrs.pan.add3}"/>
+                            <p:commandButton value="previous"
+                                             actionListener="#{panelToggle.toggle2}"
+                                             update=":#{p:component('addressPanel')},:#{p:component('growl')}"
+                                             icon="ui-icon-plus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"
+                                             rendered="#{not cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlStreet2" 
+                                           value="Street:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlStreet2" 
+                                         label="Street2"
+                                         value="#{cc.attrs.addlA.addlAddressAL[1].street}" 
+                                         onblur="value = value.toUpperCase()"
+                                         style="width: 300px"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlBarangay2" 
+                                           value="Barangay:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlBarangay2" 
+                                         label="Barangay2"
+                                         value="#{cc.attrs.addlA.addlAddressAL[1].barangay}" 
+                                         onblur="value = value.toUpperCase()"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="cityMun2" 
+                                           value="City/Municipality:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="cityMun2" 
+                                         label="City/Municipality2"
+                                         value="#{cc.attrs.addlA.addlAddressAL[1].cityMun}"   
+                                         onblur="value = value.toUpperCase()"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlProvince2" 
+                                           value="Province:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlProvince2" 
+                                         label="Province2"
+                                         value="#{cc.attrs.addlA.addlAddressAL[1].province}"
+                                         onblur="value = value.toUpperCase()"
+                                         rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlZipcode2" 
+                                           value="ZIP Code:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputMask id="addlZipcode2" 
+                                         label="ZIP Code2"
+                                         value="#{cc.attrs.addlA.addlAddressAL[1].zipcode}" 
+                                         mask="9999" 
+                                         size="4"
+                                         style="width: 40px"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlRegion2" 
+                                           value="Region:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="addlRegion2" 
+                                             label="Region2"
+                                             value="#{cc.attrs.addlA.addlAddressAL[1].region}"
+                                             style="width: 80px"
+                                             filter="true" 
+                                             filterMatchMode="startsWith"
+                                             rendered="#{cc.attrs.pan.add3}">
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="NCR" 
+                                              itemValue="NCR"/>
+                                <f:selectItem itemLabel="I" 
+                                              itemValue ="I"/>
+                                <f:selectItem itemLabel="II" 
+                                              itemValue="II"/>
+                                <f:selectItem itemLabel="III" 
+                                              itemValue="III"/>
+                                <f:selectItem itemLabel="IV-A" 
+                                              itemValue="IV-A"/>
+                                <f:selectItem itemLabel="IV-B" 
+                                              itemValue="IV-B"/>
+                                <f:selectItem itemLabel="V" 
+                                              itemValue="V"/>
+                                <f:selectItem itemLabel="VI" 
+                                              itemValue="VI"/>
+                                <f:selectItem itemLabel="VII" 
+                                              itemValue="VII"/>
+                                <f:selectItem itemLabel="VIII" 
+                                              itemValue="VIII"/>
+                                <f:selectItem itemLabel="IX" 
+                                              itemValue="IX"/>
+                                <f:selectItem itemLabel="X" 
+                                              itemValue="X"/>
+                                <f:selectItem itemLabel="XI" 
+                                              itemValue="XI"/>
+                                <f:selectItem itemLabel="XII" 
+                                              itemValue="XII"/>
+                                <f:selectItem itemLabel="XIII" 
+                                              itemValue="XIII"/>
+                                <f:selectItem itemLabel="XVIII" 
+                                              itemValue="XVIII"/>
+                                <f:selectItem itemLabel="ARMM" 
+                                              itemValue="ARMM"/>
+                                <f:selectItem itemLabel="CAR" 
+                                              itemValue="CAR"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </p:panel>
+                <p:panel id="provincialAddress"
+                         style="border: transparent">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="provincial"
+                                             actionListener="#{panelToggle.toggle3}"
+                                             immediate="true"
+                                             update=":#{p:component('addressPanel')}"
+                                             icon="ui-icon-minus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"
+                                             rendered="#{cc.attrs.pan.add4}"/>
+                            <p:commandButton value="provincial"
+                                             actionListener="#{panelToggle.toggle3}"
+                                             update=":#{p:component('addressPanel')},:#{p:component('growl')}"
+                                             icon="ui-icon-plus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"
+                                             rendered="#{not cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlStreet3" 
+                                           value="Street:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlStreet3" 
+                                         label="Street3"
+                                         value="#{cc.attrs.addlA.addlAddressAL[2].street}"
+                                         onblur="value = value.toUpperCase()"
+                                         style="width: 300px"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlBarangay3" 
+                                           value="Barangay:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlBarangay3" 
+                                         label="Barangay3"
+                                         value="#{cc.attrs.addlA.addlAddressAL[2].barangay}"
+                                         onblur="value = value.toUpperCase()"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="cityMun3" 
+                                           value="City/Municipality:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="cityMun3" 
+                                         label="City/Municipality3"
+                                         value="#{cc.attrs.addlA.addlAddressAL[2].cityMun}"
+                                         onblur="value = value.toUpperCase()"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlProvince3" 
+                                           value="Province:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="addlProvince3" 
+                                         label="Province3"
+                                         value="#{cc.attrs.addlA.addlAddressAL[2].province}" 
+                                         onblur="value = value.toUpperCase()"
+                                         rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlZipcode3" 
+                                           value="ZIP Code:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputMask id="addlZipcode3" 
+                                         label="ZIP Code3"
+                                         value="#{cc.attrs.addlA.addlAddressAL[2].zipcode}" 
+                                         mask="9999" 
+                                         size="4"
+                                         style="width: 40px"
+                                         required="true"
+                                         rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="addlRegion3" 
+                                           value="Region:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="addlRegion3" 
+                                             label="Region3"
+                                             value="#{cc.attrs.addlA.addlAddressAL[2].region}"
+                                             style="width: 80px"
+                                             filter="true" 
+                                             filterMatchMode="startsWith"
+                                             rendered="#{cc.attrs.pan.add4}">
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="NCR" 
+                                              itemValue="NCR"/>
+                                <f:selectItem itemLabel="I" 
+                                              itemValue ="I"/>
+                                <f:selectItem itemLabel="II"
+                                              itemValue="II"/>
+                                <f:selectItem itemLabel="III" 
+                                              itemValue="III"/>
+                                <f:selectItem itemLabel="IV-A" 
+                                              itemValue="IV-A"/>
+                                <f:selectItem itemLabel="IV-B"
+                                              itemValue="IV-B"/>
+                                <f:selectItem itemLabel="V" 
+                                              itemValue="V"/>
+                                <f:selectItem itemLabel="VI" 
+                                              itemValue="VI"/>
+                                <f:selectItem itemLabel="VII" 
+                                              itemValue="VII"/>
+                                <f:selectItem itemLabel="VIII"
+                                              itemValue="VIII"/>
+                                <f:selectItem itemLabel="IX"
+                                              itemValue="IX"/>
+                                <f:selectItem itemLabel="X" 
+                                              itemValue="X"/>
+                                <f:selectItem itemLabel="XI" 
+                                              itemValue="XI"/>
+                                <f:selectItem itemLabel="XII" 
+                                              itemValue="XII"/>
+                                <f:selectItem itemLabel="XIII" 
+                                              itemValue="XIII"/>
+                                <f:selectItem itemLabel="XVIII" 
+                                              itemValue="XVIII"/>
+                                <f:selectItem itemLabel="ARMM" 
+                                              itemValue="ARMM"/>
+                                <f:selectItem itemLabel="CAR" 
+                                              itemValue="CAR"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </p:panel>
+            </p:panel>
+            <p:separator/>
+        </p:panel>
+    </composite:implementation>
+</html>
+

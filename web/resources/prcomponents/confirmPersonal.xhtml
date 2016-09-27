@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="bean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="personalPanelC"
+                 style="border: white">
+            <h4>
+                <p:outputLabel value="Personal Information"/>
+            </h4>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Title:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.PPrefix}" 
+                                   rendered="#{not empty cc.attrs.member.PPrefix}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.PPrefix}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Surname:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.lastName}" 
+                                   rendered="#{not empty cc.attrs.applicant.lastName}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.lastName}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="First Name:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.firstName}" 
+                                   rendered="#{not empty cc.attrs.applicant.firstName}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.firstName}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Middle Name:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.middleName}" 
+                                   rendered="#{not empty cc.attrs.applicant.middleName}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.middleName}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Suffix:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.suffix}" 
+                                   rendered="#{not empty cc.attrs.member.suffix}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.suffix}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Nickname:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.nickname}" 
+                                   rendered="#{not empty cc.attrs.member.nickname}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.nickname}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Height(cm):"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.height}" 
+                                   rendered="#{not empty cc.attrs.member.height}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.height}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Weight(kg):"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.weight}" 
+                                   rendered="#{not empty cc.attrs.member.weight}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.weight}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Blood:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.blood}" 
+                                   rendered="#{not empty cc.attrs.member.blood}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.blood}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Gender:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.bean.genderConv(cc.attrs.applicant.gender)}" 
+                                   rendered="#{not empty cc.attrs.applicant.gender}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.gender}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Civil Status:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.bean.civilStatusConv(cc.attrs.applicant.civilStatus)}" 
+                                   rendered="#{not empty cc.attrs.applicant.civilStatus}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.civilStatus}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Religion:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.religion}" 
+                                   rendered="#{not empty cc.attrs.member.religion}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.religion}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Birthdate:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.birthdate}" 
+                                   rendered="#{not empty cc.attrs.applicant.birthdate}">
+                        <f:convertDateTime pattern="MMM dd yyyy"/>
+                    </p:outputLabel>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.birthdate}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Birthplace:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.birthplace}" 
+                                   rendered="#{not empty cc.attrs.member.birthplace}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.birthplace}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="TIN:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.taxIdNo}" 
+                                   rendered="#{not empty cc.attrs.member.taxIdNo}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.taxIdNo}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Pag-Ibig:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.pagIbig}" 
+                                   rendered="#{not empty cc.attrs.member.pagIbig}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.pagIbig}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Philhealth:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.philhealth}" 
+                                   rendered="#{not empty cc.attrs.member.philhealth}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.philhealth}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="SSS:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.sss}" 
+                                   rendered="#{not empty cc.attrs.member.sss}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.sss}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="GSIS:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.gsis}" 
+                                   rendered="#{not empty cc.attrs.member.gsis}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.gsis}"/> 
+                </div>
+            </div>
+            <p:panel style="border: white">
+                <h4>
+                    <p:outputLabel value="Person To Notify In Case of Emergency"/>
+                </h4>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Name:"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{cc.attrs.member.notifyName}" 
+                                       rendered="#{not empty cc.attrs.member.notifyName}"/>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.member.notifyName}"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Address:"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{cc.attrs.member.notifyAddress}" 
+                                       rendered="#{not empty cc.attrs.member.notifyAddress}"/>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.member.notifyAddress}"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Phone:"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{cc.attrs.member.notifyPhone}" 
+                                       rendered="#{not empty cc.attrs.member.notifyPhone}"/>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.member.notifyPhone}"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Relation:"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{cc.attrs.member.notifyRelation}" 
+                                       rendered="#{not empty cc.attrs.member.notifyRelation}"/>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.member.notifyRelation}"/>
+                    </div>
+                </div>
+            </p:panel>
+        </p:panel>
+    </composite:implementation>
+</html>
+

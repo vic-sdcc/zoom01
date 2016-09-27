@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="memStatusD"/>
+        <composite:attribute name="memStatusL"/>
+        <composite:attribute name="pan"/>
+        <composite:attribute name="addlA"/>
+        <composite:attribute name="addlC"/>
+        <composite:attribute name="education"/>
+        <composite:attribute name="awards"/>
+        <composite:attribute name="bean"/>
+        <composite:attribute name="skillsD"/>
+        <composite:attribute name="skillsAM"/>
+        <composite:attribute name="skillsL"/>
+        <composite:attribute name="employment"/>
+        <composite:attribute name="employmentAM"/>
+        <composite:attribute name="occupationL"/>
+        <composite:attribute name="business"/>
+        <composite:attribute name="soi"/>
+        <composite:attribute name="type"/>
+        <composite:attribute name="imgSig"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:wizard id="wizard1" 
+                  widgetVar="wizard1WidgetVar"
+                  showNavBar="false"
+                  flowListener="#{tabs.flow1}">
+            <p:tab id="relationTab"
+                   title="Relations">
+                <prcc:family id="family"/>
+            </p:tab>            
+            <p:tab id="initialTab1"
+                   title="Personal">
+                <prcc:personal id="personal"
+                               applicant="#{cc.attrs.applicant}"
+                               member="#{cc.attrs.member}"/>
+            </p:tab>
+            <p:tab id="addressTab"
+                   title="Address">
+                <prcc:address id="address"
+                              applicant="#{cc.attrs.applicant}"
+                              member="#{cc.attrs.member}"
+                              pan="#{cc.attrs.pan}"
+                              addlA="#{cc.attrs.addlA}"/>
+            </p:tab>
+            <p:tab id="contactTab"
+                   title="Contact">
+                <prcc:contact id="contact"
+                              applicant="#{cc.attrs.applicant}"
+                              member="#{cc.attrs.member}"
+                              addlC="#{cc.attrs.addlC}"/>
+            </p:tab>
+            
+            <p:tab id="educationTab"
+                   title="Education">
+                <prcc:education id="education"
+                                education="#{cc.attrs.education}"/>
+            </p:tab>
+            <p:tab id="occupationTab"
+                   title="Occupation">
+                <prcc:occupation id="occupation"
+                                 applicant="#{cc.attrs.applicant}"
+                                 member="#{cc.attrs.member}"
+                                 skillsD="#{cc.attrs.skillsD}"
+                                 skillsAM="#{cc.attrs.skillsAM}"
+                                 skillsL="#{cc.attrs.skillsL}"
+                                 employment="#{cc.attrs.employment}"
+                                 employmentAM="#{cc.attrs.employmentAM}"
+                                 occupationL="#{cc.attrs.occupationL}"
+                                 business="#{cc.attrs.business}"
+                                 soi="#{cc.attrs.soi}"/>
+            </p:tab>
+            <p:tab id="organizationTab"
+                   title="Organization">
+                <prcc:organization id="organization"
+                                   applicant="#{cc.attrs.applicant}"
+                                   member="#{cc.attrs.member}"
+                                   bean="#{cc.attrs.bean}"
+                                   type="#{cc.attrs.type}"/>
+            </p:tab>
+            <p:tab id="awardsTab"
+                   title="Awards">
+                <prcc:awards id="awards"
+                             awards="#{cc.attrs.awards}"/>
+            </p:tab>
+            <p:tab id="finalTab"
+                   title="Confirmation">
+                <prcc:confirmation id="confirmation"
+                                   applicant="#{cc.attrs.applicant}"
+                                   member="#{cc.attrs.member}"
+                                   pan="#{cc.attrs.pan}"
+                                   addlA="#{cc.attrs.addlA}"
+                                   addlC="#{cc.attrs.addlC}"
+                                   education="#{cc.attrs.education}"
+                                   skillsD="#{cc.attrs.skillsD}"
+                                   skillsAM="#{cc.attrs.skillsAM}"
+                                   employment="#{cc.attrs.employment}"
+                                   employmentAM="#{cc.attrs.employmentAM}"
+                                   business="#{cc.attrs.business}"
+                                   soi="#{cc.attrs.soi}"
+                                   bean="#{cc.attrs.bean}"
+                                   awards="#{cc.attrs.awards}"/>
+            </p:tab>
+            <p:tab id="imagesTab"
+                   title="Images">
+                <prcc:images id="images"
+                             imgSig="#{cc.attrs.imgSig}"/>
+            </p:tab>
+        </p:wizard>
+        <prcc:submitButton rendered="#{tabs.btnSet1}"/>
+        <prcc:finishButton rendered="#{tabs.btnSet1}"/>
+        <prcc:saveToDiskButton/>
+        <prcc:cancelButton/>
+        <prcc:customWizard1Button rendered="#{tabs.btnSet1}"/>
+    </composite:implementation>
+</html>
+

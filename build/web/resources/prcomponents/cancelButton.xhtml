@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+
+    </composite:interface>
+    <composite:implementation>
+        <p:commandButton value="Cancel"
+                         actionListener="#{createController.reset}"
+                         immediate="true"
+                         icon="ui-icon-cancel"
+                         styleClass="ui-btn ui-shadow ui-corner-all"
+                         style="margin-right: 7px"
+                         oncomplete="PF('wizard1WidgetVar').loadStep('initialTab1',false),PF('wizard2WidgetVar').loadStep('initialTab2',false)"
+                         rendered="#{not membershipType.updateM and not membershipType.updateA}"
+                         disabled="#{tabs.created}">
+            <p:confirm header="Confirmation"
+                       message="are you sure you want to cancel the creation of this member record?"
+                       icon="ui-icon-alert"/>
+        </p:commandButton> 
+        <p:commandButton value="Cancel"
+                         actionListener="#{updateController.reset}"
+                         immediate="true"
+                         icon="ui-icon-cancel"
+                         styleClass="ui-btn ui-shadow ui-corner-all"
+                         style="margin-right: 7px"
+                         rendered="#{membershipType.updateM or membershipType.updateA}">
+            <p:confirm header="Confirmation"
+                       message="are you sure you want to cancel the updating of this member record?"
+                       icon="ui-icon-alert"/>
+        </p:commandButton>
+    </composite:implementation>
+</html>

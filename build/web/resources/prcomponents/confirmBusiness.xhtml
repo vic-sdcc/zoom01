@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="business"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="businessPanelC"
+                 style="border: white">
+            <h4>
+                <p:outputLabel value="Business Information"/>
+            </h4>
+            <p:outputLabel value="no data found." 
+                           rendered="#{not cc.attrs.member.ownedBusiness}"/>
+            <c:forEach var="biz" 
+                       items="#{cc.attrs.business.bizInfoAL}"
+                       rendered="#{cc.attrs.member.ownedBusiness}">
+                <p:row>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Business:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.bizName}" 
+                                           rendered="#{not empty biz.bizName}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.bizName}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Date Established:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.dateEstablished}" 
+                                           rendered="#{not empty biz.dateEstablished}">
+                                <f:convertDateTime pattern="MMM dd yyyy"/>
+                            </p:outputLabel>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.dateEstablished}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Type:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.bizType}" 
+                                           rendered="#{not empty biz.bizType}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.bizType}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Contact No.:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.bizContactNo}" 
+                                           rendered="#{not empty biz.bizContactNo}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.bizContactNo}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Nature of Business:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.bizNature}" 
+                                           rendered="#{not empty biz.bizNature}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.bizNature}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Compensation:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.bizIncRange}" 
+                                           rendered="#{not empty biz.bizIncRange}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.bizIncRange}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Street:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.bizStreet}" 
+                                           rendered="#{not empty biz.bizStreet}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.bizStreet}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Barangay:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.bizBarangay}" 
+                                           rendered="#{not empty biz.bizBarangay}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.bizBarangay}"/> 
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="City/Municipality:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{biz.bizCityMun}" 
+                                           rendered="#{not empty biz.bizCityMun}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty biz.bizCityMun}"/> 
+                        </div>
+                    </div>
+                </p:row>
+            </c:forEach>
+        </p:panel>
+    </composite:implementation>
+</html>
+

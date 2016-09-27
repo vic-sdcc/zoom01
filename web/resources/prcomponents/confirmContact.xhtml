@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="addlC"/>
+        <composite:attribute name="bean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="contactPanelC"
+                 style="border: white">
+            <h4>
+                <p:outputLabel value="Contact Information"/>
+            </h4>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Contact No.:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.contactNumber}" 
+                                   rendered="#{not empty cc.attrs.applicant.contactNumber}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.contactNumber}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Email:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.email}" 
+                                   rendered="#{not empty cc.attrs.applicant.email}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.email}"/>
+                </div>
+            </div>
+            <p:panel id="addlContactPanel"
+                     style="border: white">
+                <h4>
+                    <p:outputLabel value="Additional Contact Information"/>
+                </h4>
+                <p:outputLabel value="no data found." 
+                               rendered="#{cc.attrs.addlC.addlContactInfoAL.size() eq 0}"/>
+                <c:forEach var="contact" 
+                           items="#{cc.attrs.addlC.addlContactInfoAL}"
+                           rendered="#{cc.attrs.addlC.addlContactInfoAL.size() gt 0 and not empty cc.attrs.addlC.addlContactInfoAL[0].contactDetail}">
+                    <p:row>  
+                        <br/>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Contact Type:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{cc.attrs.bean.contactTypeConv(contact.contactType)}" 
+                                               rendered="#{not empty contact.contactType}"/>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty contact.contactType}"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Contact Detail:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{contact.contactDetail}" 
+                                               rendered="#{not empty contact.contactDetail}"/>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty contact.contactDetail}"/>
+                            </div>
+                        </div>
+                    </p:row>
+                </c:forEach>
+            </p:panel>
+        </p:panel>
+    </composite:implementation>
+</html>
+

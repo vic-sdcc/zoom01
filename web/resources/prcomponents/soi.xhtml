@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="soi"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="soiPanel"
+                 style="border: transparent">
+            <ui:repeat var="soi"
+                       value="#{cc.attrs.soi.soiAL}"
+                       varStatus="soiLoop">
+                <p:row rendered="#{cc.attrs.soi.soiAL.size() gt 0}">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="s.o.i. data"
+                                             actionListener="#{cc.attrs.soi.removeSoi(soiLoop.index)}" 
+                                             immediate="true" 
+                                             update=":#{p:component('soiPanel')}" 
+                                             icon="ui-icon-minus" 
+                                             styleClass="ui-btn ui-shadow ui-corner-all"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="type#{cc.attrs.soi.soiAL.size()}"
+                                           value="Type:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="type#{cc.attrs.soi.soiAL.size()}" 
+                                             label="S.O.I. Type#{soiLoop.index}"
+                                             value="#{soi.soiType}"
+                                             style="width: 250px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="SUBSIDY" 
+                                              itemValue="SUBSIDY"/>
+                                <f:selectItem itemLabel="PENSION" 
+                                              itemValue="PENSION"/>
+                                <f:selectItem itemLabel="SCHOLARSHIP" 
+                                              itemValue="SCHOLARSHIP"/>
+                                <f:selectItem itemLabel="FINANCIAL ASSISTANCE" 
+                                              itemValue="FINANCIAL ASSISTANCE"/>
+                                <f:selectItem itemLabel="ODD JOBS" 
+                                              itemValue="ODD JOBS"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="source#{cc.attrs.soi.soiAL.size()}"
+                                           value="Source:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="source#{cc.attrs.soi.soiAL.size()}" 
+                                             label="S.O.I. Source#{soiLoop.index}"
+                                             value="#{soi.source}"
+                                             style="width: 200px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="PRIVATE" 
+                                              itemValue="PRIVATE"/>
+                                <f:selectItem itemLabel="GOVERNMENT" 
+                                              itemValue="GOVERNMENT"/>
+                                <f:selectItem itemLabel="CUSTOMER" 
+                                              itemValue="CUSTOMER"/>
+                                <f:selectItem itemLabel="PARENTS" 
+                                              itemValue="PARENTS"/>
+                                <f:selectItem itemLabel="SIBLINGS" 
+                                              itemValue="SIBLINGS"/>
+                                <f:selectItem itemLabel="OFFSPRINGS" 
+                                              itemValue="OFFSPRINGS"/>
+                                <f:selectItem itemLabel="OTHER RELATIVES" 
+                                              itemValue="OTHER RELATIVES"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="regularity#{cc.attrs.soi.soiAL.size()}"
+                                           value="Regularity:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="regularity#{cc.attrs.soi.soiAL.size()}" 
+                                             label="S.O.I. Regularity#{soiLoop.index}"
+                                             value="#{soi.regularity}"
+                                             style="width: 200px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="MONTHLY" 
+                                              itemValue="MONTHLY"/>
+                                <f:selectItem itemLabel="QUARTERLY" 
+                                              itemValue="QUARTERLY"/>
+                                <f:selectItem itemLabel="SEMI-ANNUALLY" 
+                                              itemValue="SEMI-ANNUALLY"/>
+                                <f:selectItem itemLabel="YEARLY" 
+                                              itemValue="YEARLY"/>
+                                <f:selectItem itemLabel="OCCASIONALLY" 
+                                              itemValue="OCCASIONALLY"/>
+                                <f:selectItem itemLabel="ONE-TIME" 
+                                              itemValue="ONE-TIME"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="amount#{cc.attrs.soi.soiAL.size()}"
+                                           value="Amount:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="amount#{cc.attrs.soi.soiAL.size()}" 
+                                             label="S.O.I. Amount#{soiLoop.index}"
+                                             value="#{soi.amount}"
+                                             style="width: 200px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="999.00 - Below" 
+                                              itemValue="999.00 - Below"/>
+                                <f:selectItem itemLabel="1,000.00 - 10,000.00" 
+                                              itemValue="1,000.00 - 10,000.00"/>
+                                <f:selectItem itemLabel="10,001.00 - 15,000.00" 
+                                              itemValue="10,001.00 - 15,000.00"/>
+                                <f:selectItem itemLabel="15,001.00 - 20,000.00" 
+                                              itemValue="15,001.00 - 20,000.00"/>
+                                <f:selectItem itemLabel="20,001.00 - 30,000.00" 
+                                              itemValue="20,001.00 - 30,000.00"/>
+                                <f:selectItem itemLabel="30,001.00 - 40,000.00" 
+                                              itemValue="30,001.00 - 40,000.00"/>
+                                <f:selectItem itemLabel="40,001.00 - 50,000.00" 
+                                              itemValue="40,001.00 - 50,000.00"/>
+                                <f:selectItem itemLabel="50,001.00 - Above" 
+                                              itemValue="50,001.00 - Above"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </p:row>
+            </ui:repeat>
+            <p:commandButton value="s.o.i. data"
+                             actionListener="#{cc.attrs.soi.addSoi}" 
+                             update=":#{p:component('soiPanel')},:#{p:component('growl')}" 
+                             icon="ui-icon-plus" 
+                             styleClass="ui-btn ui-shadow ui-corner-all"
+                             rendered="#{cc.attrs.soi.soiAL.size() lt 5}"/>
+        </p:panel>
+    </composite:implementation>
+</html>

@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="employment"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="employmentAM"/>
+        <composite:attribute name="occupationL"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="employmentPanel" 
+                 style="border: transparent">
+            <ui:repeat var="empl" 
+                       value="#{cc.attrs.employment.emplDtlAL}" 
+                       varStatus="emplLoop">
+                <p:row rendered="#{cc.attrs.employment.emplDtlAL.size() gt 0}">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="employment data"
+                                             actionListener="#{cc.attrs.employment.removeEmpl(emplLoop.index)}" 
+                                             immediate="true" 
+                                             update=":#{p:component('employmentPanel')}" 
+                                             icon="ui-icon-minus" 
+                                             styleClass="ui-btn ui-shadow ui-corner-all"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="emplBizName#{cc.attrs.employment.emplDtlAL.size()}"
+                                           value="Employer:"/> 
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="emplBizName#{cc.attrs.employment.emplDtlAL.size()}"
+                                         label="Employer Name:#{emplLoop.index}" 
+                                         value="#{empl.emplBizName}"
+                                         onblur="value = value.toUpperCase()"
+                                         style="width: 300px"
+                                         required="true">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="emplContactNo#{cc.attrs.employment.emplDtlAL.size()}"
+                                           value="Employer Contact No.:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="emplContactNo#{cc.attrs.employment.emplDtlAL.size()}"
+                                         label="Employer Contact No.#{emplLoop.index}"
+                                         value="#{empl.emplContactNo}" 
+                                         style="width: 130px">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="emplEmail#{cc.attrs.employment.emplDtlAL.size()}"
+                                           value="Employer Email:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="emplEmail#{cc.attrs.employment.emplDtlAL.size()}"
+                                         label="Employer Email#{emplLoop.index}" 
+                                         value="#{empl.emplEmail}"
+                                         onblur="value = value.toLowerCase()">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="emplStreet#{cc.attrs.employment.emplDtlAL.size()}"
+                                           value="Street:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="emplStreet#{cc.attrs.employment.emplDtlAL.size()}"
+                                         label="Employer Street#{emplLoop.index}"
+                                         value="#{empl.emplStreet}"
+                                         onblur="value = value.toUpperCase()"
+                                         style="width: 300px">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="emplBarangay#{cc.attrs.employment.emplDtlAL.size()}"
+                                           value="Barangay:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="emplBarangay#{cc.attrs.employment.emplDtlAL.size()}"
+                                         label="Employer Barangay#{emplLoop.index}"
+                                         value="#{empl.emplBarangay}"
+                                         onblur="value = value.toUpperCase()"
+                                         required="true">                                         
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="emplCityMun#{cc.attrs.employment.emplDtlAL.size()}"
+                                           value="City/Municipality:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="emplCityMun#{cc.attrs.employment.emplDtlAL.size()}"
+                                         label="Employer City/Municipality#{emplLoop.index}"
+                                         value="#{empl.emplCityMun}"
+                                         onblur="value = value.toUpperCase()"
+                                         required="true">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="employmentDate#{cc.attrs.employment.emplDtlAL.size()}" 
+                                           value="Employment Date:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:calendar id="employmentDate#{cc.attrs.employment.emplDtlAL.size()}"
+                                        label="Employment Date#{emplLoop.index}" 
+                                        value="#{empl.employmentDate}"
+                                        yearRange="#{customDate.start()}:#{customDate.end()}"
+                                        pattern="MMM dd yyyy"
+                                        navigator="true"
+                                        size="11"
+                                        style="width: 110px"
+                                        required="true">
+                                <f:convertDateTime pattern="MMM dd yyyy"/>
+                                <p:ajax process="@this"
+                                        event="dateSelect"/>
+                            </p:calendar>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="employmentEndDate#{cc.attrs.employment.emplDtlAL.size()}" 
+                                           value="Employment End Date:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:calendar id="employmentEndDate#{cc.attrs.employment.emplDtlAL.size()}" 
+                                        label="Employment End Date#{emplLoop.index}" 
+                                        value="#{empl.employmentEndDate}"
+                                        yearRange="#{customDate.start()}:#{customDate.endFive()}" 
+                                        pattern="MMM dd yyyy"
+                                        navigator="true" 
+                                        size="11"
+                                        style="width: 110px"
+                                        widgetVar="cal2">
+                                <f:convertDateTime pattern="MMM dd yyyy"/>
+                                <p:ajax process="@this"
+                                        event="dateSelect"/>
+                            </p:calendar>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="workplaceEmailAdd#{cc.attrs.employment.emplDtlAL.size()}" 
+                                           value="Workplace Email:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="workplaceEmailAdd#{cc.attrs.employment.emplDtlAL.size()}" 
+                                         label="Workplace Email#{emplLoop.index}"
+                                         value="#{empl.workplaceEmailAdd}"
+                                         onblur="value = value.toLowerCase()">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="compBracket#{cc.attrs.employment.emplDtlAL.size()}" 
+                                           value="Compensation:"
+                                           title="#{empl.compBracket}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="compBracket#{cc.attrs.employment.emplDtlAL.size()}" 
+                                             label="Compensation#{emplLoop.index}"
+                                             value="#{empl.compBracket}" 
+                                             style="width: 200px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="999.00 - Below" 
+                                              itemValue="999.00 - Below"/>
+                                <f:selectItem itemLabel="1,000.00 - 10,000.00" 
+                                              itemValue="1,000.00 - 10,000.00"/>
+                                <f:selectItem itemLabel="10,001.00 - 15,000.00" 
+                                              itemValue="10,001.00 - 15,000.00"/>
+                                <f:selectItem itemLabel="15,001.00 - 20,000.00" 
+                                              itemValue="15,001.00 - 20,000.00"/>
+                                <f:selectItem itemLabel="20,001.00 - 30,000.00" 
+                                              itemValue="20,001.00 - 30,000.00"/>
+                                <f:selectItem itemLabel="30,001.00 - 40,000.00" 
+                                              itemValue="30,001.00 - 40,000.00"/>
+                                <f:selectItem itemLabel="40,001.00 - 50,000.00" 
+                                              itemValue="40,001.00 - 50,000.00"/>
+                                <f:selectItem itemLabel="50,001.00 - Above" 
+                                              itemValue="50,001.00 - Above"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="emplRankPos#{cc.attrs.employment.occupationAL.size()}" 
+                                           value="Rank/Position:"
+                                           rendered="#{not membershipType.updateM and not membershipType.updateA}"/>
+                            <p:outputLabel for="emplRankPos#{cc.attrs.employment.occupationAL.size()}" 
+                                           value="Rank/Position:" 
+                                           title="#{cc.attrs.employment.emplDtlAL[emplLoop.index].rankPos}"
+                                           rendered="#{cc.attrs.employment.emplDtlAL[emplLoop.index].emplRankPos.occupationCode eq 'xxxxxx' and membershipType.updateM}"/>
+                            <p:outputLabel for="emplRankPos#{cc.attrs.employment.occupationAL.size()}"
+                                           value="Rank/Position:"
+                                           title="#{cc.attrs.employment.emplDtlAL[emplLoop.index].rankPos}"
+                                           rendered="#{cc.attrs.employment.emplDtlAL[emplLoop.index].emplRankPos.occupationCode eq 'xxxxxx' and membershipType.updateA}"/>
+                            <p:outputLabel for="emplRankPos#{cc.attrs.employment.occupationAL.size()}"  
+                                           value="Rank/Position:"
+                                           rendered="#{cc.attrs.employment.emplDtlAL[emplLoop.index].emplRankPos.occupationCode ne 'xxxxxx' and membershipType.updateM}"/>
+                            <p:outputLabel for="emplRankPos#{cc.attrs.employment.occupationAL.size()}"  
+                                           value="Rank/Position:"
+                                           rendered="#{cc.attrs.employment.emplDtlAL[emplLoop.index].emplRankPos.occupationCode ne 'xxxxxx' and membershipType.updateA}"/>                            
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:autoComplete id="emplRankPos#{cc.attrs.employment.occupationAL.size()}"
+                                            label="Rank/Position#{emplLoop.index}"
+                                            value="#{cc.attrs.employment.occupationAL[emplLoop.index].unitName}"
+                                            completeMethod="#{autoComplete.completeEmplRank}"
+                                            emptyMessage="no records found."
+                                            queryDelay="500"
+                                            scrollHeight="200"
+                                            style="width: 300px"
+                                            required="true"
+                                            forceSelection="true">
+                                <p:ajax process="@this"
+                                        event="itemSelect"/>
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:autoComplete>
+                            <!--value="{employmentData.stringAL[emplLoop.index]}"-->
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="employmentStat#{cc.attrs.employment.emplDtlAL.size()}" 
+                                           value="Status:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="employmentStat#{cc.attrs.employment.emplDtlAL.size()}" 
+                                             label="Employment Status#{emplLoop.index}"
+                                             value="#{empl.employmentStat}" 
+                                             style="width: 150px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="REGULAR" 
+                                              itemValue="REGULAR"/>
+                                <f:selectItem itemLabel="CONTRACTUAL" 
+                                              itemValue="CONTRACTUAL"/>
+                                <f:selectItem itemLabel="TEMPORARY" 
+                                              itemValue="TEMPORARY"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </p:row>
+            </ui:repeat>
+            <p:commandButton value="employment data"
+                             actionListener="#{cc.attrs.employment.addEmpl}" 
+                             update=":#{p:component('employmentPanel')},:#{p:component('growl')}" 
+                             icon="ui-icon-plus" 
+                             styleClass="ui-btn ui-shadow ui-corner-all"
+                             rendered="#{cc.attrs.employment.emplDtlAL.size() lt 5}"/>
+        </p:panel>
+    </composite:implementation>
+</html>

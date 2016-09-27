@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="bean"/>
+        <composite:attribute name="orgUnitD"/>
+        <composite:attribute name="orgUnitL"/>
+        <composite:attribute name="memStatusD"/>
+        <composite:attribute name="memStatusL"/>
+        <composite:attribute name="type"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="organizationPanel"
+                 style="border: transparent">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="memDate"
+                                   value="Membership Date:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="memDate" 
+                                 label="Membership Date"
+                                 value="#{cc.attrs.member.memDate}"
+                                 size="11"
+                                 readonly="true">
+                        <f:convertDateTime pattern="MMM dd yyyy"/>
+                    </p:inputText>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="memNo" 
+                                   value="Member No.:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="memNo" 
+                                 label="Member No."
+                                 value="#{cc.attrs.member.memNo}"
+                                 size="11"
+                                 readonly="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="memIdNo" 
+                                   value="ID No.:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="memIdNo" 
+                                 label="ID No."
+                                 value="#{cc.attrs.member.memIdNo}"
+                                 size="11"
+                                 readonly="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="scAcctno" 
+                                   value="SC Account No.:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="scAcctno" 
+                                 label="SC Account No."
+                                 value="#{cc.attrs.member.scAcctno}"
+                                 size="8"
+                                 readonly="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="ouCode1" 
+                                   value="P.T. No.:"
+                                   rendered="#{not membershipType.updateM and not membershipType.updateA}"/> 
+                    <p:outputLabel for="ouCode2" 
+                                   value="P.T. No.:"
+                                   rendered="#{membershipType.updateM or membershipType.updateA}"/> 
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="ouCode1" 
+                                 label="P.T. No."
+                                 value="#{cc.attrs.applicant.ouCode.ouShortName}"
+                                 style="width: 60px"
+                                 readonly="true"
+                                 rendered="#{not membershipType.updateM and not membershipType.updateA}"/>
+                    <p:selectOneMenu id="ouCode2"
+                                     label="P.T. No."
+                                     value="#{cc.attrs.orgUnitD}"
+                                     style="width: 100px"
+                                     filter="true"
+                                     filterMatchMode="startsWith"
+                                     required="true"
+                                     rendered="#{membershipType.updateM or membershipType.updateA}">
+                        <f:selectItem itemLabel="" 
+                                      itemValue="" 
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{cc.attrs.orgUnitL.orgUnitList}"
+                                       var="ouList"
+                                       itemValue="#{ouList.ouCode}"
+                                       itemLabel="#{ouList.ouShortName}"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="memberType" 
+                                   value="Membership Type:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="memberType" 
+                                 label="Membership Type"
+                                 value="#{cc.attrs.type}"
+                                 size="9"
+                                 readonly="true" 
+                                 required="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="memStatus1" 
+                                   value="Membership Status:"
+                                   rendered="#{not membershipType.updateM and not membershipType.updateA}"/>
+                    <p:outputLabel for="memStatus2" 
+                                   value="Membership Status:"
+                                   rendered="#{membershipType.updateM or membershipType.updateA}"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="memStatus1" 
+                                 label="Membership Status"
+                                 value="#{cc.attrs.bean.memStatusConv(cc.attrs.member.statusId.statusId)}"
+                                 size="13"
+                                 readonly="true" 
+                                 required="true"
+                                 rendered="#{not membershipType.updateM and not membershipType.updateA}"/>
+                    <p:selectOneMenu id="memStatus2"
+                                     label="Membership Status"
+                                     value="#{cc.attrs.memStatusD}" 
+                                     style="width: 250px"
+                                     required="true"
+                                     rendered="#{membershipType.updateM or membershipType.updateA}">
+                        <f:selectItem itemLabel="" 
+                                      itemValue="" 
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{cc.attrs.memStatusL.memStatusList}"
+                                       var="memStatList"
+                                       itemValue="#{memStatList.statusId}"
+                                       itemLabel="#{memStatList.statusName}"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="memStatRem" 
+                                   value="Status Remarks:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="memStatRem" 
+                                 label="Status Remarks"
+                                 value="#{cc.attrs.member.memStatRem}"
+                                 onblur="value = value.toUpperCase()"
+                                 size="10"
+                                 readonly="#{not membershipType.updateM and not membershipType.updateA}" 
+                                 required="true"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="statusDate" 
+                                   value="Status Date:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="statusDate" 
+                                 label="Status Date" 
+                                 value="#{cc.attrs.member.statusDate}"
+                                 size="11"
+                                 readonly="true">
+                        <f:convertDateTime pattern="MMM dd yyyy"/>
+                    </p:inputText>
+                </div>
+            </div>
+            <p:panel id="positionTenure" 
+                     header="Position Tenure Info"
+                     rendered="#{membershipType.updateM}">
+                <ui:repeat var="positionTenureList"
+                           value="#{positionTenureData.positionTenureAL}"
+                           varStatus="positionTenureLoop">
+                    <p:row rendered="#{positionTenureData.positionTenureAL.size() gt 0}">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:commandButton value="position data"
+                                                 actionListener="#{positionTenureData.removePositionTenure(positionTenureLoop.index)}" 
+                                                 immediate="true" 
+                                                 update=":#{p:component('positionTenure')}" 
+                                                 icon="ui-icon-minus" 
+                                                 styleClass="ui-btn ui-shadow ui-corner-all"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="orgPos#{positionTenureData.positionTenureAL.size()}" 
+                                               value="Organization Position:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:autoComplete id="orgPos#{positionTenureData.positionTenureAL.size()}"
+                                                label="Organization Position#{positionTenureLoop.index}"
+                                                value="#{positionTenureData.stringAL[positionTenureLoop.index]}"
+                                                completeMethod="#{autoComplete.completeOrgPos}"
+                                                emptyMessage="no records found."
+                                                queryDelay="500"
+                                                scrollHeight="200"
+                                                style="width: 300px"
+                                                required="true"
+                                                forceSelection="true">
+                                    <p:ajax process="@this"
+                                            event="itemSelect"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"/>
+                                </p:autoComplete>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="tenureId#{positionTenureData.positionTenureAL.size()}" 
+                                               value="Tenure:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:selectOneMenu id="tenureId#{positionTenureData.positionTenureAL.size()}"
+                                                 label="Tenure#{positionTenureLoop.index}"
+                                                 value="#{positionTenureData.tenureAL[positionTenureLoop.index].tenureId}"       
+                                                 style="width: 200px"
+                                                 filter="true"
+                                                 filterMatchMode="startsWith"
+                                                 required="true">
+                                    <p:ajax process="@this"
+                                            event="change"/>
+                                    <f:selectItem itemLabel="" 
+                                                  itemValue="" 
+                                                  noSelectionOption="true"/>
+                                    <f:selectItems value="#{tenureList.tenureList}"
+                                                   var="t"
+                                                   itemValue="#{t.tenureId}"
+                                                   itemLabel="#{t.tenureValue}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="termStart#{positionTenureData.positionTenureAL.size()}" 
+                                               value="Term Start:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:calendar id="termStart#{positionTenureData.positionTenureAL.size()}"
+                                            label="Term Start#{positionTenureLoop.index}"
+                                            value="#{positionTenureData.positionTenureAL[positionTenureLoop.index].termStart}"       
+                                            yearRange="#{customDate.start()}:#{customDate.end()}"
+                                            pattern="MMM dd yyyy"
+                                            navigator="true"
+                                            size="11"
+                                            style="width: 110px"
+                                            required="true">
+                                    <f:convertDateTime pattern="MMM dd yyyy"/>
+                                    <p:ajax process="@this"
+                                            event="dateSelect"/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="termEnd#{positionTenureData.positionTenureAL.size()}" 
+                                               value="Term End:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:calendar id="termEnd#{positionTenureData.positionTenureAL.size()}"
+                                            label="Term End#{positionTenureLoop.index}"
+                                            value="#{positionTenureData.positionTenureAL[positionTenureLoop.index].termEnd}"
+                                            yearRange="#{customDate.start()}:#{customDate.end()}"
+                                            pattern="MMM dd yyyy"
+                                            navigator="true"
+                                            size="11"
+                                            style="width: 110px">
+                                    <f:convertDateTime pattern="MMM dd yyyy"/>
+                                    <p:ajax process="@this"
+                                            event="dateSelect"/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                    </p:row>
+                </ui:repeat>
+                <p:commandButton value="position data"
+                                 actionListener="#{positionTenureData.addPositionTenure}" 
+                                 update=":#{p:component('positionTenure')},:#{p:component('growl')}"
+                                 icon="ui-icon-plus" 
+                                 styleClass="ui-btn ui-shadow ui-corner-all"
+                                 rendered="#{positionTenureData.positionTenureAL.size() lt 50}"/>
+            </p:panel>
+            <p:separator/>
+        </p:panel>
+    </composite:implementation>
+</html>
+

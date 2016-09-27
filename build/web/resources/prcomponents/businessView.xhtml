@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="business"/>
+        <composite:attribute name="member"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="businessPanel" style="border: white">
+            <ui:repeat value="#{cc.attrs.business}" var="myBusiness" rendered="#{cc.attrs.business.size() gt 0}">
+                <h:panelGrid style="font-size: small;" columns="2">
+                    <p:outputLabel value="Business" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myBusiness.bizName}" rendered="#{not empty myBusiness.bizName}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.bizName}"/>
+
+                    <p:outputLabel value="Established Date" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{dateFormat.formatDate(myBusiness.dateEstablished,'MMM dd yyyy')}" rendered="#{not empty myBusiness.dateEstablished}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.dateEstablished}"/>
+
+                    <p:outputLabel value="Date Dissolved" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{dateFormat.formatDate(myBusiness.dateDissolved,'MMM dd yyyy')}" rendered="#{not empty myBusiness.dateDissolved}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.dateDissolved}"/>
+
+                    <p:outputLabel value="Type" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myBusiness.bizType}" rendered="#{not empty myBusiness.bizType}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.bizType}"/>
+
+                    <p:outputLabel value="Contact No." style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myBusiness.bizContactNo}" rendered="#{not empty myBusiness.bizContactNo}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.bizContactNo}"/>
+
+                    <p:outputLabel value="Business Nature" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myBusiness.bizNature}" rendered="#{not empty myBusiness.bizNature}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.bizNature}"/>
+
+                    <p:outputLabel value="Compensation" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myBusiness.bizIncRange}" rendered="#{not empty myBusiness.bizIncRange}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.bizIncRange}"/>
+
+                    <p:outputLabel value="Street" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myBusiness.bizStreet}" rendered="#{not empty myBusiness.bizStreet}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.bizStreet}"/>
+
+                    <p:outputLabel value="Barangay" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myBusiness.bizBarangay}" rendered="#{not empty myBusiness.bizBarangay}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.bizBarangay}"/>
+
+                    <p:outputLabel value="City/Municipality" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myBusiness.bizCityMun}" rendered="#{not empty myBusiness.bizCityMun}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myBusiness.bizCityMun}"/>
+                </h:panelGrid>
+                <br/>
+            </ui:repeat>
+            <p:outputLabel value="No records found." rendered="#{cc.attrs.business.size() lt 1}"/>
+        </p:panel>
+    </composite:implementation>
+</html>

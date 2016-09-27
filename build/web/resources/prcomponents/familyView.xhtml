@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="family"/>
+        <composite:attribute name="bean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="familyPanel" style="border: white">
+            <table style="font-size: small">
+                <tr>
+                    <td>
+                        <p:outputLabel value="Father" style="margin-right: 30px;"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value=": #{returnObject.fullname('',familyData.familyTree.get(0).lastName,familyData.familyTree.get(0).firstName,familyData.familyTree.get(0).middleName,'')}" 
+                                       rendered="#{familyData.familyTree.get(0).lastName.length() gt 0}"/>
+                        <p:outputLabel value=": -" rendered="#{familyData.familyTree.get(0).lastName.length() lt 1 or empty familyData.familyTree.get(0).lastName}"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value="#{familyData.familyTree.get(0).memNo}&nbsp;" style="margin-left: 25px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel value="Mother" style="margin-right: 30px;"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value=": #{returnObject.fullname('',familyData.familyTree.get(1).lastName,familyData.familyTree.get(1).firstName,familyData.familyTree.get(1).middleName,'')}" 
+                                       rendered="#{familyData.familyTree.get(1).lastName.length() gt 0}"/>
+                        <p:outputLabel value=": -" rendered="#{familyData.familyTree.get(1).lastName.length() lt 1 or empty familyData.familyTree.get(1).lastName}"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value="#{familyData.familyTree.get(1).memNo}&nbsp;" style="margin-left: 25px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel value="&nbsp;" style="margin-right: 30px;"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value="&nbsp;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel value="Siblings" style="margin-right: 30px;"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value=": #{returnObject.fullname('',familyData.familyTreeSiblings.get(0).lastName,familyData.familyTreeSiblings.get(0).firstName,familyData.familyTreeSiblings.get(0).middleName,'')}" 
+                                       rendered="#{familyData.familyTreeSiblings.get(0).lastName.length() gt 0}"/>
+                        <p:outputLabel value=": -" rendered="#{empty familyData.familyTreeSiblings.get(0).lastName or familyData.familyTreeSiblings.get(0).lastName.length() lt 1 or familyData.familyTreeSiblings.size() lt 1}"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value="#{familyData.familyTreeSiblings.get(0).memNo}&nbsp;" style="margin-left: 25px;"/>
+                    </td>
+                </tr>
+                <c:forEach items="#{familyData.familyTreeSiblings}" var="siblings" begin="1" rendered="#{familyData.familyTreeSiblings gt 1}">
+                    <tr>
+                        <td>
+                            <p:outputLabel value="&nbsp;" style="margin-right: 30px;"/>
+                        </td>
+                        <td>
+                            <p:outputLabel value=": #{returnObject.fullname('',siblings.lastName,siblings.firstName,siblings.middleName,'')}" 
+                                           rendered="#{siblings.lastName.length() gt 0}"/>
+                            <p:outputLabel value="&nbsp;" style="margin-right: 30px;"
+                                           rendered="#{siblings.lastName.length() lt 1}"/>
+                        </td>
+                        <td>
+                            <p:outputLabel value="#{siblings.memNo}&nbsp;" style="margin-left: 25px;"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                <tr>
+                    <td>
+                        <p:outputLabel value="&nbsp;" style="margin-right: 30px;"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value="&nbsp;"/>
+                    </td>
+                </tr>
+                <ui:repeat value="#{familyData.familyTreeSpouses}" var="spouses">
+                    <tr>
+                        <td>
+                            <p:outputLabel value="Spouse/Partner" style="margin-right: 30px;"/>
+                        </td>
+                        <td>
+                            <p:outputLabel value=": #{returnObject.fullname('',spouses.lastName,spouses.firstName,spouses.middleName,'')}" 
+                                           rendered="#{spouses.lastName.length() gt 0}"/>
+                            <p:outputLabel value=": -" rendered="#{empty spouses.lastName or spouses.lastName.length() lt 1}"/>
+                        </td>
+                        <td>
+                            <p:outputLabel value="#{spouses.memNo}&nbsp;" style="margin-left: 25px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="Child(ren)" style="margin-right: 30px;"/>
+                            <ui:repeat value="#{familyData.childSpouse}" var="childSpouse" varStatus="index" rendered="#{not (empty familyData.childSpouse.get(0).lastName or familyData.childSpouse.get(0).lastName.length() lt 1 or familyData.childSpouse.size() lt 1)}">
+                                <p:row rendered="#{returnObject.fullname('',childSpouse.lastName,childSpouse.firstName,childSpouse.middleName,'') eq returnObject.fullname('',spouses.lastName,spouses.firstName,spouses.middleName,'')}">
+                                    <p:outputLabel value="&nbsp;" style="margin-right: 30px;"/>
+                                </p:row>
+                            </ui:repeat>
+                        </td>
+                        <td>
+                            <ui:repeat value="#{familyData.childSpouse}" var="childSpouse" varStatus="index" rendered="#{not (empty familyData.childSpouse.get(0).lastName or familyData.childSpouse.get(0).lastName.length() lt 1 or familyData.childSpouse.size() lt 1)}">
+                                <p:row rendered="#{returnObject.fullname('',childSpouse.lastName,childSpouse.firstName,childSpouse.middleName,'') eq returnObject.fullname('',spouses.lastName,spouses.firstName,spouses.middleName,'')}">
+                                    <p:outputLabel value=": #{returnObject.fullname('',familyData.familyTreeChildren.get(index.index).lastName,familyData.familyTreeChildren.get(index.index).firstName,familyData.familyTreeChildren.get(index.index).middleName,'')}" 
+                                                   rendered="#{familyData.familyTreeChildren.get(index.index).lastName.length() gt 0}"/>
+                                </p:row>
+                            </ui:repeat>
+                            <p:outputLabel value="#{empty familyData.childSpouse.get(0).lastName or familyData.childSpouse.get(0).lastName.length() lt 1 or familyData.childSpouse.size() lt 1 ? ': -' : '&nbsp;'}&nbsp;"/>
+                        </td>
+                        <td>
+                            <ui:repeat value="#{familyData.childSpouse}" var="childSpouse" varStatus="index" rendered="#{not (empty familyData.childSpouse.get(0).lastName or familyData.childSpouse.get(0).lastName.length() lt 1 or familyData.childSpouse.size() lt 1)}">
+                                <p:row rendered="#{returnObject.fullname('',childSpouse.lastName,childSpouse.firstName,childSpouse.middleName,'') eq returnObject.fullname('',spouses.lastName,spouses.firstName,spouses.middleName,'')}">
+                                    <p:outputLabel value="&nbsp;#{familyData.familyTreeChildren.get(index.index).memNo}" style="margin-left: 25px;"/>
+                                </p:row>
+                            </ui:repeat>
+                            <p:outputLabel value="#{empty familyData.childSpouse.get(0).lastName or familyData.childSpouse.get(0).lastName.length() lt 1 or familyData.childSpouse.size() lt 1 ? '&nbsp;' : '&nbsp;'}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="&nbsp;" style="margin-right: 30px;"/>
+                        </td>
+                        <td>
+                            <p:outputLabel value="&nbsp;"/>
+                        </td>
+                    </tr>
+                </ui:repeat>
+            </table>
+        </p:panel>
+    </composite:implementation>
+</html>
+

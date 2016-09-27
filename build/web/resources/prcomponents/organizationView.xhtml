@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="positionTenure"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="organizationPanel" style="border: white">
+            <h:panelGrid style="font-size: small;" columns="2">
+                <p:outputLabel value="Membership Date" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{dateFormat.formatDate(cc.attrs.member.memDate,'MMM dd yyyy')}"/>
+
+                <p:outputLabel value="Member No." style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.memNo}"/>
+
+                <p:outputLabel value="ID No." style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.memIdNo}"/>
+
+                <p:outputLabel value="SC Account No." style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.scAcctno}"/>
+
+                <p:outputLabel value="PT" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.ouCode.ouShortName}"/>
+
+                <p:outputLabel value="Membership Type" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.memberType}"/>
+
+                <p:outputLabel value="Member Status" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.statusId.statusName}"/>
+
+                <p:outputLabel value="Status Remarks" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.memStatRem}"/>
+                <p:outputLabel value="-" rendered="#{empty cc.attrs.member.memStatRem}"/>
+
+                <p:outputLabel value="Status Date" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{dateFormat.formatDate(cc.attrs.member.statusDate,'MMM dd yyyy')}"/>
+            </h:panelGrid>
+            <br/>
+            <center>
+                <p:outputLabel value="Positions" style="font-weight: bold; font-size: small;" rendered="#{cc.attrs.positionTenure.size() gt 0}"/>
+            </center>
+            <br/>
+            <ui:repeat value="#{cc.attrs.positionTenure}" var="myPosition" rendered="#{cc.attrs.member.memNo.length() gt 0}"> 
+                <h:panelGrid style="font-size: small;" columns="2">
+                    <p:outputLabel value="Organization" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myPosition.memOuPosId.orgPosId.ouCode.ouLongName}"/>
+
+                    <p:outputLabel value="Position" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myPosition.memOuPosId.orgPosId.positionId.positionName}"/>  
+
+                    <p:outputLabel value="Tenure" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myPosition.tenureId.tenureValue}"/>
+
+                    <p:outputLabel value="From: "/>
+                    <p:outputLabel value=": #{dateFormat.formatDate(myPosition.termStart,'MMM dd yyyy')}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myPosition.termStart}"/>
+
+                    <p:outputLabel value="To: "/>
+                    <p:outputLabel value=": #{dateFormat.formatDate(myPosition.termEnd,'MMM dd yyyy')}" rendered="#{not empty myPosition.termEnd}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myPosition.termEnd and empty myPosition.termStart}"/>
+                    <p:outputLabel value=": PRESENT" rendered="#{empty myPosition.termEnd and not empty myPosition.termStart }"/>
+                </h:panelGrid>
+                <br/>
+            </ui:repeat>
+        </p:panel>
+    </composite:implementation>
+</html>
+

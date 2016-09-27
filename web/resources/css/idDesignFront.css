@@ -1,0 +1,99 @@
+/*Front*/
+.card0{
+    border-style: solid;
+    border-color: black;
+    border-radius: 13px;
+    border-width: 1px;
+    width: 3.21in; 
+    height: 2in;
+    font-family:arial;
+    background-color: #ffff33
+}
+
+.companyName{
+    line-height:0;
+    position: absolute;
+    margin-top: -10px;
+    margin-left: 0%;
+}
+
+.cmpLogo{
+    width: 65px;
+    height: 65px;
+}
+
+.cmpTitle{
+    position: relative;
+    width: 530px;
+    height: 20px;
+    margin-top: -7px;
+}
+
+.companyEmail{
+    font-size: 9px;
+    margin-left: 1%;
+    margin-top: 5px;
+}
+
+.cmpLogoCntnr{
+    margin: 3% auto;
+}
+
+.memDataCntnr{
+    margin-top: 20px;
+    margin-left: 3%;
+}
+
+.acctNo{
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.nameTxt{
+    width: 190px;
+    height: 15px;
+    overflow: hidden;
+    font-size: 2em;
+    margin-top: 10px;
+}
+
+.brthDate{
+    font-size: 10px;
+    margin-top: -1px;
+}
+
+.btmTxt{
+    margin-top: 20px;
+    font-size: 7px;
+}
+
+.idImgCntnr{
+    position: absolute;
+    margin-top: -80px;
+}
+
+.idImg{
+    width: 90px;
+    height: 90px;
+}
+
+.idSigImg{
+    position: absolute;
+    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+    margin-left: 35px;
+}
+
+.sigHr{
+    position: absolute;
+    margin-top: 30px;
+    width: 90px;
+}
+
+.signatureTxt{
+    position: absolute;
+    margin-left: 28px;
+    margin-top: 20px;
+    font-size: 7px;
+}

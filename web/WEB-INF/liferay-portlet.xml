@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 6.2.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_6_2_0.dtd">
+
+<liferay-portlet-app>
+    <portlet>
+        <portlet-name>Create Member Record</portlet-name>
+        <icon>/icon.png</icon>
+        <instanceable>false</instanceable>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters> 
+        <ajaxable>true</ajaxable>
+        <header-portlet-css>/css/default.css</header-portlet-css>
+        <header-portlet-css>/css/cssLayout.css</header-portlet-css>
+        <css-class-wrapper>Create Member Record-portlet</css-class-wrapper>
+    </portlet>
+    <portlet>
+        <portlet-name>Update Member Record</portlet-name>
+        <icon>/icon.png</icon>
+        <instanceable>false</instanceable>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters> 
+        <ajaxable>true</ajaxable>
+        <header-portlet-css>/css/default.css</header-portlet-css>
+        <header-portlet-css>/css/cssLayout.css</header-portlet-css>
+        <css-class-wrapper>Update Member Record-portlet</css-class-wrapper>
+    </portlet>
+    <portlet>
+        <portlet-name>View Single Member Record</portlet-name>
+        <icon>/icon.png</icon>
+        <instanceable>false</instanceable>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters> 
+        <ajaxable>true</ajaxable>
+        <header-portlet-css>/css/default.css</header-portlet-css>
+        <header-portlet-css>/css/cssLayout.css</header-portlet-css>
+        <css-class-wrapper>View Single Member Record-portlet</css-class-wrapper>
+    </portlet>
+    <portlet>
+        <portlet-name>View Multiple Member Record</portlet-name>
+        <icon>/icon.png</icon>
+        <instanceable>false</instanceable>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters> 
+        <ajaxable>true</ajaxable>
+        <header-portlet-css>/css/default.css</header-portlet-css>
+        <header-portlet-css>/css/cssLayout.css</header-portlet-css>
+        <css-class-wrapper>View Multiple Member Record-portlet</css-class-wrapper>
+    </portlet>
+    <role-mapper>
+        <role-name>administrator</role-name>
+        <role-link>Administrator</role-link>
+    </role-mapper>
+</liferay-portlet-app>

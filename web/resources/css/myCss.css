@@ -1,0 +1,76 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 06 17, 16, 11:04:15 AM
+    Author     : mis05
+*/
+.s {
+    width: 50px;
+}
+.m { 
+    width: 80px;
+}
+.l {
+    width: 150px;
+}
+.xl {
+    width: 200px;
+}
+.test {
+    width: 400px;
+    background-color: black;
+}
+
+/*
+gender 100
+civil 100
+masking/date = size
+educ 200
+occu 250
+street 300
+pt 100
+pagedate="-18y"
+
+APPLICANT (readonly fields)
+gender,civil,contact,resident,education,occupation-80
+date,type,birth-100
+pt-50
+PERSONAL
+px,sx,bld-80
+nickname,gender,civ-100
+ht,wt-50
+relig,5nos,phone-130
+relation-150
+ADDRESS
+type-200
+zip-50
+region-80
+CONTACT
+type-200 (CHANGE)
+contact-130
+EDUCATION
+year-50
+level-200
+OCCUPATION
+occupation-250
+SKILLS
+skills-250
+EMPLOYMENT
+contact-130
+income-200
+stat-150
+rankpos-250
+BUSINESS
+contact-130
+type,income-200
+ORGANIZATION
+pt-50
+sc-80
+type-100
+stat,rem-250
+AWARDS
+-
+*/

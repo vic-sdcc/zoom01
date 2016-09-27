@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="business"/>
+        <composite:attribute name="member"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="businessPanel"
+                 style="border: transparent">
+            <ui:repeat var="biz" 
+                       value="#{cc.attrs.business.bizInfoAL}" 
+                       varStatus="bizLoop">
+                <p:row rendered="#{cc.attrs.business.bizInfoAL.size() gt 0}">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="business data"
+                                             actionListener="#{cc.attrs.business.removeBiz(bizLoop.index)}" 
+                                             immediate="true" 
+                                             update=":#{p:component('businessPanel')}" 
+                                             icon="ui-icon-minus" 
+                                             styleClass="ui-btn ui-shadow ui-corner-all"
+                                             disabled="#{not cc.attrs.member.ownedBusiness}"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="bizName#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Business:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="bizName#{cc.attrs.business.bizInfoAL.size()}" 
+                                         label="Business Name#{bizLoop.index}"
+                                         value="#{biz.bizName}"
+                                         onblur="value = value.toUpperCase()"
+                                         style="width: 300px"
+                                         required="true">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="dateEstablished#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Date Established:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:calendar id="dateEstablished#{cc.attrs.business.bizInfoAL.size()}" 
+                                        label="Business Date Established#{bizLoop.index}" 
+                                        value="#{biz.dateEstablished}"
+                                        yearRange="#{customDate.start()}:#{customDate.end()}"
+                                        pattern="MMM dd yyyy"
+                                        navigator="true"
+                                        size="11"
+                                        style="width: 110px"
+                                        required="true">
+                                <f:convertDateTime pattern="MMM dd yyyy"/>
+                                <p:ajax process="@this"
+                                        event="dateSelect"/>
+                            </p:calendar>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="dateDissolved#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Date Dissolved:"
+                                           rendered="#{membershipType.updateM or membershipType.updateA}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:calendar id="dateDissolved#{cc.attrs.business.bizInfoAL.size()}" 
+                                        label="Business Date Dissolved#{bizLoop.index}" 
+                                        value="#{biz.dateDissolved}"
+                                        yearRange="#{customDate.start()}:#{customDate.end()}"
+                                        pattern="MMM dd yyyy"
+                                        navigator="true"
+                                        size="11"
+                                        style="width: 110px"
+                                        rendered="#{membershipType.updateM or membershipType.updateA}"
+                                        widgetVar="cal3">
+                                <f:convertDateTime pattern="MMM dd yyyy"/>
+                                <p:ajax process="@this"
+                                        event="dateSelect"/>
+                            </p:calendar>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="bizType#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Type:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="bizType#{cc.attrs.business.bizInfoAL.size()}" 
+                                             label="Business Type#{bizLoop.index}"
+                                             value="#{biz.bizType}"
+                                             style="width: 250px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="SOLE PROPRIETORSHIP" 
+                                              itemValue="SOLE PROPRIETORSHIP"/>
+                                <f:selectItem itemLabel="PARTNERSHIP" 
+                                              itemValue="PARTNERSHIP"/>
+                                <f:selectItem itemLabel="CORPORATION" 
+                                              itemValue="CORPORATION"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="bizContactNo#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Contact No.:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="bizContactNo#{cc.attrs.business.bizInfoAL.size()}" 
+                                         label="Business Contact No.#{bizLoop.index}"
+                                         value="#{biz.bizContactNo}" 
+                                         style="width: 130px">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="bizNature#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Nature of Business:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="bizNature#{cc.attrs.business.bizInfoAL.size()}" 
+                                         label="Nature of Business#{bizLoop.index}" 
+                                         value="#{biz.bizNature}"
+                                         onblur="value = value.toUpperCase()"
+                                         required="true">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="bizIncRange#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Compensation:"
+                                           title="#{biz.bizIncRange}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="bizIncRange#{cc.attrs.business.bizInfoAL.size()}" 
+                                             label="Business Compensation#{bizLoop.index}"
+                                             value="#{biz.bizIncRange}"
+                                             style="width: 200px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="999.00 - Below" 
+                                              itemValue="999.00 - Below"/>
+                                <f:selectItem itemLabel="1,000.00 - 10,000.00" 
+                                              itemValue="1,000.00 - 10,000.00"/>
+                                <f:selectItem itemLabel="10,001.00 - 15,000.00" 
+                                              itemValue="10,001.00 - 15,000.00"/>
+                                <f:selectItem itemLabel="15,001.00 - 20,000.00" 
+                                              itemValue="15,001.00 - 20,000.00"/>
+                                <f:selectItem itemLabel="20,001.00 - 30,000.00" 
+                                              itemValue="20,001.00 - 30,000.00"/>
+                                <f:selectItem itemLabel="30,001.00 - 40,000.00" 
+                                              itemValue="30,001.00 - 40,000.00"/>
+                                <f:selectItem itemLabel="40,001.00 - 50,000.00" 
+                                              itemValue="40,001.00 - 50,000.00"/>
+                                <f:selectItem itemLabel="50,001.00 - Above" 
+                                              itemValue="50,001.00 - Above"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="bizStreet#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Street:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="bizStreet#{cc.attrs.business.bizInfoAL.size()}" 
+                                         label="Business Street#{bizLoop.index}"
+                                         value="#{biz.bizStreet}"
+                                         onblur="value = value.toUpperCase()"
+                                         style="width: 300px">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="bizBarangay#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="Barangay:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="bizBarangay#{cc.attrs.business.bizInfoAL.size()}" 
+                                         label="Business Barangay#{bizLoop.index}"
+                                         value="#{biz.bizBarangay}"
+                                         onblur="value = value.toUpperCase()">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="bizCityMun#{cc.attrs.business.bizInfoAL.size()}" 
+                                           value="City/Municipality:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="bizCityMun#{cc.attrs.business.bizInfoAL.size()}" 
+                                         label="Business City/Municipality#{bizLoop.index}"
+                                         value="#{biz.bizCityMun}"
+                                         onblur="value = value.toUpperCase()"
+                                         required="true">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                </p:row>
+            </ui:repeat>
+            <p:commandButton value="business data"
+                             actionListener="#{cc.attrs.business.addBiz}" 
+                             update=":#{p:component('businessPanel')},:#{p:component('growl')}" 
+                             icon="ui-icon-plus" 
+                             styleClass="ui-btn ui-shadow ui-corner-all"
+                             rendered="#{cc.attrs.business.bizInfoAL.size() lt 10}"/>
+        </p:panel>
+    </composite:implementation>
+</html>

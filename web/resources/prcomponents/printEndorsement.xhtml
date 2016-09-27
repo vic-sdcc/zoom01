@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="selectedOfficer"/>
+        <composite:attribute name="imgSig"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="endorsementPanel"
+                 style="border: transparent">
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Image" style="margin-right: 50px;"/>
+                <p:outputLabel value="Signature"/>
+
+
+                <p:outputLabel value="No image preview" rendered="#{empty imgSigData.streamedContent1}" style="margin-right: 50px;"/>
+                <p:graphicImage value="#{imgSigData.streamedContent1}"
+                                rendered="#{not empty imgSigData.streamedContent1}"
+                                cache="false" 
+                                style="margin-right: 50px; width: 200px; height: 200px; 
+                                border: solid;"/>
+
+                <p:signature widgetVar="sig"
+                             value="#{imgSigData.imgSig.sig}"
+                             style="width: 400px; height: 200px"
+                             readonly="true"/>
+            </h:panelGrid>
+            <p:separator/>
+            <p:outputLabel value="Print endorsement not available." rendered="#{(cc.attrs.member.statusId.memStatus eq 'W' or cc.attrs.member.statusId.memStatus eq 'E' 
+                                                                                or cc.attrs.member.statusId.memStatus eq 'D' or cc.attrs.member.statusId.memStatus eq 'X')}"/>
+            <h:panelGrid columns="2" rendered="#{not (cc.attrs.member.statusId.memStatus eq 'W' or cc.attrs.member.statusId.memStatus eq 'E' 
+                                                 or cc.attrs.member.statusId.memStatus eq 'D' or cc.attrs.member.statusId.memStatus eq 'X')}">
+                <p:outputLabel value="Signatory: "/>
+                <p:inputText value="#{signatoryBean.name}">
+                    <p:ajax event="keyup" 
+                            update="recForm"/>
+                </p:inputText>
+                <p:outputLabel value="Position: "/>
+                <p:inputText value="#{signatoryBean.position}">
+                    <p:ajax event="keyup" 
+                            update="recForm"/>
+                </p:inputText>
+            </h:panelGrid>
+            <br/>
+            <p:panel style="border: transparent" id="recForm" 
+                     rendered="#{not (cc.attrs.member.statusId.memStatus eq 'W' or cc.attrs.member.statusId.memStatus eq 'E' 
+                                 or cc.attrs.member.statusId.memStatus eq 'D' or cc.attrs.member.statusId.memStatus eq 'X')}">
+                <div style="margin: 0% auto; 
+                     min-width: 100%;">
+                    <div style="margin: 0% auto; 
+                         position: relative; 
+                         width: 100%;
+                         font-size: small;">
+                        <p:fieldset id="printComponent1" 
+                                    style="border: none; 
+                                    background: transparent; 
+                                    height: 420px;">
+                            <div>
+                                <center>
+                                    <strong>
+                                        <p:outputLabel value="San Dionisio Credit Cooperative" style="font-size: small;"/>
+                                    </strong>
+                                    <br/>
+                                    <strong>
+                                        <p:outputLabel value="0554 Quirino Ave., San Dionisio, Paranaque City" style="font-size: small;"/>
+                                    </strong>
+                                </center>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <div style="width: 100%; position: relative;">
+                                    <div style="position: absolute;">
+                                        <p:outputLabel value="#{dateFormat.formatDate(currentDate,'MMM dd, yyyy')}"/>
+                                    </div>
+                                </div>
+                                <br/><br/>
+                                <h:panelGrid columns="1">
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="#{cc.attrs.selectedOfficer.PPrefix}"
+                                                       rendered="#{cc.attrs.selectedOfficer.PPrefix ne null}" style="font-size: small;"/>
+                                        <p:outputLabel value="#{cc.attrs.selectedOfficer.gender eq 'M' ? 'G. ' : cc.attrs.selectedOfficer.gender eq 'F' and cc.attrs.selectedOfficer.civilStatus ne 'S' ? 'Gng. ' : 'Bb. '}"
+                                                       rendered="#{cc.attrs.selectedOfficer.PPrefix eq null}" style="font-size: small;"/>
+                                        <p:outputLabel value="#{cc.attrs.selectedOfficer.firstName} #{cc.attrs.selectedOfficer.middleName}. #{cc.attrs.selectedOfficer.lastName}" style="font-size: small;"/>
+                                    </h:panelGrid>
+                                    <p:outputLabel value="Tagapangulo, #{cc.attrs.selectedOfficer.ouCode.ouLongName}" style="font-size: small;"/>
+                                </h:panelGrid>
+                                <br/>
+                                <h:panelGrid>
+                                    <p:outputLabel value="Mangyari po lamang na isama sa talaan ng kasapi ng inyong #{cc.attrs.selectedOfficer.ouCode.ouShortName} si:" style="font-size: small;"/>
+                                    <h:panelGrid columns="2" style="margin-left: 7px; font-size: small;">
+                                        <p:outputLabel value="Pangalan " style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{cc.attrs.member.firstName} #{cc.attrs.member.middleName}. #{cc.attrs.member.lastName}"/>
+                                        <p:outputLabel value="Member No. " style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{cc.attrs.member.memNo}"/>
+                                        <p:outputLabel value="Contact No. " style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{cc.attrs.member.contactNumber}"/>
+                                        <p:outputLabel value="Tirahan " style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{cc.attrs.member.street} #{cc.attrs.member.barangay} #{cc.attrs.member.cityMun}"/>
+                                    </h:panelGrid>
+                                    <p:outputLabel value="Dahil siya po ay bagong kasapi/lumipat ng tirahan."
+                                                   style="font-size: small;"/>
+                                </h:panelGrid>
+                            </div>
+                            <div style="width: 100%; 
+                                 position: relative;">
+                                <div style="position: absolute; 
+                                     bottom:-150px;">
+                                    <p>
+                                        <p:outputLabel value="Sumasainyo sa pagtutulungan," style="font-size: small;"/>
+                                    </p>
+                                    <br/>
+                                    <p>
+                                        <p:outputLabel value="#{signatoryBean.name}" style="font-size: small;"/>
+                                    </p>
+                                    <p>
+                                        <p:outputLabel value="#{signatoryBean.position}" style="font-size: small;"/>
+                                    </p>
+                                </div>
+                            </div>
+                        </p:fieldset>
+                    </div>
+                </div>
+            </p:panel>
+            <br/><br/><br/><br/><br/>
+        </p:panel>
+    </composite:implementation>
+</html>
+
+
+
+

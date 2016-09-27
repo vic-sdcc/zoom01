@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="awards"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="awardPanel" style="border: white">
+            <ui:repeat value="#{cc.attrs.awards}" var="myAwards" rendered="#{cc.attrs.awards.size() gt 0}">
+                <h:panelGrid style="font-size: small;" columns="2">
+                    <p:outputLabel value="Award" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myAwards.awardTitle}" rendered="#{not empty myAwards.awardTitle}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myAwards.awardTitle}"/>
+
+                    <p:outputLabel value="Year" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myAwards.awardsDate}" rendered="#{not empty myAwards.awardsDate}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myAwards.awardsDate}"/>
+
+                    <p:outputLabel value="Details" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myAwards.awardDetails}" rendered="#{not empty myAwards.awardDetails}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myAwards.awardDetails}" escape="true"/>
+                </h:panelGrid>
+                <br/>
+            </ui:repeat>
+            <p:outputLabel value="No records found." rendered="#{cc.attrs.awards.size() lt 1}"/>
+        </p:panel>
+    </composite:implementation>
+</html>
+

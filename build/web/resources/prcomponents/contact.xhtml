@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="addlC"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="contactPanel"
+                 style="border: transparent">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="contactNumber"
+                                   value="Mobile No.:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputMask id="contactNumber" 
+                                 label="Mobile No."
+                                 value="#{cc.attrs.applicant.contactNumber}" 
+                                 mask="9999-9999999"
+                                 size="12"
+                                 style="width: 120px"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="email" 
+                                   value="Email:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:inputText id="email" 
+                                 label="Email"
+                                 value="#{cc.attrs.applicant.email}"
+                                 onblur="value = value.toLowerCase()"/>
+                </div>
+            </div>
+            <p:panel id="additionalContact"
+                     style="border: transparent">
+                <p:separator/>
+                <h4>
+                    <p:outputLabel value="Additional Contact Info"/>
+                </h4>
+                <ui:repeat var="contact"
+                           value="#{cc.attrs.addlC.addlContactInfoAL}"
+                           varStatus="contactLoop">
+                    <p:row rendered="#{cc.attrs.addlC.addlContactInfoAL.size() gt 0}">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:commandButton value="contact data"
+                                                 actionListener="#{cc.attrs.addlC.removeContact(contactLoop.index)}"
+                                                 immediate="true"
+                                                 update=":#{p:component('contactPanel')}"
+                                                 icon="ui-icon-minus"
+                                                 styleClass="ui-btn ui-shadow ui-corner-all"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="contactType#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                               value="Contact Type:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:selectOneMenu id="contactType#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                                 label="Contact Type#{contactLoop.index}"
+                                                 value="#{contact.contactType}" 
+                                                 style="width: 120px"
+                                                 required="true">
+                                    <p:ajax process="@this"
+                                            event="change"
+                                            update=":#{p:component('contactPanel')}"/>
+                                    <f:selectItem itemLabel="" 
+                                                  itemValue="" 
+                                                  noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="EMAIL" 
+                                                  itemValue="E"/>
+                                    <f:selectItem itemLabel="MOBILE" 
+                                                  itemValue="M"/>
+                                    <f:selectItem itemLabel="LANDLINE" 
+                                                  itemValue="T"/>
+                                    <f:selectItem itemLabel="FAX"
+                                                  itemValue="F"/>
+                                    <f:selectItem itemLabel="NO DATA" 
+                                                  itemValue="N"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="contactDetail#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                               value="Contact Detail:"
+                                               rendered="false"/>
+                                <p:outputLabel for="email#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                               value="Contact Detail:"
+                                               rendered="#{contact.contactType eq 'E'}"/>
+                                <p:outputLabel for="mobile#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                               value="Contact Detail:"
+                                               rendered="#{contact.contactType eq 'M'}"/>
+                                <p:outputLabel for="landline#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                               value="Contact Detail:"
+                                               rendered="#{contact.contactType eq 'T'}"/>
+                                <p:outputLabel for="fax#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                               value="Contact Detail:"
+                                               rendered="#{contact.contactType eq 'F'}"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:inputText id="contactDetail#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                             label="Contact Detail#{contactLoop.index}"
+                                             value="#{contact.contactDetail}"
+                                             required="true"
+                                             rendered="false">
+                                    <p:ajax process="@this"
+                                            event="keyup"/>
+                                </p:inputText>
+                                <p:inputText id="email#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                             label="Contact Detail#{contactLoop.index}"
+                                             value="#{contact.contactDetail}"
+                                             required="true"
+                                             rendered="#{contact.contactType eq 'E'}"
+                                             onblur="value = value.toLowerCase()">
+                                    <p:ajax process="@this"
+                                            event="keyup"/>
+                                </p:inputText>
+                                <p:inputMask id="mobile#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                             label="Contact Detail#{contactLoop.index}"
+                                             value="#{contact.contactDetail}"
+                                             required="true"
+                                             mask="9999-9999999"
+                                             rendered="#{contact.contactType eq 'M'}"
+                                             size="12"
+                                             style="width: 120px">
+                                    <p:ajax process="@this"
+                                            event="keyup"/>
+                                </p:inputMask>
+                                <p:inputMask id="landline#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                             label="Contact Detail#{contactLoop.index}"
+                                             value="#{contact.contactDetail}"
+                                             required="true"
+                                             mask="999-9999"
+                                             rendered="#{contact.contactType eq 'T'}"
+                                             size="14"
+                                             style="width: 140px">
+                                    <p:ajax process="@this"
+                                            event="keyup"/>
+                                </p:inputMask>
+                                <p:inputMask id="fax#{cc.attrs.addlC.addlContactInfoAL.size()}"
+                                             label="Contact Detail#{contactLoop.index}"
+                                             value="#{contact.contactDetail}"
+                                             required="true"
+                                             mask="999-9999"
+                                             rendered="#{contact.contactType eq 'F'}"
+                                             size="14"
+                                             style="width: 140px">
+                                    <p:ajax process="@this"
+                                            event="keyup"/>
+                                </p:inputMask>
+                            </div>
+                        </div>
+                    </p:row>
+                </ui:repeat>
+                <p:commandButton value="contact data"
+                                 actionListener="#{cc.attrs.addlC.addContact}"
+                                 update=":#{p:component('contactPanel')},:#{p:component('growl')}"
+                                 icon="ui-icon-plus"
+                                 styleClass="ui-btn ui-shadow ui-corner-all"
+                                 rendered="#{cc.attrs.addlC.addlContactInfoAL.size() lt 4}"/>
+            </p:panel>
+            <p:separator/>
+        </p:panel>
+    </composite:implementation>
+</html>

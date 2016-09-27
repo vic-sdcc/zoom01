@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define id="mainContent" name="content">
+            <h:form id="mainForm">
+                <h:panelGroup id="memberPanel" >
+                    <p:panel id="fullPrint" style="border: white; font-size: small;">
+                        <div style="margin: 0% auto; min-width: 100%;">
+                            <div style="margin: 0% auto; 
+                                 position: relative; 
+                                 width: 100%;
+                                 font-size: small;">
+                                <br/>
+                                <br/>
+                                <center>
+                                    <p:outputLabel style="font-size: small;" value="San Dionisio Credit Cooperative"/><br/>
+                                    <p:outputLabel style="font-size: small;" value="0554 Quirino Avenue, San Dionisio, Paranaque City"/><br/>
+                                    <p:outputLabel style="font-size: small;" value="www.sandionisiocredit.coop"/><br/>
+                                    <br/><br/>
+                                </center>
+                                <br/>
+                                <prcc:printMemPage
+                                    member="#{memberData.member}"
+                                    tab="#{pageController.viewTabStr}"
+                                    rendered="#{not empty memberData.member.memNo}"/>
+                                <prcc:printMemPage
+                                    member="#{associateData.associate}"
+                                    tab="#{pageController.viewTabStr}"
+                                    rendered="#{not empty associateData.associate.memNo}"/>
+                                <br/>
+                                <div style="page-break-before: auto; page-break-inside: avoid;">
+                                    <p:panel id="footer" style="border: white">
+                                        <h:panelGrid style="font-size: x-small; font-style: italic;" columns="2">
+                                            <p:outputLabel value="Date printed: "/>
+                                            <p:outputLabel value="#{currentDate}">
+                                                <f:convertDateTime pattern="MMM dd yyyy"/>
+                                            </p:outputLabel>                                
+                                        </h:panelGrid>
+                                        <h:panelGrid style="font-size: x-small; font-style: italic;" columns="2">
+                                            <p:outputLabel value="by: "/>
+                                            <p:outputLabel value="#{returnObject.memberUser(returnObject.liferayUser())}"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </div>
+                            </div>
+                        </div>
+                    </p:panel>
+                </h:panelGroup>
+
+                <p:commandButton value="Print"
+                                 icon="ui-icon-print"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-print"
+                                 style="margin-right: 7px;">
+                    <p:printer target=":mainForm:memberPanel"/>
+                </p:commandButton>
+                <p:commandButton value="Cancel"
+                                 id="cancelBtnR"
+                                 icon="ui-icon-cancel"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-forbidden"
+                                 style="margin-right: 7px;">
+                    <p:ajax listener="#{pageController.beanclear()}"/>
+                    <p:ajax listener="#{navigation.viewRegular()}" disabled="#{empty memberData.member.memNo}"/>
+                    <p:ajax listener="#{navigation.viewAssociate()}" disabled="#{empty associateData.associate.memNo}"/>
+                </p:commandButton>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

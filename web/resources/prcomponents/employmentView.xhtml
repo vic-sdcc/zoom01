@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="employment"/>
+        <composite:attribute name="member"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="employmentPanel" style="border: white">
+            <ui:repeat value="#{cc.attrs.employment}" var="myEmployment" rendered="#{cc.attrs.employment.size() gt 0}">
+                <h:panelGrid style="font-size: small;" columns="2">
+                    <p:outputLabel value="Employer" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.emplBizName}" rendered="#{not empty myEmployment.emplBizName}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.emplBizName}"/>
+
+                    <p:outputLabel value="Employer Contact No." style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.emplContactNo}" rendered="#{not empty myEmployment.emplContactNo}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.emplContactNo}"/>
+
+                    <p:outputLabel value="Employer Email" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.emplEmail}" rendered="#{not empty myEmployment.emplEmail}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.emplEmail}"/>
+
+                    <p:outputLabel value="Street" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.emplStreet}" rendered="#{not empty myEmployment.emplStreet}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.emplStreet}"/>
+
+                    <p:outputLabel value="Barangay" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.emplBarangay}" rendered="#{not empty myEmployment.emplBarangay}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.emplBarangay}"/>
+
+                    <p:outputLabel value="City/Municipality" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.emplCityMun}" rendered="#{not empty myEmployment.emplCityMun}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.emplCityMun}"/>
+
+                    <p:outputLabel value="Employment Date" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{dateFormat.formatDate(myEmployment.employmentDate,'MMM dd yyyy')}" rendered="#{not empty myEmployment.employmentDate}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.employmentDate}"/>
+
+                    <p:outputLabel value="Employment End Date" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{dateFormat.formatDate(myEmployment.employmentEndDate,'MMM dd yyyy')}" rendered="#{not empty myEmployment.employmentEndDate}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.employmentEndDate}"/>
+
+                    <p:outputLabel value="Workplace Email Address:" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.workplaceEmailAdd}" rendered="#{not empty myEmployment.workplaceEmailAdd}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.workplaceEmailAdd}"/>
+
+                    <p:outputLabel value="Compensation" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.compBracket}" rendered="#{not empty myEmployment.compBracket}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.compBracket}"/>
+
+                    <p:outputLabel value="Rank/Position" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.emplRankPos.unitName}" rendered="#{not empty myEmployment.emplRankPos.unitName}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.emplRankPos.unitName}"/>
+
+                    <p:outputLabel value="Status" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEmployment.employmentStat}" rendered="#{not empty myEmployment.employmentStat}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEmployment.employmentStat}"/>
+                </h:panelGrid>
+                <br/>
+            </ui:repeat>
+            <p:outputLabel value="No records found." rendered="#{cc.attrs.employment.size() lt 1}"/>
+        </p:panel>
+    </composite:implementation>
+</html>
+

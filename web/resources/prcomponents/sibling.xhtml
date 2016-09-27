@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="sbBean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="siblingPanel"
+                 style="border-color: white">
+            <ui:repeat var="siblings"
+                       value="#{cc.attrs.sbBean.siblingAL}"
+                       varStatus="siblingsLoop">
+                <p:row rendered="#{cc.attrs.sbBean.siblingAL.size() gt 0}">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="siblings data"
+                                             actionListener="#{cc.attrs.sbBean.removeSiblings(siblingsLoop.index)}" 
+                                             immediate="true"
+                                             update=":#{p:component('relationPanel')}"
+                                             icon="ui-icon-minus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"/>
+                        </div>
+                    </div>
+                    <p:panel id="sPanel"
+                             style="border-color: white">
+                        <br/>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Person Type:"/>
+                            </div>
+                            <div class="ui-grid-col-4">
+                                <p:selectOneRadio value="#{siblings.personTypeId}"
+                                                  valueChangeListener="#{personType.sbType(siblingsLoop.index)}">
+                                    <f:selectItem itemLabel="REGULAR&nbsp;&nbsp;&nbsp;" 
+                                                  itemValue="1"/>
+                                    <f:selectItem itemLabel="ASSOCIATE&nbsp;&nbsp;&nbsp;"
+                                                  itemValue="2"/>
+                                    <f:selectItem itemLabel="NON-MEMBER&nbsp;&nbsp;&nbsp;"
+                                                  itemValue="3"/>
+                                    <p:ajax process="@this"
+                                            update=":#{p:component('sPanel')}"
+                                            listener="#{personDataComp.clearMe()}"/>
+                                </p:selectOneRadio>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSLastName#{cc.attrs.sbBean.siblingAL.size()}"
+                                               value="Sibling Last Name:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:autoComplete id="personSLastName#{cc.attrs.sbBean.siblingAL.size()}"
+                                                label="Sibling Last Name"
+                                                value="#{siblings.lastName}"
+                                                completeMethod="#{autoComplete.completePersonLastName}"
+                                                valueChangeListener="#{personType.sbType(siblingsLoop.index)}"
+                                                emptyMessage="no records found."
+                                                queryDelay="500"
+                                                scrollHeight="200"
+                                                placeholder="#{personDataComp.personProfileList[personDataComp.indexList].lastName}"
+                                                onclick="this.select()"
+                                                disabled="#{empty siblings.personTypeId}"
+                                                onblur="value = value.toUpperCase()">
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            update="personSFirstName#{cc.attrs.sbBean.siblingAL.size()},personSMiddleName#{cc.attrs.sbBean.siblingAL.size()},personSBirthdate#{cc.attrs.sbBean.siblingAL.size()},personSGender#{cc.attrs.sbBean.siblingAL.size()},sButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            update="personSFirstName#{cc.attrs.sbBean.siblingAL.size()},personSMiddleName#{cc.attrs.sbBean.siblingAL.size()},personSBirthdate#{cc.attrs.sbBean.siblingAL.size()},personSGender#{cc.attrs.sbBean.siblingAL.size()},sButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                </p:autoComplete>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSFirstName#{cc.attrs.sbBean.siblingAL.size()}"
+                                               value="Sibling First Name:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:autoComplete id="personSFirstName#{cc.attrs.sbBean.siblingAL.size()}"
+                                                label="Sibling First Name"
+                                                value="#{siblings.firstName}"
+                                                completeMethod="#{autoComplete.completePersonFirstName}"
+                                                valueChangeListener="#{personType.sbType(siblingsLoop.index)}"
+                                                emptyMessage="no records found."
+                                                queryDelay="500"
+                                                scrollHeight="200"
+                                                placeholder="#{personDataComp.personProfileList[personDataComp.indexList].firstName}"
+                                                onclick="this.select()"
+                                                disabled="#{empty siblings.personTypeId}"
+                                                onblur="value = value.toUpperCase()">
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            update="personSLastName#{cc.attrs.sbBean.siblingAL.size()},personSMiddleName#{cc.attrs.sbBean.siblingAL.size()},personSBirthdate#{cc.attrs.sbBean.siblingAL.size()},personSGender#{cc.attrs.sbBean.siblingAL.size()},sButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            update="personSLastName#{cc.attrs.sbBean.siblingAL.size()},personSMiddleName#{cc.attrs.sbBean.siblingAL.size()},personSBirthdate#{cc.attrs.sbBean.siblingAL.size()},personSGender#{cc.attrs.sbBean.siblingAL.size()},sButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                </p:autoComplete>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSMiddleName#{cc.attrs.sbBean.siblingAL.size()}"
+                                               value="Sibling Middle Name:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:autoComplete id="personSMiddleName#{cc.attrs.sbBean.siblingAL.size()}"
+                                                label="Sibling Middle Name"
+                                                value="#{siblings.middleName}"
+                                                completeMethod="#{autoComplete.completePersonMiddleName}"
+                                                valueChangeListener="#{personType.sbType(siblingsLoop.index)}"
+                                                emptyMessage="no records found."
+                                                queryDelay="500"
+                                                scrollHeight="200"
+                                                placeholder="#{personDataComp.personProfileList[personDataComp.indexList].middleName}"
+                                                onclick="this.select()"
+                                                disabled="#{empty siblings.personTypeId}"
+                                                onblur="value = value.toUpperCase()">
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            update="personSLastName#{cc.attrs.sbBean.siblingAL.size()},personSFirstName#{cc.attrs.sbBean.siblingAL.size()},personSBirthdate#{cc.attrs.sbBean.siblingAL.size()},personSGender#{cc.attrs.sbBean.siblingAL.size()},sButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            update="personSLastName#{cc.attrs.sbBean.siblingAL.size()},personSFirstName#{cc.attrs.sbBean.siblingAL.size()},personSBirthdate#{cc.attrs.sbBean.siblingAL.size()},personSGender#{cc.attrs.sbBean.siblingAL.size()},sButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                </p:autoComplete>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSBirthdate#{cc.attrs.sbBean.siblingAL.size()}"
+                                               value="Sibling Birthdate:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:calendar id="personSBirthdate#{cc.attrs.sbBean.siblingAL.size()}" 
+                                            label="Sibling Birthdate"
+                                            value="#{siblings.birthdate}"
+                                            yearRange="#{customDate.start()}:#{customDate.endBirthdate()}" 
+                                            pagedate="-18y"
+                                            pattern="MMM dd yyyy"
+                                            navigator="true" 
+                                            size="11"
+                                            style="width: 110px"
+                                            disabled="#{empty siblings.personTypeId}">
+                                    <f:convertDateTime pattern="MMM dd yyyy"/>
+                                    <p:ajax process="@this"
+                                            event="dateSelect"/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSGender#{cc.attrs.sbBean.siblingAL.size()}"
+                                               value="Sibling Gender:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:selectOneRadio id="personSGender#{cc.attrs.sbBean.siblingAL.size()}"
+                                                  label="Sibling Gender"
+                                                  value="#{siblings.gender}"
+                                                  disabled="#{empty siblings.personTypeId}">
+                                    <f:selectItem itemLabel="MALE&nbsp;&nbsp;&nbsp;" 
+                                                  itemValue="M"/>
+                                    <f:selectItem itemLabel="FEMALE&nbsp;&nbsp;&nbsp;" 
+                                                  itemValue="F"/>
+                                    <p:ajax process="@this"/>
+                                </p:selectOneRadio>
+                            </div>
+                        </div>
+                    </p:panel>
+                    <p:panel id="sButtonPanel"
+                             style="border-color: white">
+                        <p:commandButton value="Previous"
+                                         icon="ui-icon-arrowthick-1-w"
+                                         disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq 0)}"
+                                         style="margin-right: 7px;">
+                            <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList - 1)}"
+                                    update=":#{p:component('sPanel')}, sButtonPanel"/>
+                        </p:commandButton>
+                        <p:commandButton value="Next"
+                                         icon="ui-icon-arrowthick-1-e"
+                                         iconPos="right"
+                                         disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq (personDataComp.personProfileList.size() - 1))}"
+                                         style="margin-right: 7px;">
+                            <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList + 1)}" 
+                                    update=":#{p:component('sPanel')}, sButtonPanel"/>
+                        </p:commandButton>
+                    </p:panel>
+                </p:row>
+            </ui:repeat>            
+            <p:commandButton value="siblings data"
+                             actionListener="#{cc.attrs.sbBean.addSiblings}"
+                             update=":#{p:component('relationPanel')},:#{p:component('growl')}"
+                             icon="ui-icon-plus"
+                             styleClass="ui-btn ui-shadow ui-corner-all"
+                             rendered="#{cc.attrs.sbBean.siblingAL.size() lt 12}"/>
+        </p:panel>
+    </composite:implementation>
+</html>
+

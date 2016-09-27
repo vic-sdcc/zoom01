@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="education"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="educationPanel"
+                 style="border: transparent">
+            <ui:repeat var="educ" 
+                       value="#{cc.attrs.education.educInfoAL}" 
+                       varStatus="educLoop">
+                <p:row rendered="#{cc.attrs.education.educInfoAL.size() gt 0}">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="education data"
+                                             actionListener="#{cc.attrs.education.removeEducation(educLoop.index)}" 
+                                             immediate="true"
+                                             update=":#{p:component('educationPanel')}"
+                                             icon="ui-icon-minus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="schoolName#{cc.attrs.education.educInfoAL.size()}" 
+                                           value="School Name:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="schoolName#{cc.attrs.education.educInfoAL.size()}" 
+                                         label="School Name#{educLoop.index}"
+                                         value="#{educ.schoolName}"
+                                         onblur="value = value.toUpperCase()"
+                                         style="width: 300px"
+                                         required="true">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="course#{cc.attrs.education.educInfoAL.size()}"
+                                           value="Course:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="course#{cc.attrs.education.educInfoAL.size()}"
+                                         label="Course#{educLoop.index}"
+                                         value="#{educ.course}"
+                                         onblur="value = value.toUpperCase()">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="yearLastAttended#{cc.attrs.education.educInfoAL.size()}"
+                                           value="Year Last Attended:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputMask id="yearLastAttended#{cc.attrs.education.educInfoAL.size()}"
+                                         label="Year Last Attended#{educLoop.index}"
+                                         value="#{educ.yearLastAttended}"
+                                         mask="9999"
+                                         size="4"
+                                         style="width: 40px">
+                                <p:ajax process="@this"
+                                        event="keyup"/>
+                            </p:inputMask>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="schoolLevel#{cc.attrs.education.educInfoAL.size()}"
+                                           value="Level:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectOneMenu id="schoolLevel#{cc.attrs.education.educInfoAL.size()}"
+                                             label="School Level#{educLoop.index}"
+                                             value="#{educ.schoolLevel}"
+                                             style="width: 200px"
+                                             required="true">
+                                <p:ajax process="@this"
+                                        event="change"/>
+                                <f:selectItem itemLabel="" 
+                                              itemValue="" 
+                                              noSelectionOption="true"/>
+                                <f:selectItem itemLabel="POST-GRADUATE" 
+                                              itemValue="POST-GRADUATE"/>
+                                <f:selectItem itemLabel="VOCATIONAL" 
+                                              itemValue="VOCATIONAL"/>
+                                <f:selectItem itemLabel="COLLEGE" 
+                                              itemValue="COLLEGE"/>
+                                <f:selectItem itemLabel="HIGH SCHOOL" 
+                                              itemValue="HIGH SCHOOL"/>
+                                <f:selectItem itemLabel="ELEMENTARY" 
+                                              itemValue="ELEMENTARY"/>
+                                <f:selectItem itemLabel="NO DATA" 
+                                              itemValue="NO DATA"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel for="graduated#{cc.attrs.education.educInfoAL.size()}"
+                                           value="Graduated:"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:selectBooleanCheckbox id="graduated#{cc.attrs.education.educInfoAL.size()}"
+                                                     label="Graduated#{educLoop.index}"
+                                                     value="#{educ.graduated}">
+                                <p:ajax process="@this"/>
+                            </p:selectBooleanCheckbox>
+                        </div>
+                    </div>
+                </p:row>
+            </ui:repeat>
+            <p:commandButton value="education data"
+                             actionListener="#{cc.attrs.education.addEducation}" 
+                             update=":#{p:component('educationPanel')},:#{p:component('growl')}"
+                             icon="ui-icon-plus" 
+                             styleClass="ui-btn ui-shadow ui-corner-all"
+                             rendered="#{cc.attrs.education.educInfoAL.size() lt 12}"/>
+            <p:separator/>
+        </p:panel>
+    </composite:implementation>
+</html>
+

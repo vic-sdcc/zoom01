@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+
+    </composite:interface>
+    <composite:implementation>
+        <p:commandButton id="p1"
+                         value="Previous"
+                         icon="ui-icon-arrowthick-1-w"
+                         onclick="PF('wizard1WidgetVar').back()"
+                         type="button"
+                         style="margin-right: 7px"
+                         styleClass="ui-btn ui-shadow ui-corner-all"
+                         disabled="#{tabs.previous1 or tabs.created}">
+            <p:ajax update=":wizardForm"/>
+        </p:commandButton>
+        <p:commandButton id="n1"
+                         value="Next"
+                         icon="ui-icon-arrowthick-1-e"
+                         iconPos="right"
+                         onclick="PF('wizard1WidgetVar').next()"
+                         type="button"
+                         style="margin-right: 7px"
+                         styleClass="ui-btn ui-shadow ui-corner-all"
+                         disabled="#{tabs.next1}">
+            <p:ajax update=":wizardForm"/>
+        </p:commandButton>
+    </composite:implementation>
+</html>

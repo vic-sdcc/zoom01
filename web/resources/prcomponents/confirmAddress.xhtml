@@ -1,0 +1,350 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="pan"/>
+        <composite:attribute name="addlA"/>
+        <composite:attribute name="bean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="addressPanelC"
+                 style="border: white">
+            <h4>
+                <p:outputLabel value="Address Information"/>
+            </h4>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Residence Type:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.bean.residenceTypeConv(cc.attrs.member.residenceType)}" 
+                                   rendered="#{not empty cc.attrs.member.residenceType}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.residenceType}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Street:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.street}" 
+                                   rendered="#{not empty cc.attrs.applicant.street}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.street}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Barangay:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.barangay}" 
+                                   rendered="#{not empty cc.attrs.applicant.barangay}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.barangay}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="City/Municipality:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.cityMun}" 
+                                   rendered="#{not empty cc.attrs.applicant.cityMun}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.cityMun}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Province:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.province}" 
+                                   rendered="#{not empty cc.attrs.applicant.province}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.province}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="ZIP Code:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.zipCode}" 
+                                   rendered="#{not empty cc.attrs.member.zipCode}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.zipCode}"/> 
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Region:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.region}" 
+                                   rendered="#{not empty cc.attrs.applicant.region}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.region}"/> 
+                </div>
+            </div>
+            <p:panel id="addlAddressPanel"
+                     style="border: white">
+                <h4>
+                    <p:outputLabel value="Additional Addresses Information"/>
+                </h4>
+                <p:panel id="alternateAddress"
+                         style="border: white">
+                    <h4>
+                        <p:outputLabel value="Alternate Address"/>
+                    </h4>
+                    <p:outputLabel value="no data found."
+                                   rendered="#{not cc.attrs.pan.add2}"/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Street:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[0].street}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[0].street and cc.attrs.pan.add2}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[0].street and cc.attrs.pan.add2}"/> 
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Barangay:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[0].barangay}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[0].barangay and cc.attrs.pan.add2}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[0].barangay and cc.attrs.pan.add2}"/> 
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="City/Municipality:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[0].cityMun}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[0].cityMun and cc.attrs.pan.add2}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[0].cityMun and cc.attrs.pan.add2}"/> 
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Province:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[0].province}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[0].province and cc.attrs.pan.add2}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[0].province and cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="ZIP Code:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[0].zipcode}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[0].zipcode and cc.attrs.pan.add2}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[0].zipcode and cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Region:"
+                                           rendered="#{cc.attrs.pan.add2}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[0].region}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[0].region and cc.attrs.pan.add2}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[0].region and cc.attrs.pan.add2}"/>
+                        </div>
+                    </div>
+                </p:panel>
+                <p:panel id="previousAddress"
+                         style="border: white">
+                    <h4>
+                        <p:outputLabel value="Previous Address"/>
+                    </h4>
+                    <p:outputLabel value="no data found."
+                                   rendered="#{not cc.attrs.pan.add3}"/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Street:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[1].street}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[1].street and cc.attrs.pan.add3}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[1].street and cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Barangay:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[1].barangay}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[1].barangay and cc.attrs.pan.add3}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[1].barangay and cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="City/Municipality:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[1].cityMun}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[1].cityMun and cc.attrs.pan.add3}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[1].cityMun and cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Province:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[1].province}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[1].province and cc.attrs.pan.add3}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[1].province and cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="ZIP Code:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[1].zipcode}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[1].zipcode and cc.attrs.pan.add3}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[1].zipcode and cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Region:"
+                                           rendered="#{cc.attrs.pan.add3}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[1].region}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[1].region and cc.attrs.pan.add3}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[1].region and cc.attrs.pan.add3}"/>
+                        </div>
+                    </div>
+                </p:panel>
+                <p:panel id="provincialAddress"
+                         style="border: white">
+                    <h4>
+                        <p:outputLabel value="Provincial Address"/>
+                    </h4>
+                    <p:outputLabel value="no data found."
+                                   rendered="#{not cc.attrs.pan.add4}"/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Street:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[2].street}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[2].street and cc.attrs.pan.add4}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[2].street and cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Barangay:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[2].barangay}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[2].barangay and cc.attrs.pan.add4}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[2].barangay and cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="City/Municipality:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[2].cityMun}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[2].cityMun and cc.attrs.pan.add4}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[2].cityMun and cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Province:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[2].province}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[2].province and cc.attrs.pan.add4}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[2].province and cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="ZIP Code:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[2].zipcode}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[2].zipcode and cc.attrs.pan.add4}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[2].zipcode and cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:outputLabel value="Region:"
+                                           rendered="#{cc.attrs.pan.add4}"/>
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:outputLabel value="#{cc.attrs.addlA.addlAddressAL[2].region}" 
+                                           rendered="#{not empty cc.attrs.addlA.addlAddressAL[2].region and cc.attrs.pan.add4}"/>
+                            <p:outputLabel value="-" 
+                                           rendered="#{empty cc.attrs.addlA.addlAddressAL[2].region and cc.attrs.pan.add4}"/>
+                        </div>
+                    </div>
+                </p:panel>
+            </p:panel>
+        </p:panel>
+    </composite:implementation>
+</html>
+

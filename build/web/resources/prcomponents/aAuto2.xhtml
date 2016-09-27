@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="dataComp"/>
+        <composite:attribute name="autoComplete"/>
+        <composite:attribute name="lsnr" method-signature="java.lang.String action()"/>
+        <composite:attribute name="nvgt" method-signature="java.lang.String action()"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="associatePanel"
+                 style="border-color: white">
+            <div class="ui-grid ui-grid-responsive">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel for="memNoA" 
+                                       value="Member No.:"/>
+                    </div>
+                    <div class="ui-grid-col-2">
+                        <p:autoComplete id="memNoA"
+                                        label="Member No."
+                                        value="#{cc.attrs.dataComp.memNo}" 
+                                        completeMethod="#{cc.attrs.autoComplete.completeMemNoA}"
+                                        emptyMessage="no records found."
+                                        queryDelay="500"
+                                        scrollHeight="200"
+                                        placeholder="#{cc.attrs.dataComp.memProfileList[cc.attrs.dataComp.indexList].memNo}"
+                                        onclick="this.select()">
+                            <p:ajax process="@this" 
+                                    event="itemSelect" 
+                                    update=":#{p:component('lastNameA')}, :#{p:component('firstNameA')}, :#{p:component('middleNameA')}, :#{p:component('addressA')}, buttonPanel" 
+                                    listener="#{cc.attrs.dataComp.memberComplete()}"/>
+                            <p:ajax process="@this" 
+                                    event="keyup" 
+                                    update=":#{p:component('lastNameA')}, :#{p:component('firstNameA')}, :#{p:component('middleNameA')}, :#{p:component('addressA')}, buttonPanel" 
+                                    listener="#{cc.attrs.dataComp.memberComplete()}"/>
+                            <p:ajax process="@this" 
+                                    event="itemSelect" 
+                                    listener="#{cc.attrs.dataComp.setIndexList(0)}"/>
+                            <p:ajax process="@this" 
+                                    event="keyup" 
+                                    listener="#{cc.attrs.dataComp.setIndexList(0)}"/>
+                        </p:autoComplete>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel for="lastNameA" 
+                                       value="Last Name:"/>
+                    </div>
+                    <div class="ui-grid-col-2">
+                        <p:autoComplete id="lastNameA"
+                                        label="Last Name"
+                                        value="#{cc.attrs.dataComp.lastName}" 
+                                        completeMethod="#{cc.attrs.autoComplete.completeLastNameA}"
+                                        emptyMessage="no records found."
+                                        queryDelay="500"
+                                        scrollHeight="200"
+                                        placeholder="#{cc.attrs.dataComp.memProfileList[cc.attrs.dataComp.indexList].lastName}"
+                                        onclick="this.select()">
+                            <p:ajax process="@this" 
+                                    event="itemSelect" 
+                                    update=":#{p:component('memNoA')}, :#{p:component('firstNameA')}, :#{p:component('middleNameA')}, :#{p:component('addressA')}, buttonPanel" 
+                                    listener="#{cc.attrs.dataComp.memberComplete()}"/>
+                            <p:ajax process="@this" 
+                                    event="keyup" 
+                                    update=":#{p:component('memNoA')}, :#{p:component('firstNameA')}, :#{p:component('middleNameA')}, :#{p:component('addressA')}, buttonPanel" 
+                                    listener="#{cc.attrs.dataComp.memberComplete()}"/>
+                            <p:ajax process="@this"
+                                    event="itemSelect" 
+                                    listener="#{cc.attrs.dataComp.setIndexList(0)}"/>
+                            <p:ajax process="@this" 
+                                    event="keyup" 
+                                    listener="#{cc.attrs.dataComp.setIndexList(0)}"/>
+                        </p:autoComplete>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel for="firstNameA" 
+                                       value="First Name:"/>
+                    </div>
+                    <div class="ui-grid-col-2">
+                        <p:autoComplete id="firstNameA"
+                                        label="First Name"
+                                        value="#{cc.attrs.dataComp.firstName}" 
+                                        completeMethod="#{cc.attrs.autoComplete.completeFirstNameA}"
+                                        emptyMessage="no records found."
+                                        queryDelay="500"
+                                        scrollHeight="200"
+                                        placeholder="#{cc.attrs.dataComp.memProfileList[cc.attrs.dataComp.indexList].firstName}"
+                                        onclick="this.select()">
+                            <p:ajax process="@this" 
+                                    event="itemSelect" 
+                                    update=":#{p:component('lastNameA')}, :#{p:component('memNoA')}, :#{p:component('middleNameA')}, :#{p:component('addressA')}, buttonPanel" 
+                                    listener="#{cc.attrs.dataComp.memberComplete()}"/>
+                            <p:ajax process="@this" 
+                                    event="keyup" 
+                                    update=":#{p:component('lastNameA')}, :#{p:component('memNoA')}, :#{p:component('middleNameA')}, :#{p:component('addressA')}, buttonPanel" 
+                                    listener="#{cc.attrs.dataComp.memberComplete()}"/>
+                            <p:ajax process="@this"
+                                    event="itemSelect" 
+                                    listener="#{cc.attrs.dataComp.setIndexList(0)}"/>
+                            <p:ajax process="@this" 
+                                    event="keyup" 
+                                    listener="#{cc.attrs.dataComp.setIndexList(0)}"/>
+                        </p:autoComplete>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel for="middleNameA" 
+                                       value="Middle Name:"/>
+                    </div>
+                    <div class="ui-grid-col-2">
+                        <p:autoComplete id="middleNameA"
+                                        label="Middle Name"
+                                        value="#{cc.attrs.dataComp.middleName}" 
+                                        completeMethod="#{cc.attrs.autoComplete.completeMiddleNameA}"
+                                        emptyMessage="no records found."
+                                        queryDelay="500"
+                                        scrollHeight="200"
+                                        placeholder="#{cc.attrs.dataComp.memProfileList[cc.attrs.dataComp.indexList].middleName}"
+                                        onclick="this.select()">
+                            <p:ajax process="@this" 
+                                    event="itemSelect" 
+                                    update=":#{p:component('lastNameA')}, :#{p:component('firstNameA')}, :#{p:component('memNoA')}, :#{p:component('addressA')}, buttonPanel" 
+                                    listener="#{cc.attrs.dataComp.memberComplete()}"/>
+                            <p:ajax process="@this" 
+                                    event="keyup" 
+                                    update=":#{p:component('lastNameA')}, :#{p:component('firstNameA')}, :#{p:component('memNoA')}, :#{p:component('addressA')}, buttonPanel" 
+                                    listener="#{cc.attrs.dataComp.memberComplete()}"/>
+                            <p:ajax process="@this" 
+                                    event="itemSelect" 
+                                    listener="#{cc.attrs.dataComp.setIndexList(0)}"/>
+                            <p:ajax process="@this" 
+                                    event="keyup" 
+                                    listener="#{cc.attrs.dataComp.setIndexList(0)}"/>
+                        </p:autoComplete>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel for="addressA" 
+                                       value="Address:"/>
+                    </div>
+                    <div class="ui-grid-col-10">
+                        <p:outputLabel id="addressA" 
+                                       value="#{cc.attrs.dataComp.memProfileList[cc.attrs.dataComp.indexList].street} #{cc.attrs.dataComp.memProfileList[cc.attrs.dataComp.indexList].barangay} #{cc.attrs.dataComp.memProfileList[cc.attrs.dataComp.indexList].cityMun} #{cc.attrs.dataComp.memProfileList[cc.attrs.dataComp.indexList].province}"/>
+                    </div>
+                </div>
+            </div>
+        </p:panel>
+        <p:panel id="buttonPanel"
+                 style="border-color: white">
+            <p:commandButton value="Select"
+                             id="confirmBtnA"
+                             icon="ui-icon-check"
+                             immediate="true" 
+                             disabled="#{empty cc.attrs.dataComp.memProfileList}"
+                             style="margin-right: 7px;">
+                <p:ajax listener="#{cc.attrs.lsnr}"/>
+                <p:ajax listener="#{cc.attrs.nvgt}"/>
+                <p:ajax listener="#{pageController.beanclear()}"/>
+                <p:ajax listener="#{memberData.beanclear()}"/>
+            </p:commandButton>
+            <p:commandButton value="Cancel"
+                             id="cancelBtnA"
+                             icon="ui-icon-cancel"
+                             disabled="#{empty cc.attrs.dataComp.memProfileList or cc.attrs.dataComp.memProfileList.size() eq 0}"
+                             style="margin-right: 7px;">
+                <p:ajax listener="#{cc.attrs.dataComp.beanclear()}" 
+                        update=":#{p:component('associatePanel')}, buttonPanel"/>
+            </p:commandButton>
+            <p:commandButton value="Previous"
+                             id="previousBtnA"
+                             icon="ui-icon-arrowthick-1-w"
+                             disabled="#{empty cc.attrs.dataComp.memProfileList or cc.attrs.dataComp.memProfileList.size() eq 0 or (cc.attrs.dataComp.indexList eq 0)}"
+                             style="margin-right: 7px;">
+                <p:ajax listener="#{cc.attrs.dataComp.setIndexList(cc.attrs.dataComp.indexList - 1)}" 
+                        update=":#{p:component('associatePanel')}, buttonPanel"/>
+            </p:commandButton>
+            <p:commandButton value="Next"
+                             id="nextBtnA"
+                             icon="ui-icon-arrowthick-1-e"
+                             iconPos="right"
+                             disabled="#{empty cc.attrs.dataComp.memProfileList or cc.attrs.dataComp.memProfileList.size() eq 0 or (cc.attrs.dataComp.indexList eq (cc.attrs.dataComp.memProfileList.size() - 1))}"
+                             style="margin-right: 7px;">
+                <p:ajax listener="#{cc.attrs.dataComp.setIndexList(cc.attrs.dataComp.indexList + 1)}" 
+                        update=":#{p:component('associatePanel')}, buttonPanel"/>
+            </p:commandButton>
+        </p:panel>
+    </composite:implementation>
+</html>
+

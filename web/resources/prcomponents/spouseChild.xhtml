@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="spBean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="familyPanel"
+                 style="border-color: white">
+            <ui:repeat var="spouse"
+                       value="#{cc.attrs.spBean.spouseAL}"
+                       varStatus="spouseLoop">
+                <p:row rendered="#{cc.attrs.spBean.spouseAL.size() gt 0}">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="family data"
+                                             actionListener="#{cc.attrs.spBean.removeSpouse(spouseLoop.index)}" 
+                                             immediate="true"
+                                             update=":#{p:component('relationPanel')}"
+                                             icon="ui-icon-minus"
+                                             styleClass="ui-btn ui-shadow ui-corner-all"/>
+                        </div>
+                    </div>
+                    <p:panel id="spPanel"
+                             style="border-color: white">
+                        <br/>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Person Type:"/>
+                            </div>
+                            <div class="ui-grid-col-4">
+                                <p:selectOneRadio value="#{spouse.personTypeId}"
+                                                  valueChangeListener="#{personType.spType(spouseLoop.index)}">
+                                    <f:selectItem itemLabel="REGULAR&nbsp;&nbsp;&nbsp;" 
+                                                  itemValue="1"/>
+                                    <f:selectItem itemLabel="ASSOCIATE&nbsp;&nbsp;&nbsp;"
+                                                  itemValue="2"/>
+                                    <f:selectItem itemLabel="NON-MEMBER&nbsp;&nbsp;&nbsp;"
+                                                  itemValue="3"/>
+                                    <p:ajax process="@this"
+                                            update=":#{p:component('spPanel')}"
+                                            listener="#{personDataComp.clearMe()}"/>
+                                </p:selectOneRadio>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSPLastName#{cc.attrs.spBean.spouseAL.size()}"
+                                               value="Spouse/Partner Last Name:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:autoComplete id="personSPLastName#{cc.attrs.spBean.spouseAL.size()}"
+                                                label="Spouse/Partner Last Name"
+                                                value="#{spouse.lastName}"
+                                                completeMethod="#{autoComplete.completePersonLastName}"
+                                                valueChangeListener="#{personType.spType(spouseLoop.index)}"
+                                                emptyMessage="no records found."
+                                                queryDelay="500"
+                                                scrollHeight="200"
+                                                placeholder="#{personDataComp.personProfileList[personDataComp.indexList].lastName}"
+                                                onclick="this.select()"
+                                                disabled="#{empty spouse.personTypeId}"
+                                                onblur="value = value.toUpperCase()">
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            update="personSPFirstName#{cc.attrs.spBean.spouseAL.size()},personSPMiddleName#{cc.attrs.spBean.spouseAL.size()},personSPBirthdate#{cc.attrs.spBean.spouseAL.size()},spButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            update="personSPFirstName#{cc.attrs.spBean.spouseAL.size()},personSPMiddleName#{cc.attrs.spBean.spouseAL.size()},personSPBirthdate#{cc.attrs.spBean.spouseAL.size()},spButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                </p:autoComplete>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSPFirstName#{cc.attrs.spBean.spouseAL.size()}"
+                                               value="Spouse/Partner First Name:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:autoComplete id="personSPFirstName#{cc.attrs.spBean.spouseAL.size()}"
+                                                label="Spouse/Partner First Name"
+                                                value="#{spouse.firstName}"
+                                                completeMethod="#{autoComplete.completePersonFirstName}"
+                                                valueChangeListener="#{personType.spType(spouseLoop.index)}"
+                                                emptyMessage="no records found."
+                                                queryDelay="500"
+                                                scrollHeight="200"
+                                                placeholder="#{personDataComp.personProfileList[personDataComp.indexList].firstName}"
+                                                onclick="this.select()"
+                                                disabled="#{empty spouse.personTypeId}"
+                                                onblur="value = value.toUpperCase()">
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            update="personSPLastName#{cc.attrs.spBean.spouseAL.size()},personSPMiddleName#{cc.attrs.spBean.spouseAL.size()},personSPBirthdate#{cc.attrs.spBean.spouseAL.size()},spButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            update="personSPLastName#{cc.attrs.spBean.spouseAL.size()},personSPMiddleName#{cc.attrs.spBean.spouseAL.size()},personSPBirthdate#{cc.attrs.spBean.spouseAL.size()},spButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                </p:autoComplete>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSPMiddleName#{cc.attrs.spBean.spouseAL.size()}"
+                                               value="Spouse/Partner Middle Name:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:autoComplete id="personSPMiddleName#{cc.attrs.spBean.spouseAL.size()}"
+                                                label="Spouse/Partner Middle Name"
+                                                value="#{spouse.middleName}"
+                                                completeMethod="#{autoComplete.completePersonMiddleName}"
+                                                valueChangeListener="#{personType.spType(spouseLoop.index)}"
+                                                emptyMessage="no records found."
+                                                queryDelay="500"
+                                                scrollHeight="200"
+                                                placeholder="#{personDataComp.personProfileList[personDataComp.indexList].middleName}"
+                                                onclick="this.select()"
+                                                disabled="#{empty spouse.personTypeId}"
+                                                onblur="value = value.toUpperCase()">
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            update="personSPLastName#{cc.attrs.spBean.spouseAL.size()},personSPFirstName#{cc.attrs.spBean.spouseAL.size()},personSPBirthdate#{cc.attrs.spBean.spouseAL.size()},spButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            update="personSPLastName#{cc.attrs.spBean.spouseAL.size()},personSPFirstName#{cc.attrs.spBean.spouseAL.size()},personSPBirthdate#{cc.attrs.spBean.spouseAL.size()},spButtonPanel"
+                                            listener="#{personDataComp.personComplete()}"/>
+                                    <p:ajax process="@this"
+                                            event="itemSelect"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                    <p:ajax process="@this"
+                                            event="keyup"
+                                            listener="#{personDataComp.setIndexList(0)}"/>
+                                </p:autoComplete>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel for="personSPBirthdate#{cc.attrs.spBean.spouseAL.size()}"
+                                               value="Spouse/Partner Birthdate:"/>
+                            </div>
+                            <div class="ui-grid-col-2">
+                                <p:calendar id="personSPBirthdate#{cc.attrs.spBean.spouseAL.size()}" 
+                                            label="Spouse/Partner Birthdate"
+                                            value="#{spouse.birthdate}"
+                                            yearRange="#{customDate.start()}:#{customDate.endBirthdate()}" 
+                                            pagedate="-18y"
+                                            pattern="MMM dd yyyy"
+                                            navigator="true" 
+                                            size="11"
+                                            style="width: 110px"
+                                            disabled="#{empty spouse.personTypeId}">
+                                    <f:convertDateTime pattern="MMM dd yyyy"/>
+                                    <p:ajax process="@this"
+                                            event="dateSelect"/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                    </p:panel>
+                    <p:panel id="spButtonPanel"
+                             style="border-color: white">
+                        <p:commandButton value="Previous"
+                                         icon="ui-icon-arrowthick-1-w"
+                                         disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq 0)}"
+                                         style="margin-right: 7px;">
+                            <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList - 1)}"
+                                    update=":#{p:component('spPanel')}, spButtonPanel"/>
+                        </p:commandButton>
+                        <p:commandButton value="Next"
+                                         icon="ui-icon-arrowthick-1-e"
+                                         iconPos="right"
+                                         disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq (personDataComp.personProfileList.size() - 1))}"
+                                         style="margin-right: 7px;">
+                            <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList + 1)}" 
+                                    update=":#{p:component('spPanel')}, spButtonPanel"/>
+                        </p:commandButton>
+                    </p:panel>
+                    <p:panel id="childrenPanel"
+                             style="border-color: white">
+                        <ui:repeat var="children"
+                                   value="#{cc.attrs.spBean.newFamilyAL}"
+                                   varStatus="childrenLoop">
+                            <p:row rendered="#{childrenLoop.index lt cc.attrs.spBean.newFamilyAL[spouseLoop.index].size()}">
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">
+                                        <p:commandButton value="children data"
+                                                         actionListener="#{cc.attrs.spBean.removeChild(spouseLoop.index,childrenLoop.index)}" 
+                                                         immediate="true"
+                                                         update=":#{p:component('relationPanel')}"
+                                                         icon="ui-icon-minus"
+                                                         styleClass="ui-btn ui-shadow ui-corner-all"/>
+                                    </div>
+                                </div>
+                                <p:panel id="chPanel"
+                                         style="border-color: white">
+                                    <br/>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">
+                                            <p:outputLabel value="Person Type:"/>
+                                        </div>
+                                        <div class="ui-grid-col-4">
+                                            <p:selectOneRadio value="#{spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].personTypeId}"
+                                                              valueChangeListener="#{personType.cType(spouseLoop.index,childrenLoop.index)}">
+                                                <f:selectItem itemLabel="REGULAR&nbsp;&nbsp;&nbsp;" 
+                                                              itemValue="1"/>
+                                                <f:selectItem itemLabel="ASSOCIATE&nbsp;&nbsp;&nbsp;"
+                                                              itemValue="2"/>
+                                                <f:selectItem itemLabel="NON-MEMBER&nbsp;&nbsp;&nbsp;"
+                                                              itemValue="3"/>
+                                                <p:ajax process="@this"
+                                                        update=":#{p:component('chPanel')}"
+                                                        listener="#{personDataComp.clearMe()}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">
+                                            <p:outputLabel for="personCLastName#{spouseBean.newFamilyAL.size()}"
+                                                           value="Child Last Name:"/>
+                                        </div>
+                                        <div class="ui-grid-col-2">
+                                            <p:autoComplete id="personCLastName#{spouseBean.newFamilyAL.size()}"
+                                                            label="Child Last Name"
+                                                            value="#{spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].lastName}"
+                                                            completeMethod="#{autoComplete.completePersonLastName}"
+                                                            valueChangeListener="#{personType.cType(spouseLoop.index,childrenLoop.index)}"
+                                                            emptyMessage="no records found."
+                                                            queryDelay="500"
+                                                            scrollHeight="200"
+                                                            placeholder="#{personDataComp.personProfileList[personDataComp.indexList].lastName}"
+                                                            onclick="this.select()"
+                                                            disabled="#{empty spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].personTypeId}"
+                                                            onblur="value = value.toUpperCase()">
+                                                <p:ajax process="@this"
+                                                        event="itemSelect"
+                                                        update="personCFirstName#{spouseBean.newFamilyAL.size()},personCMiddleName#{spouseBean.newFamilyAL.size()},personCBirthdate#{spouseBean.newFamilyAL.size()},personCGender#{spouseBean.newFamilyAL.size()},chButtonPanel"
+                                                        listener="#{personDataComp.personComplete()}"/>
+                                                <p:ajax process="@this"
+                                                        event="keyup"
+                                                        update="personCFirstName#{spouseBean.newFamilyAL.size()},personCMiddleName#{spouseBean.newFamilyAL.size()},personCBirthdate#{spouseBean.newFamilyAL.size()},personCGender#{spouseBean.newFamilyAL.size()},chButtonPanel"
+                                                        listener="#{personDataComp.personComplete()}"/>
+                                                <p:ajax process="@this"
+                                                        event="itemSelect"
+                                                        listener="#{personDataComp.setIndexList(0)}"/>
+                                                <p:ajax process="@this"
+                                                        event="keyup"
+                                                        listener="#{personDataComp.setIndexList(0)}"/>
+                                            </p:autoComplete>
+                                        </div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">
+                                            <p:outputLabel for="personCFirstName#{spouseBean.newFamilyAL.size()}"
+                                                           value="Child First Name:"/>
+                                        </div>
+                                        <div class="ui-grid-col-2">
+                                            <p:autoComplete id="personCFirstName#{spouseBean.newFamilyAL.size()}"
+                                                            label="Child First Name"
+                                                            value="#{spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].firstName}"
+                                                            completeMethod="#{autoComplete.completePersonFirstName}"
+                                                            valueChangeListener="#{personType.cType(spouseLoop.index,childrenLoop.index)}"
+                                                            emptyMessage="no records found."
+                                                            queryDelay="500"
+                                                            scrollHeight="200"
+                                                            placeholder="#{personDataComp.personProfileList[personDataComp.indexList].firstName}"
+                                                            onclick="this.select()"
+                                                            disabled="#{empty spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].personTypeId}"
+                                                            onblur="value = value.toUpperCase()">
+                                                <p:ajax process="@this"
+                                                        event="itemSelect"
+                                                        update="personCLastName#{spouseBean.newFamilyAL.size()},personCMiddleName#{spouseBean.newFamilyAL.size()},personCBirthdate#{spouseBean.newFamilyAL.size()},personCGender#{spouseBean.newFamilyAL.size()},chButtonPanel"
+                                                        listener="#{personDataComp.personComplete()}"/>
+                                                <p:ajax process="@this"
+                                                        event="keyup"
+                                                        update="personCLastName#{spouseBean.newFamilyAL.size()},personCMiddleName#{spouseBean.newFamilyAL.size()},personCBirthdate#{spouseBean.newFamilyAL.size()},personCGender#{spouseBean.newFamilyAL.size()},chButtonPanel"
+                                                        listener="#{personDataComp.personComplete()}"/>
+                                                <p:ajax process="@this"
+                                                        event="itemSelect"
+                                                        listener="#{personDataComp.setIndexList(0)}"/>
+                                                <p:ajax process="@this"
+                                                        event="keyup"
+                                                        listener="#{personDataComp.setIndexList(0)}"/>
+                                            </p:autoComplete>
+                                        </div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">
+                                            <p:outputLabel for="personCMiddleName#{spouseBean.newFamilyAL.size()}"
+                                                           value="Child Middle Name:"/>
+                                        </div>
+                                        <div class="ui-grid-col-2">
+                                            <p:autoComplete id="personCMiddleName#{spouseBean.newFamilyAL.size()}"
+                                                            label="Child Middle Name"
+                                                            value="#{spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].middleName}"
+                                                            completeMethod="#{autoComplete.completePersonMiddleName}"
+                                                            valueChangeListener="#{personType.cType(spouseLoop.index,childrenLoop.index)}"
+                                                            emptyMessage="no records found."
+                                                            queryDelay="500"
+                                                            scrollHeight="200"
+                                                            placeholder="#{personDataComp.personProfileList[personDataComp.indexList].middleName}"
+                                                            onclick="this.select()"
+                                                            disabled="#{empty spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].personTypeId}"
+                                                            onblur="value = value.toUpperCase()">
+                                                <p:ajax process="@this"
+                                                        event="itemSelect"
+                                                        update="personCLastName#{spouseBean.newFamilyAL.size()},personCFirstName#{spouseBean.newFamilyAL.size()},personCBirthdate#{spouseBean.newFamilyAL.size()},personCGender#{spouseBean.newFamilyAL.size()},chButtonPanel"
+                                                        listener="#{personDataComp.personComplete()}"/>
+                                                <p:ajax process="@this"
+                                                        event="keyup"
+                                                        update="personCLastName#{spouseBean.newFamilyAL.size()},personCFirstName#{spouseBean.newFamilyAL.size()},personCBirthdate#{spouseBean.newFamilyAL.size()},personCGender#{spouseBean.newFamilyAL.size()},chButtonPanel"
+                                                        listener="#{personDataComp.personComplete()}"/>
+                                                <p:ajax process="@this"
+                                                        event="itemSelect"
+                                                        listener="#{personDataComp.setIndexList(0)}"/>
+                                                <p:ajax process="@this"
+                                                        event="keyup"
+                                                        listener="#{personDataComp.setIndexList(0)}"/>
+                                            </p:autoComplete>
+                                        </div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">
+                                            <p:outputLabel for="personCBirthdate#{spouseBean.newFamilyAL.size()}"
+                                                           value="Child Birthdate:"/>
+                                        </div>
+                                        <div class="ui-grid-col-2">
+                                            <p:calendar id="personCBirthdate#{spouseBean.newFamilyAL.size()}" 
+                                                        label="Child Birthdate"
+                                                        value="#{spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].birthdate}"
+                                                        yearRange="#{customDate.start()}:#{customDate.endBirthdate()}" 
+                                                        pagedate="-18y"
+                                                        pattern="MMM dd yyyy"
+                                                        navigator="true" 
+                                                        size="11"
+                                                        style="width: 110px"
+                                                        disabled="#{empty spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].personTypeId}">
+                                                <f:convertDateTime pattern="MMM dd yyyy"/>
+                                                <p:ajax process="@this"
+                                                        event="dateSelect"/>
+                                            </p:calendar>
+                                        </div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">
+                                            <p:outputLabel for="personCGender#{spouseBean.newFamilyAL.size()}"
+                                                           value="Child Gender:"/>
+                                        </div>
+                                        <div class="ui-grid-col-2">
+                                            <p:selectOneRadio id="personCGender#{spouseBean.newFamilyAL.size()}"
+                                                              label="Child Gender"
+                                                              value="#{spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].gender}"
+                                                              disabled="#{empty spouseBean.newFamilyAL[spouseLoop.index][childrenLoop.index].personTypeId}">
+                                                <f:selectItem itemLabel="MALE&nbsp;&nbsp;&nbsp;" 
+                                                              itemValue="M"/>
+                                                <f:selectItem itemLabel="FEMALE&nbsp;&nbsp;&nbsp;" 
+                                                              itemValue="F"/>
+                                                <p:ajax process="@this"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                                <p:panel id="chButtonPanel"
+                                         style="border-color: white">
+                                    <p:commandButton value="Previous"
+                                                     icon="ui-icon-arrowthick-1-w"
+                                                     disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq 0)}"
+                                                     style="margin-right: 7px;">
+                                        <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList - 1)}"
+                                                update=":#{p:component('chPanel')}, chButtonPanel"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="Next"
+                                                     icon="ui-icon-arrowthick-1-e"
+                                                     iconPos="right"
+                                                     disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq (personDataComp.personProfileList.size() - 1))}"
+                                                     style="margin-right: 7px;">
+                                        <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList + 1)}" 
+                                                update=":#{p:component('chPanel')}, chButtonPanel"/>
+                                    </p:commandButton>
+                                </p:panel>
+                            </p:row>
+                        </ui:repeat>
+                        <p:commandButton value="children data"
+                                         actionListener="#{cc.attrs.spBean.addChild(spouseLoop.index,childrenLoop.index)}"
+                                         update=":#{p:component('relationPanel')},:#{p:component('growl')}"
+                                         icon="ui-icon-plus"
+                                         styleClass="ui-btn ui-shadow ui-corner-all"
+                                         rendered="#{spouseBean.newFamilyAL.size() lt 12}"/>
+                        <br/><br/>
+                    </p:panel>
+                </p:row>
+            </ui:repeat>
+            <p:commandButton value="family data"
+                             actionListener="#{cc.attrs.spBean.addSpouse}"
+                             update=":#{p:component('relationPanel')},:#{p:component('growl')}"
+                             icon="ui-icon-plus"
+                             styleClass="ui-btn ui-shadow ui-corner-all"
+                             rendered="#{cc.attrs.spBean.spouseAL.size() lt 12}"/>
+        </p:panel>
+    </composite:implementation>
+</html>

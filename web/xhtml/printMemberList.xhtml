@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define id="mainContent" name="content">
+            <h:form id="mainForm">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+                <p:dialog widgetVar="statusDialog" showHeader="false" resizable="false">
+                    <p:graphicImage value="/resources/images/ajax_load.gif"/>
+                </p:dialog>
+                <p:outputLabel value="Print #{membershipType.memberType} Record List" style="font-weight: bold"/>
+                <br/>
+                <prcc:prForm id="prForm" member="#{membershipType.memberType eq 'Regular' ? memberData.memberViewList : associateData.associateViewList}"
+                             memberFilter="#{memberFilterData}"
+                             sortOrderString="#{sortOrderString}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define id="mainContent" name="content">
+            <h:form id="mainForm">
+                <prcc:printRecord id="printRecordR"
+                                  bean="#{dataConvert}"
+                                  member="#{memberData.member}"
+                                  address="#{addressData.addlAddressList}"
+                                  contact="#{contactsData.addlContactInfoList}"
+                                  education="#{educationData.educInfoList}"
+                                  skills="#{skillsData.skillsList}"
+                                  employment="#{employmentData.emplDtlList}"
+                                  business="#{businessData.bizInfoList}"
+                                  otherSoi="#{soiData.soiList}"
+                                  positionTenure="#{positionTenureData.positionTenureList}"
+                                  awards="#{awardsData.awardsList}"
+                                  rendered="#{not empty memberData.member.memNo}"/>
+                <prcc:printRecord id="printRecordA"
+                                  bean="#{dataConvert}"
+                                  member="#{associateData.associate}"
+                                  address="#{addressData.addlAddressList}"
+                                  contact="#{contactsData.addlContactInfoList}"
+                                  education="#{educationData.educInfoList}"
+                                  skills="#{skillsData.skillsList}"
+                                  employment="#{employmentData.emplDtlList}"
+                                  business="#{businessData.bizInfoList}"
+                                  otherSoi="#{soiData.soiList}"
+                                  positionTenure="#{positionTenureData.positionTenureList}"
+                                  awards="#{awardsData.awardsList}"
+                                  rendered="#{not empty associateData.associate.memNo}"/>
+                <p:commandButton value="Print"
+                                 icon="ui-icon-print"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-arrow-1-w"
+                                 style="margin-right: 7px;"
+                                 rendered="#{not empty memberData.member.memNo}">
+                    <p:printer target="printRecordR:memberPanel"/>
+                </p:commandButton>
+                <p:commandButton value="Print"
+                                 icon="ui-icon-print"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-arrow-1-w"
+                                 style="margin-right: 7px;"
+                                 rendered="#{not empty associateData.associate.memNo}">
+                    <p:printer target="printRecordA:memberPanel"/>
+                </p:commandButton>
+                <p:commandButton value="Cancel"
+                                 id="cancelBtnR"
+                                 icon="ui-icon-cancel"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-forbidden"
+                                 style="margin-right: 7px;">
+                    <p:ajax listener="#{navigation.viewRegular()}" disabled="#{empty memberData.member.memNo}"/>
+                    <p:ajax listener="#{navigation.viewAssociate()}" disabled="#{empty associateData.associate.memNo}"/>
+                </p:commandButton>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

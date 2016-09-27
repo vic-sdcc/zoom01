@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="bean"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="address"/>
+        <composite:attribute name="contact"/>
+        <composite:attribute name="education"/>
+        <composite:attribute name="skills"/>
+        <composite:attribute name="employment"/>
+        <composite:attribute name="business"/>
+        <composite:attribute name="otherSoi"/>
+        <composite:attribute name="positionTenure"/>
+        <composite:attribute name="awards"/>
+    </composite:interface>
+    <composite:implementation>
+        <h:panelGroup id="memberPanel" >
+            <p:panel id="fullPrint" style="border: white; font-size: small;">
+                <div style="margin: 0% auto; min-width: 100%;">
+                    <div style="margin: 0% auto; 
+                         position: relative; 
+                         width: 100%;
+                         font-size: small;">
+                        <br/>
+                        <br/>
+                        <center>
+                            <p:outputLabel style="font-size: small;" value="San Dionisio Credit Cooperative"/><br/>
+                            <p:outputLabel style="font-size: small;" value="0554 Quirino Avenue, San Dionisio, Paranaque City"/><br/>
+                            <p:outputLabel style="font-size: small;" value="www.sandionisiocredit.coop"/><br/>
+                            <br/><br/>
+                            <p:outputLabel style="font-size: small; font-weight: bold" value="MEMBER'S PROFILE"/>
+                        </center>
+                        <br/>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="personalPanel" style="border: white">
+                                <p:graphicImage>
+
+                                </p:graphicImage>
+                                <!--
+                                <p:signature label="Signature" 
+                                             widgetVar="sign" 
+                                             value="{signatureView.value}"
+                                             guideline="true"
+                                             required="true"
+                                             style="width: 400px; height: 200px"/>
+                                <-->
+                                <h:panelGrid style="font-size: small;" columns="2">
+                                    <p:outputLabel value="Fullname" style="font-weight: bold; margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{returnObject.fullname(cc.attrs.member.PPrefix, cc.attrs.member.lastName, cc.attrs.member.firstName, cc.attrs.member.middleName, cc.attrs.member.suffix)} "/>
+
+                                    <p:outputLabel value="Member Number" style="font-weight: bold; margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.memNo}"/>
+
+                                    <p:outputLabel value="Nickname" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.nickname}" rendered="#{not empty cc.attrs.member.nickname}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.nickname}"/>
+
+                                    <p:outputLabel value="Height(cm)" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.height}" rendered="#{not empty cc.attrs.member.height}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.height}"/>
+
+                                    <p:outputLabel value="Weight(kg)" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.weight}" rendered="#{not empty cc.attrs.member.weight}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.weight}"/>
+
+                                    <p:outputLabel value="Blood Type" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.blood}" rendered="#{not empty cc.attrs.member.blood}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.blood}"/>
+
+                                    <p:outputLabel value="Gender" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.bean.genderConv(cc.attrs.member.gender)}" rendered="#{not empty cc.attrs.member.gender}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.gender}"/>
+
+                                    <p:outputLabel value="Civil Status" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.bean.civilStatusConv(cc.attrs.member.civilStatus)}" rendered="#{not empty cc.attrs.member.civilStatus}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.civilStatus}"/>
+
+                                    <p:outputLabel value="Person Status" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.bean.personStatusConv(cc.attrs.member.personStatus)}" rendered="#{not empty cc.attrs.member.personStatus}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.personStatus}"/>
+
+                                    <p:outputLabel value="Nationality" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.bean.nationalityConv(cc.attrs.member.nationality)}" rendered="#{not empty cc.attrs.member.nationality}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.nationality}"/>
+
+                                    <p:outputLabel value="Religion" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.religion}" rendered="#{not empty cc.attrs.member.religion}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.religion}"/>
+
+                                    <p:outputLabel value="Birth Date" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{dateFormat.formatDate(cc.attrs.member.birthdate,'MMM dd yyyy')}" rendered="#{not empty cc.attrs.member.birthdate}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.birthdate}"/>
+
+                                    <p:outputLabel value="Birth Place" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.birthplace}" rendered="#{not empty cc.attrs.member.birthplace}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.birthplace}"/>
+
+                                    <p:outputLabel value="TIN" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.taxIdNo}" rendered="#{not empty cc.attrs.member.taxIdNo}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.taxIdNo}"/>
+
+                                    <p:outputLabel value="Pag-Ibig" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.pagIbig}" rendered="#{not empty cc.attrs.member.pagIbig}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.pagIbig}"/>
+
+                                    <p:outputLabel value="Philhealth" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.philhealth}" rendered="#{not empty cc.attrs.member.philhealth}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.philhealth}"/>
+
+                                    <p:outputLabel value="SSS" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.sss}" rendered="#{not empty cc.attrs.member.sss}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.sss}"/>
+
+                                    <p:outputLabel value="GSIS" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.gsis}" rendered="#{not empty cc.attrs.member.gsis}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.gsis}"/>
+                                </h:panelGrid> 
+                            </p:panel>
+                        </div>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="addressPanel" style="border: white">
+                                <h:panelGrid style="font-size: small;" columns="1">
+                                    <p:outputLabel value="Residence address" style="font-weight: bold"/>
+                                    <p:outputLabel value="#{cc.attrs.member.street} #{cc.attrs.member.barangay} #{cc.attrs.member.cityMun} #{cc.attrs.member.province}, #{cc.attrs.member.zipCode}"/>
+                                    <p:outputLabel value="Residence type : #{cc.attrs.bean.residenceTypeConv(cc.attrs.member.residenceType)}"/>
+                                    <br/>
+                                    <ui:repeat value="#{cc.attrs.address}" var="myAddresses">
+                                        <h:panelGrid columns="1" style="font-size: small">
+                                            <p:outputLabel value="#{returnObject.initCap(myAddresses.addressType)} address" style="font-weight: bold"/>
+                                            <p:outputLabel value="#{myAddresses.street} #{myAddresses.barangay} #{myAddresses.cityMun} #{myAddresses.province}, #{myAddresses.zipcode}"/>
+                                        </h:panelGrid>
+                                        <br/>
+                                    </ui:repeat>  
+                                </h:panelGrid>
+                            </p:panel>
+                        </div>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="contactPanel" style="border: white">
+                                <p:outputLabel value="Contacts " style="font-weight: bold;"/>
+                                <table style="font-size: small">
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel value="Mobile No." style="margin-right: 30px;"/>
+                                        </td>
+                                        <td>
+                                            <p:outputLabel value=": #{cc.attrs.member.contactNumber}" rendered="#{not empty cc.attrs.member.contactNumber}"/>
+                                            <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.contactNumber}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel value="Email" style="margin-right: 30px;"/>
+                                        </td>
+                                        <td>
+                                            <p:outputLabel value=": #{cc.attrs.member.email}" rendered="#{not empty cc.attrs.member.email}"/>
+                                            <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.email}"/>
+                                        </td>
+                                    </tr>
+                                    <ui:repeat value="#{cc.attrs.contact}" var="myContacts">
+                                        <tr>
+                                            <td>
+                                                <p:outputLabel value="#{cc.attrs.bean.contactTypeConv(myContacts.contactType)} " rendered="#{not empty myContacts.contactType}" style="margin-right: 30px;"/>
+                                                <p:outputLabel value="-" rendered="#{empty myContacts.contactType}" style="margin-right: 30px;"/>
+                                            </td>
+                                            <td>
+                                                <p:outputLabel value=": #{myContacts.contactDetail} " rendered="#{not empty myContacts.contactDetail}"/>
+                                                <p:outputLabel value=": -" rendered="#{empty myContacts.contactDetail}"/>
+                                            </td>
+                                        </tr>
+                                    </ui:repeat>
+                                </table>
+                            </p:panel>
+                        </div>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="emergencyPanel" style="border: white">
+                                <p:outputLabel value="Person to notify in-case of emergency " style="font-weight: bold;"/>
+                                <h:panelGrid style="font-size: small; page-break-before: auto; page-break-inside: avoid;" columns="2">
+                                    <p:outputLabel value="Name" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.notifyName}" rendered="#{not empty cc.attrs.member.notifyName}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.notifyName}"/>
+
+                                    <p:outputLabel value="Address" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.notifyAddress}" rendered="#{not empty cc.attrs.member.notifyAddress}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.notifyAddress}"/>
+
+                                    <p:outputLabel value="Phone" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.notifyPhone}" rendered="#{not empty cc.attrs.member.notifyPhone}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.notifyPhone}"/>
+
+                                    <p:outputLabel value="Relation" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.notifyRelation}" rendered="#{not empty cc.attrs.member.notifyRelation}"/>
+                                    <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.notifyRelation}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </div>
+                        <div>
+                            <p:panel id="educationPanel" style="border: white">
+                                <p:outputLabel value="Education Information " style="font-weight: bold;"/>
+                                <ui:repeat value="#{cc.attrs.education}" var="myEducation">
+                                    <h:panelGrid style="font-size: small; page-break-before: auto; page-break-inside: avoid;" columns="2" rendered="#{cc.attrs.education.size() gt 0}">
+                                        <p:outputLabel value="School Name" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEducation.schoolName}" rendered="#{not empty myEducation.schoolName}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEducation.schoolName}"/>
+
+                                        <p:outputLabel value="Course" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEducation.course}" rendered="#{not empty myEducation.course}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEducation.course}"/>
+
+                                        <p:outputLabel value="Last Year Attended" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEducation.yearLastAttended}" rendered="#{not empty myEducation.yearLastAttended}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEducation.yearLastAttended}"/>
+
+                                        <p:outputLabel value="Level" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEducation.schoolLevel}" rendered="#{not empty myEducation.schoolLevel}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEducation.schoolLevel}"/>
+
+                                        <p:outputLabel value="Graduated" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{cc.attrs.bean.graduatedConv(myEducation.graduated)}" rendered="#{not empty myEducation.graduated}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEducation.graduated}"/>
+                                    </h:panelGrid>
+                                    <br/>
+                                </ui:repeat>
+                                <p:outputLabel value="No records found." rendered="#{cc.attrs.education.size() lt 1}"/>
+                            </p:panel>
+                        </div>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="skillsPanel" style="border: white">
+                                <p:outputLabel value="Skills" style="font-weight: bold;"/>
+                                <h:panelGrid style="font-size: small;" columns="1">
+                                    <p:outputLabel value="#{returnObject.skillList(cc.attrs.skills)}" rendered="#{cc.attrs.skills.size() gt 0}"/>
+                                </h:panelGrid>
+                                <p:outputLabel value="No records found." rendered="#{cc.attrs.skills.size() lt 1}"/>
+                            </p:panel>
+                        </div>
+                        <div>
+                            <p:panel id="employmentPanel" style="border: white">
+                                <p:outputLabel value="Occupation " style="font-weight: bold;"/>
+                                <ui:repeat value="#{cc.attrs.employment}" var="myEmployment">
+                                    <h:panelGrid style="font-size: small; page-break-before: auto; page-break-inside: avoid;" columns="2" rendered="#{cc.attrs.employment.size() gt 0}">
+                                        <p:outputLabel value="Employer" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEmployment.emplBizName}" rendered="#{not empty myEmployment.emplBizName}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.emplBizName}"/>
+
+                                        <p:outputLabel value="Employer Contact No." style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEmployment.emplContactNo}" rendered="#{not empty myEmployment.emplContactNo}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.emplContactNo}"/>
+
+                                        <p:outputLabel value="Employer Email" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEmployment.emplEmail}" rendered="#{not empty myEmployment.emplEmail}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.emplEmail}"/>
+
+                                        <p:outputLabel value="Address" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEmployment.emplStreet} #{myEmployment.emplBarangay} #{myEmployment.emplCityMun}"/>
+
+                                        <p:outputLabel value="Employment Date" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{dateFormat.formatDate(myEmployment.employmentDate,'MMM dd yyyy')}" rendered="#{not empty myEmployment.employmentDate}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.employmentDate}"/>
+
+                                        <p:outputLabel value="Employment End Date" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{dateFormat.formatDate(myEmployment.employmentEndDate,'MMM dd yyyy')}" rendered="#{not empty myEmployment.employmentEndDate}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.employmentEndDate}"/>
+
+                                        <p:outputLabel value="Workplace Email Address" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEmployment.workplaceEmailAdd}" rendered="#{not empty myEmployment.workplaceEmailAdd}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.workplaceEmailAdd}"/>
+
+                                        <p:outputLabel value="Compensation" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEmployment.compBracket}" rendered="#{not empty myEmployment.compBracket}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.compBracket}"/>
+
+                                        <p:outputLabel value="Rank/Position" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEmployment.emplRankPos.unitName}" rendered="#{not empty myEmployment.emplRankPos.unitName}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.emplRankPos.unitName}"/>
+
+                                        <p:outputLabel value="Status" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myEmployment.employmentStat}" rendered="#{not empty myEmployment.employmentStat}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myEmployment.employmentStat}"/>
+                                    </h:panelGrid>
+                                    <br/>
+                                </ui:repeat>
+                                <p:outputLabel value="No records found." rendered="#{cc.attrs.employment.size() lt 1}"/>
+                            </p:panel>
+                        </div>
+                        <div>
+                            <p:panel id="businessPanel" style="border: white">
+                                <p:outputLabel value="Business " style="font-weight: bold;"/>
+                                <ui:repeat value="#{cc.attrs.business}" var="myBusiness">
+                                    <h:panelGrid style="font-size: small; page-break-before: auto; page-break-inside: avoid;" columns="2" rendered="#{cc.attrs.business.size() gt 0}">
+                                        <p:outputLabel value="Business" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myBusiness.bizName}" rendered="#{not empty myBusiness.bizName}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myBusiness.bizName}"/>
+
+                                        <p:outputLabel value="Established Date" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{dateFormat.formatDate(myBusiness.dateEstablished,'MMM dd yyyy')}" rendered="#{not empty myBusiness.dateEstablished}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myBusiness.dateEstablished}"/>
+
+                                        <p:outputLabel value="Date Dissolved" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{dateFormat.formatDate(myBusiness.dateDissolved,'MMM dd yyyy')}" rendered="#{not empty myBusiness.dateDissolved}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myBusiness.dateDissolved}"/>
+
+                                        <p:outputLabel value="Type" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myBusiness.bizType}" rendered="#{not empty myBusiness.bizType}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myBusiness.bizType}"/>
+
+                                        <p:outputLabel value="Contact No." style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myBusiness.bizContactNo}" rendered="#{not empty myBusiness.bizContactNo}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myBusiness.bizContactNo}"/>
+
+                                        <p:outputLabel value="Business Nature" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myBusiness.bizNature}" rendered="#{not empty myBusiness.bizNature}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myBusiness.bizNature}"/>
+
+                                        <p:outputLabel value="Compensation" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myBusiness.bizIncRange}" rendered="#{not empty myBusiness.bizIncRange}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myBusiness.bizIncRange}"/>
+
+                                        <p:outputLabel value="Business Address" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myBusiness.bizStreet} #{myBusiness.bizBarangay} #{myBusiness.bizCityMun}"/>
+                                    </h:panelGrid>
+                                    <br/>
+                                </ui:repeat>
+                                <p:outputLabel value="No records found." rendered="#{cc.attrs.business.size() lt 1}"/>
+                            </p:panel>
+                        </div>
+                        <div>
+                            <p:panel id="otehrSoiPanel" style="border: white">
+                                <p:outputLabel value="Other Source of Income " style="font-weight: bold;"/>
+                                <ui:repeat value="#{cc.attrs.otherSoi}" var="myOtherSoi" rendered="#{cc.attrs.otherSoi.size() gt 0}">
+                                    <div class="ui-grid-responsive" style="margin-left: 12px; page-break-before: auto; page-break-inside: avoid;">
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-2">
+                                                <p:outputLabel value="Type" style="margin-right: 30px;"/>
+                                            </div>
+                                            <div class="ui-grid-col-6">
+                                                <p:outputLabel value=": #{myOtherSoi.soiType}" rendered="#{not empty myOtherSoi.soiType}"/>
+                                                <p:outputLabel value=": -" rendered="#{empty myOtherSoi.soiType}"/>
+                                            </div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-2">
+                                                <p:outputLabel value="Regularity" style="margin-right: 30px;"/>
+                                            </div>
+                                            <div class="ui-grid-col-6">
+                                                <p:outputLabel value=": #{myOtherSoi.regularity}" rendered="#{not empty myOtherSoi.regularity}"/>
+                                                <p:outputLabel value=": -" rendered="#{empty myOtherSoi.regularity}"/>
+                                            </div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-2">
+                                                <p:outputLabel value="Source" style="margin-right: 30px;"/>
+                                            </div>
+                                            <div class="ui-grid-col-6">
+                                                <p:outputLabel value=": #{myOtherSoi.source}" rendered="#{not empty myOtherSoi.source}"/>
+                                                <p:outputLabel value=": -" rendered="#{empty myOtherSoi.source}"/>
+                                            </div>
+                                        </div>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-2">
+                                                <p:outputLabel value="Amount" style="margin-right: 30px;"/>
+                                            </div>
+                                            <div class="ui-grid-col-6">
+                                                <p:outputLabel value=": #{myOtherSoi.amount}" rendered="#{not empty myOtherSoi.amount}"/>
+                                                <p:outputLabel value=": -" rendered="#{empty myOtherSoi.amount}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </ui:repeat>
+                                <p:outputLabel value="No records found." rendered="#{cc.attrs.otherSoi.size() lt 1}"/>
+                            </p:panel>
+                        </div>
+                        <div>
+                            <p:panel id="positions" style="border: white">
+                                <p:outputLabel value="Positions " style="font-weight: bold;"/>
+                                <ui:repeat value="#{cc.attrs.positionTenure}" var="myPosition"> 
+                                    <h:panelGrid columns="2" style="font-size: small; page-break-before: auto; page-break-inside: avoid;">
+                                        <p:outputLabel value="Organization" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myPosition.memOuPosId.orgPosId.ouCode.ouLongName}"/>
+
+                                        <p:outputLabel value="Position" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myPosition.memOuPosId.orgPosId.positionId.positionName}"/> 
+
+                                        <p:outputLabel value="Tenure" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myPosition.tenureId.tenureValue}"/>
+
+                                        <p:outputLabel value="From: "/>
+                                        <p:outputLabel value=": #{dateFormat.formatDate(myPosition.termStart,'MMM dd yyyy')}"/>
+
+                                        <p:outputLabel value="To: "/>
+                                        <p:outputLabel value=": #{dateFormat.formatDate(myPosition.termEnd,'MMM dd yyyy')}" rendered="#{not empty myPosition.termEnd}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myPosition.termEnd and empty myPosition.termStart}"/>
+                                        <p:outputLabel value=": PRESENT" rendered="#{empty myPosition.termEnd and not empty myPosition.termStart }"/>
+                                    </h:panelGrid>
+                                    <br/>
+                                </ui:repeat>
+                                <p:outputLabel value="No records found." rendered="#{cc.attrs.positionTenure.size() lt 1}"/>
+                            </p:panel>
+                        </div>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="awardPanel" style="border: white">
+                                <p:outputLabel value="Awards and Recognitions " style="font-weight: bold;"/>
+                                <ui:repeat value="#{cc.attrs.awards}" var="myAwards">
+                                    <h:panelGrid style="font-size: small; page-break-before: auto; page-break-inside: avoid;" columns="2" rendered="#{cc.attrs.awards.size() gt 0}">
+                                        <p:outputLabel value="Award" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myAwards.awardTitle}" rendered="#{not empty myAwards.awardTitle}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myAwards.awardTitle}"/>
+
+                                        <p:outputLabel value="Year" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myAwards.awardsDate}" rendered="#{not empty myAwards.awardsDate}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myAwards.awardsDate}"/>
+
+                                        <p:outputLabel value="Details" style="margin-right: 30px;"/>
+                                        <p:outputLabel value=": #{myAwards.awardDetails}" rendered="#{not empty myAwards.awardDetails}"/>
+                                        <p:outputLabel value=": -" rendered="#{empty myAwards.awardDetails}" escape="true"/>
+                                    </h:panelGrid>
+                                </ui:repeat>
+                                <p:outputLabel value="No records found." rendered="#{cc.attrs.awards.size() lt 1}"/>
+                            </p:panel>
+                        </div>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="organizationPanel" style="border: white">
+                                <p:outputLabel value="Organization " style="font-weight: bold;"/>
+                                <h:panelGrid style="font-size: small; page-break-before: auto; page-break-inside: avoid;" columns="2">
+                                    <p:outputLabel value="Membership Date" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{dateFormat.formatDate(cc.attrs.member.memDate,'MMM dd yyyy')}"/>
+
+
+                                    <p:outputLabel value="Member No." style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.memNo}"/>
+
+
+                                    <p:outputLabel value="ID No." style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.memIdNo}"/>
+
+
+                                    <p:outputLabel value="SC Account No." style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.scAcctno}"/>
+
+                                    <p:outputLabel value="PT" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.ouCode.ouShortName}"/>
+
+                                    <p:outputLabel value="Membership Type" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.memberType}"/>
+
+                                    <p:outputLabel value="Member Status" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.statusId.statusName}"/>
+
+                                    <p:outputLabel value="Status Remarks" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{cc.attrs.member.memStatRem}"/>
+
+                                    <p:outputLabel value="Status Date" style="margin-right: 30px;"/>
+                                    <p:outputLabel value=": #{dateFormat.formatDate(cc.attrs.member.statusDate,'MMM dd yyyy')}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </div>
+                        <br/>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="footer" style="border: white">
+                                <h:panelGrid style="font-size: x-small; font-style: italic;" columns="2">
+                                    <p:outputLabel value="Date printed: "/>
+                                    <p:outputLabel value="#{currentDate}">
+                                        <f:convertDateTime pattern="MMM dd yyyy"/>
+                                    </p:outputLabel>                                
+                                </h:panelGrid>
+                                <h:panelGrid style="font-size: x-small; font-style: italic;" columns="2">
+                                    <p:outputLabel value="by: "/>
+                                    <p:outputLabel value="#{returnObject.memberUser(returnObject.liferayUser())}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>
+            </p:panel>
+        </h:panelGroup>
+    </composite:implementation>
+</html>
+
+
+

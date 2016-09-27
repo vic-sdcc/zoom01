@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<portlet-app xmlns='http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd' version='2.0'>
+    <portlet>
+        <description>Create Member Record</description>
+        <portlet-name>Create Member Record</portlet-name>
+        <display-name>Create Member Record</display-name>
+        <portlet-class>org.portletfaces.bridge.GenericFacesPortlet</portlet-class>
+        <!--
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/xhtml/welcome.xhtml</value>
+        </init-param>
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.edit</name>
+            <value>/xhtml/create.xhtml</value>
+        </init-param>
+        <-->
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/xhtml/create.xhtml</value>
+        </init-param>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <!--<portlet-mode>edit</portlet-mode><-->
+        </supports>
+        <portlet-info>
+            <title>Create Member Record</title>
+            <short-title>Create Member Record</short-title>
+            <keywords>Create Member Record</keywords>
+        </portlet-info>
+        <security-role-ref>
+            <role-name>administrator</role-name>
+        </security-role-ref>
+    </portlet>
+    <portlet>
+        <description>Update Member Record</description>
+        <portlet-name>Update Member Record</portlet-name>
+        <display-name>Update Member Record</display-name>
+        <portlet-class>org.portletfaces.bridge.GenericFacesPortlet</portlet-class>
+        <!--
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/xhtml/welcome.xhtml</value>
+        </init-param>
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.edit</name>
+            <value>/xhtml/update.xhtml</value>
+        </init-param>
+        <-->
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/xhtml/update.xhtml</value>
+        </init-param>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <!--<portlet-mode>edit</portlet-mode><-->
+        </supports>
+        <portlet-info>
+            <title>Update Member Record</title>
+            <short-title>Update Member Record</short-title>
+            <keywords>Update Member Record</keywords>
+        </portlet-info>
+        <security-role-ref>
+            <role-name>administrator</role-name>
+        </security-role-ref>
+    </portlet>
+    <portlet>
+        <description>View Single Member Record</description>
+        <portlet-name>View Single Member Record</portlet-name>
+        <display-name>View Single Member Record</display-name>
+        <portlet-class>org.portletfaces.bridge.GenericFacesPortlet</portlet-class>
+        <!--
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/xhtml/welcome.xhtml</value>
+        </init-param>
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.edit</name>
+            <value>/xhtml/update.xhtml</value>
+        </init-param>
+        <-->
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/xhtml/view.xhtml</value>
+        </init-param>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <!--<portlet-mode>edit</portlet-mode><-->
+        </supports>
+        <portlet-info>
+            <title>View Single Member Record</title>
+            <short-title>View Single Member Record</short-title>
+            <keywords>View Single Member Record</keywords>
+        </portlet-info>
+        <security-role-ref>
+            <role-name>administrator</role-name>
+        </security-role-ref>
+    </portlet>
+    <portlet>
+        <description>View Multiple Member Record</description>
+        <portlet-name>View Multiple Member Record</portlet-name>
+        <display-name>View Multiple Member Record</display-name>
+        <portlet-class>org.portletfaces.bridge.GenericFacesPortlet</portlet-class>
+        <!--
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/xhtml/welcome.xhtml</value>
+        </init-param>
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.edit</name>
+            <value>/xhtml/update.xhtml</value>
+        </init-param>
+        <-->
+        <init-param>
+            <name>javax.portlet.faces.defaultViewId.view</name>
+            <value>/xhtml/viewMultiple.xhtml</value>
+        </init-param>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <!--<portlet-mode>edit</portlet-mode><-->
+        </supports>
+        <portlet-info>
+            <title>View Multiple Member Record</title>
+            <short-title>View Multiple Member Record</short-title>
+            <keywords>View Multiple Member Record</keywords>
+        </portlet-info>
+        <security-role-ref>
+            <role-name>administrator</role-name>
+        </security-role-ref>
+    </portlet>
+</portlet-app>

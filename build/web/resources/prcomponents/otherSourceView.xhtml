@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="otherSoi"/>
+        <composite:attribute name="member"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="otehrSoiPanel" style="border: white">
+            <ui:repeat value="#{cc.attrs.otherSoi}" var="myOtherSoi" rendered="#{cc.attrs.otherSoi.size() gt 0}">
+                <h:panelGrid style="font-size: small;" columns="2">
+                    <p:outputLabel value="Type" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myOtherSoi.soiType}" rendered="#{not empty myOtherSoi.soiType}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myOtherSoi.soiType}"/>
+
+                    <p:outputLabel value="Regularity" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myOtherSoi.regularity}" rendered="#{not empty myOtherSoi.regularity}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myOtherSoi.regularity}"/>
+
+                    <p:outputLabel value="Source" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myOtherSoi.source}" rendered="#{not empty myOtherSoi.source}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myOtherSoi.source}"/>
+
+                    <p:outputLabel value="Amount" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myOtherSoi.amount}" rendered="#{not empty myOtherSoi.amount}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myOtherSoi.amount}"/>
+                </h:panelGrid>
+                <br/>
+            </ui:repeat>
+            <p:outputLabel value="No records found." rendered="#{cc.attrs.otherSoi.size() lt 1}"/>
+        </p:panel>
+    </composite:implementation>
+</html>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="applicant"/>
+        <composite:attribute name="member"/>
+        <composite:attribute name="bean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="organizationPanelC"
+                 style="border: white">
+            <h4>
+                <p:outputLabel value="Organization Information"/>
+            </h4>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Membership Date:"/> 
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.memDate}" 
+                                   rendered="#{not empty cc.attrs.member.memDate}">
+                        <f:convertDateTime pattern="MMM dd yyyy"/>
+                    </p:outputLabel>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.memDate}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Member No.:"/> 
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.memNo}" 
+                                   rendered="#{not empty cc.attrs.member.memNo}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.memNo}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="ID No.:"/> 
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.memIdNo}" 
+                                   rendered="#{not empty cc.attrs.member.memIdNo}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.memIdNo}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="SC Account No.:"/> 
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.scAcctno}" 
+                                   rendered="#{not empty cc.attrs.member.scAcctno}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.scAcctno}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="P.T. No.:"/> 
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.ouCode.ouShortName}" 
+                                   rendered="#{not empty cc.attrs.applicant.ouCode.ouShortName}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.ouCode.ouShortName}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Membership Type:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.applicant.applicantType}" 
+                                   rendered="#{not empty cc.attrs.applicant.applicantType}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.applicant.applicantType}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Member Status:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.bean.memStatusConv(cc.attrs.member.statusId.statusId)}" 
+                                   rendered="#{not empty cc.attrs.member.statusId.statusId}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.statusId.statusId}"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel value="Status Remarks:"/>
+                </div>
+                <div class="ui-grid-col-6">
+                    <p:outputLabel value="#{cc.attrs.member.memStatRem}" 
+                                   rendered="#{not empty cc.attrs.member.memStatRem}"/>
+                    <p:outputLabel value="-" 
+                                   rendered="#{empty cc.attrs.member.memStatRem}"/>
+                </div>
+            </div>
+        </p:panel>
+    </composite:implementation>
+</html>
+

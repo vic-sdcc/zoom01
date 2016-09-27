@@ -1,0 +1,56 @@
+/*Back*/
+.card1{
+    border-style: solid;
+    border-color: black;
+    border-radius: 13px;
+    border-width: 1px;
+    width: 3.21in; 
+    height: 2in;
+    font-family:arial;
+    background-color: #ffff33
+}
+
+.headerCntnr{
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.magneticStripe{
+    position: absolute;
+    margin: 5% 0%;
+    background-color: black;
+    width: 100%;
+    height: 40px;
+}
+
+.otherInfo div{
+    margin-left: 5px;
+    margin-top: -8px;
+}
+
+.incaseOfEmergencyTxtCntnr{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.incaseOfEmergencyCntnr div{
+    font-size: 9px;
+}
+
+.ifFoundCntnr div{
+    font-size: 9px;
+}
+
+.idMentorCntnr{
+    width: 100%; 
+    position: relative;
+}
+
+.idMentorImg{
+    width: 110px;
+    height: 70px;
+    position: absolute; 
+    bottom: -40px; 
+    right: 10px;
+}

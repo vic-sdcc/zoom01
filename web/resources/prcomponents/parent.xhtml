@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="pBean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="fPanel"
+                 style="border-color: white">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="indicatorF" 
+                                   value="Person Type:"/>
+                </div>
+                <div class="ui-grid-col-4">
+                    <p:selectOneRadio id="indicatorF" 
+                                      label="Person Type" 
+                                      value="#{cc.attrs.pBean.parentAL[0].personTypeId}"
+                                      valueChangeListener="#{personType.pType(0)}">
+                        <f:selectItem itemLabel="REGULAR&nbsp;&nbsp;&nbsp;" 
+                                      itemValue="1"/>
+                        <f:selectItem itemLabel="ASSOCIATE&nbsp;&nbsp;&nbsp;"
+                                      itemValue="2"/>
+                        <f:selectItem itemLabel="NON-MEMBER&nbsp;&nbsp;&nbsp;"
+                                      itemValue="3"/>
+                        <p:ajax process="@this"
+                                update=":#{p:component('fPanel')}"
+                                listener="#{personDataComp.clearMe()}"/>
+                    </p:selectOneRadio>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="personFLastName"
+                                   value="Father's Last Name:"/>
+                </div>
+                <div class="ui-grid-col-2">
+                    <p:autoComplete id="personFLastName"
+                                    label="Father's Last Name"
+                                    value="#{cc.attrs.pBean.parentAL[0].lastName}"
+                                    completeMethod="#{autoComplete.completePersonLastName}"
+                                    valueChangeListener="#{personType.pType(0)}"
+                                    emptyMessage="no records found."
+                                    queryDelay="500"
+                                    scrollHeight="200"
+                                    placeholder="#{personDataComp.personProfileList[personDataComp.indexList].lastName}"
+                                    onclick="this.select()"
+                                    disabled="#{empty cc.attrs.pBean.parentAL[0].personTypeId}"
+                                    onblur="value = value.toUpperCase()">
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                update="#{p:component('personFFirstName')},#{p:component('personFMiddleName')},#{p:component('personFBirthdate')},fButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                update="#{p:component('personFFirstName')},#{p:component('personFMiddleName')},#{p:component('personFBirthdate')},fButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                listener="#{personDataComp.setIndexList(0)}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                listener="#{personDataComp.setIndexList(0)}"/>
+                    </p:autoComplete>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="personFFirstName"
+                                   value="Father's First Name:"/>
+                </div>
+                <div class="ui-grid-col-2">
+                    <p:autoComplete id="personFFirstName"
+                                    label="Father's First Name"
+                                    value="#{cc.attrs.pBean.parentAL[0].firstName}"
+                                    completeMethod="#{autoComplete.completePersonFirstName}"
+                                    valueChangeListener="#{personType.pType(0)}"
+                                    emptyMessage="no records found."
+                                    queryDelay="500"
+                                    scrollHeight="200"
+                                    placeholder="#{personDataComp.personProfileList[personDataComp.indexList].firstName}"
+                                    onclick="this.select()"
+                                    disabled="#{empty cc.attrs.pBean.parentAL[0].personTypeId}"
+                                    onblur="value = value.toUpperCase()">
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                update="#{p:component('personFLastName')},#{p:component('personFMiddleName')},#{p:component('personFBirthdate')},fButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                update="#{p:component('personFLastName')},#{p:component('personFMiddleName')},#{p:component('personFBirthdate')},fButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                listener="#{personDataComp.setIndexList(0)}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                listener="#{personDataComp.setIndexList(0)}"/>
+                    </p:autoComplete>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="personFMiddleName"
+                                   value="Father's Middle Name:"/>
+                </div>
+                <div class="ui-grid-col-2">
+                    <p:autoComplete id="personFMiddleName"
+                                    label="Father's Middle Name"
+                                    value="#{cc.attrs.pBean.parentAL[0].middleName}"
+                                    completeMethod="#{autoComplete.completePersonMiddleName}"
+                                    valueChangeListener="#{personType.pType(0)}"
+                                    emptyMessage="no records found."
+                                    queryDelay="500"
+                                    scrollHeight="200"
+                                    placeholder="#{personDataComp.personProfileList[personDataComp.indexList].middleName}"
+                                    onclick="this.select()"
+                                    disabled="#{empty cc.attrs.pBean.parentAL[0].personTypeId}"
+                                    onblur="value = value.toUpperCase()">
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                update="#{p:component('personFLastName')},#{p:component('personFFirstName')},#{p:component('personFBirthdate')},fButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                update="#{p:component('personFLastName')},#{p:component('personFFirstName')},#{p:component('personFBirthdate')},fButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                listener="#{personDataComp.setIndexList(0)}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                listener="#{personDataComp.setIndexList(0)}"/>
+                    </p:autoComplete>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="personFBirthdate"
+                                   value="Father's Birthdate:"/>
+                </div>
+                <div class="ui-grid-col-2">
+                    <p:calendar id="personFBirthdate" 
+                                label="Father's Birthdate"
+                                value="#{cc.attrs.pBean.parentAL[0].birthdate}"
+                                yearRange="#{customDate.start()}:#{customDate.endBirthdate()}" 
+                                pagedate="-18y"
+                                pattern="MMM dd yyyy"
+                                navigator="true" 
+                                size="11"
+                                style="width: 110px"
+                                disabled="#{empty cc.attrs.pBean.parentAL[0].personTypeId}">
+                        <f:convertDateTime pattern="MMM dd yyyy"/>
+                    </p:calendar>
+                </div>
+            </div>
+        </p:panel>
+        <p:panel id="fButtonPanel"
+                 style="border-color: white">
+            <p:commandButton id="previousF"
+                             value="Previous"
+                             icon="ui-icon-arrowthick-1-w"
+                             disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq 0)}"
+                             style="margin-right: 7px;">
+                <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList - 1)}" 
+                        update=":#{p:component('fPanel')}, fButtonPanel"/>
+            </p:commandButton>
+            <p:commandButton id="nextF"
+                             value="Next"
+                             icon="ui-icon-arrowthick-1-e"
+                             iconPos="right"
+                             disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq (personDataComp.personProfileList.size() - 1))}"
+                             style="margin-right: 7px;">
+                <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList + 1)}"
+                        update=":#{p:component('fPanel')}, fButtonPanel"/>
+            </p:commandButton>
+        </p:panel>
+        <p:panel id="mPanel"
+                 style="border-color: white">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="indicatorM" 
+                                   value="Person Type:"/>
+                </div>
+                <div class="ui-grid-col-4">
+                    <p:selectOneRadio id="indicatorM" 
+                                      label="Person Type" 
+                                      value="#{cc.attrs.pBean.parentAL[1].personTypeId}"
+                                      valueChangeListener="#{personType.pType(1)}">
+                        <f:selectItem itemLabel="REGULAR&nbsp;&nbsp;&nbsp;" 
+                                      itemValue="1"/>
+                        <f:selectItem itemLabel="ASSOCIATE&nbsp;&nbsp;&nbsp;"
+                                      itemValue="2"/>
+                        <f:selectItem itemLabel="NON-MEMBER&nbsp;&nbsp;&nbsp;"
+                                      itemValue="3"/>
+                        <p:ajax process="@this"
+                                update=":#{p:component('mPanel')}"
+                                listener="#{personDataComp.clearMe()}"/>
+                    </p:selectOneRadio>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="personMLastName"
+                                   value="Mother's Last Name:"/>
+                </div>
+                <div class="ui-grid-col-2">
+                    <p:autoComplete id="personMLastName"
+                                    label="Mother's Last Name"
+                                    value="#{cc.attrs.pBean.parentAL[1].lastName}"
+                                    completeMethod="#{autoComplete.completePersonLastName}"
+                                    valueChangeListener="#{personType.pType(1)}"
+                                    emptyMessage="no records found."
+                                    queryDelay="500"
+                                    scrollHeight="200"
+                                    placeholder="#{personDataComp.personProfileList[personDataComp.indexList].lastName}"
+                                    onclick="this.select()"
+                                    disabled="#{empty cc.attrs.pBean.parentAL[1].personTypeId}"
+                                    onblur="value = value.toUpperCase()">
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                update="#{p:component('personMFirstName')},#{p:component('personMMiddleName')},#{p:component('personMBirthdate')},mButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                update="#{p:component('personMFirstName')},#{p:component('personMMiddleName')},#{p:component('personMBirthdate')},mButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                listener="#{personDataComp.setIndexList(1)}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                listener="#{personDataComp.setIndexList(1)}"/>
+                    </p:autoComplete>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="personMFirstName"
+                                   value="Mother's First Name:"/>
+                </div>
+                <div class="ui-grid-col-2">
+                    <p:autoComplete id="personMFirstName"
+                                    label="Mother's First Name"
+                                    value="#{cc.attrs.pBean.parentAL[1].firstName}"
+                                    completeMethod="#{autoComplete.completePersonFirstName}"
+                                    valueChangeListener="#{personType.pType(1)}"
+                                    emptyMessage="no records found."
+                                    queryDelay="500"
+                                    scrollHeight="200"
+                                    placeholder="#{personDataComp.personProfileList[personDataComp.indexList].firstName}"
+                                    onclick="this.select()"
+                                    disabled="#{empty cc.attrs.pBean.parentAL[1].personTypeId}"
+                                    onblur="value = value.toUpperCase()">
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                update="#{p:component('personMLastName')},#{p:component('personMMiddleName')},#{p:component('personMBirthdate')},mButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                update="#{p:component('personMLastName')},#{p:component('personMMiddleName')},#{p:component('personMBirthdate')},mButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                listener="#{personDataComp.setIndexList(1)}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                listener="#{personDataComp.setIndexList(1)}"/>
+                    </p:autoComplete>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="personMMiddleName"
+                                   value="Mother's Middle Name:"/>
+                </div>
+                <div class="ui-grid-col-2">
+                    <p:autoComplete id="personMMiddleName"
+                                    label="Mother's Middle Name"
+                                    value="#{cc.attrs.pBean.parentAL[1].middleName}"
+                                    completeMethod="#{autoComplete.completePersonMiddleName}"
+                                    valueChangeListener="#{personType.pType(1)}"
+                                    emptyMessage="no records found."
+                                    queryDelay="500"
+                                    scrollHeight="200"
+                                    placeholder="#{personDataComp.personProfileList[personDataComp.indexList].middleName}"
+                                    onclick="this.select()"
+                                    disabled="#{empty cc.attrs.pBean.parentAL[1].personTypeId}"
+                                    onblur="value = value.toUpperCase()">
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                update="#{p:component('personMLastName')},#{p:component('personMFirstName')},#{p:component('personMBirthdate')},mButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                update="#{p:component('personMLastName')},#{p:component('personMFirstName')},#{p:component('personMBirthdate')},mButtonPanel"
+                                listener="#{personDataComp.personComplete()}"/>
+                        <p:ajax process="@this"
+                                event="itemSelect"
+                                listener="#{personDataComp.setIndexList(1)}"/>
+                        <p:ajax process="@this"
+                                event="keyup"
+                                listener="#{personDataComp.setIndexList(1)}"/>
+                    </p:autoComplete>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    <p:outputLabel for="personMBirthdate"
+                                   value="Mother's Birthdate:"/>
+                </div>
+                <div class="ui-grid-col-2">
+                    <p:calendar id="personMBirthdate" 
+                                label="Mother's Birthdate"
+                                value="#{cc.attrs.pBean.parentAL[1].birthdate}"
+                                yearRange="#{customDate.start()}:#{customDate.endBirthdate()}" 
+                                pagedate="-18y"
+                                pattern="MMM dd yyyy"
+                                navigator="true" 
+                                size="11"
+                                style="width: 110px"
+                                disabled="#{empty cc.attrs.pBean.parentAL[1].personTypeId}">
+                        <f:convertDateTime pattern="MMM dd yyyy"/>
+                    </p:calendar>
+                </div>
+            </div>
+        </p:panel>
+        <p:panel id="mButtonPanel"
+                 style="border-color: white">
+            <p:commandButton id="previousM"
+                             value="Previous"
+                             icon="ui-icon-arrowthick-1-w"
+                             disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq 0)}"
+                             style="margin-right: 7px;">
+                <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList - 1)}"
+                        update=":#{p:component('mPanel')}, mButtonPanel"/>
+            </p:commandButton>
+            <p:commandButton id="nextM"
+                             value="Next"
+                             icon="ui-icon-arrowthick-1-e"
+                             iconPos="right"
+                             disabled="#{empty personDataComp.personProfileList or personDataComp.personProfileList.size() eq 0 or (personDataComp.indexList eq (personDataComp.personProfileList.size() - 1))}"
+                             style="margin-right: 7px;">
+                <p:ajax listener="#{personDataComp.setIndexList(personDataComp.indexList + 1)}" 
+                        update=":#{p:component('mPanel')}, mButtonPanel"/>
+            </p:commandButton>
+        </p:panel>
+    </composite:implementation>
+</html>
+

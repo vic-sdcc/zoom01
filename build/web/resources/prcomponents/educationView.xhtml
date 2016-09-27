@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="education"/>
+        <composite:attribute name="bean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="educationPanel" style="border: white">
+            <ui:repeat value="#{cc.attrs.education}" var="myEducation" rendered="#{cc.attrs.education.size() gt 0}">
+                <h:panelGrid style="font-size: small;" columns="2">
+                    <p:outputLabel value="School Name" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEducation.schoolName}" rendered="#{not empty myEducation.schoolName}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEducation.schoolName}"/>
+
+                    <p:outputLabel value="Course" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEducation.course}" rendered="#{not empty myEducation.course}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEducation.course}"/>
+
+                    <p:outputLabel value="Last Year Attended" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEducation.yearLastAttended}" rendered="#{not empty myEducation.yearLastAttended}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEducation.yearLastAttended}"/>
+
+                    <p:outputLabel value="Level" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{myEducation.schoolLevel}" rendered="#{not empty myEducation.schoolLevel}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEducation.schoolLevel}"/>
+
+                    <p:outputLabel value="Graduated" style="margin-right: 30px;"/>
+                    <p:outputLabel value=": #{cc.attrs.bean.graduatedConv(myEducation.graduated)}" rendered="#{not empty myEducation.graduated}"/>
+                    <p:outputLabel value=": -" rendered="#{empty myEducation.graduated}"/>
+                </h:panelGrid>
+                <br/>
+            </ui:repeat>
+            <p:outputLabel value="No records found." rendered="#{cc.attrs.education.size() lt 1}"/>
+        </p:panel>
+    </composite:implementation>
+</html>
+

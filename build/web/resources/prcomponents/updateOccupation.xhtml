@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="skillsD"/>
+        <composite:attribute name="skillsAM"/>
+        <composite:attribute name="skillsL"/>
+        <composite:attribute name="employment"/>
+        <composite:attribute name="employmentAM"/>
+        <composite:attribute name="occupationL"/>
+        <composite:attribute name="business"/>
+        <composite:attribute name="soi"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:tabView id="tabView2"
+                   style="border: transparent">
+            <p:tab id="initialTab2"
+                   title="Employment">
+                <prcc:employment id="employment"
+                                 member="#{cc.attrs.member}"
+                                 employment="#{cc.attrs.employment}"
+                                 employmentAM="#{cc.attrs.employmentAM}"
+                                 occupationL="#{cc.attrs.occupationL}"/>
+            </p:tab>
+            <p:tab title="Business">
+                <prcc:business id="business"
+                               member="#{cc.attrs.member}"
+                               business="#{cc.attrs.business}"/>
+            </p:tab>
+            <p:tab title="Other S.O.I.">
+                <prcc:soi id="soi"
+                          member="#{cc.attrs.member}"
+                          soi="#{cc.attrs.soi}"/>
+            </p:tab>
+            <p:tab title="Skills">
+                <prcc:skills id="skills"
+                             member="#{cc.attrs.member}"
+                             skillsD="#{cc.attrs.skillsD}"
+                             skillsAM="#{cc.attrs.skillsAM}"
+                             skillsL="#{cc.attrs.skillsL}"/>
+            </p:tab>
+        </p:tabView>
+    </composite:implementation>
+</html>
+

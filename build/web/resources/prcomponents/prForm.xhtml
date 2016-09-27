@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="memberFilter"/>
+        <composite:attribute name="sortOrderString"/>
+    </composite:interface>
+    <composite:implementation>
+        <h:panelGroup id="prPanel" >
+            <h:form id="prCompForm">
+                <div style="overflow: auto; height: 570px">
+                    <p:panel id="memberPanel" style="border: white; font-size: small;">
+                        <br/>
+                        <center>
+                            <p:outputLabel style="font-size: small; font-weight: bold;" value="San Dionisio Credit Cooperative"/><br/>
+                            <p:outputLabel style="font-size: small; font-weight: bold;" value="0554 Quirino Avenue, San Dionisio, Paranaque City"/><br/>
+                            <p:outputLabel style="font-size: small; font-weight: bold;" value="www.sandionisiocredit.coop"/><br/>
+                        </center>
+                        <br/>
+                        <br/>
+                        <p:outputLabel style="font-size:small; font-weight: bold;" value="Member Filtered List"/>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel style="font-size:small;" value="• #{returnObject.ouCode(cc.attrs.memberFilter.ouCodeID).ouShortName}" rendered="#{not empty cc.attrs.memberFilter.ouCodeID}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.ouCodeID}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{dataConvert.memStatConv(cc.attrs.memberFilter.status)}" rendered="#{not empty cc.attrs.memberFilter.status}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.status}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• CURRENT" rendered="#{cc.attrs.memberFilter.current}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{cc.attrs.memberFilter.current}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{dateFormat.formatDate(cc.attrs.memberFilter.membershipDateFrom,'MMM dd YYYY')}" rendered="#{not empty cc.attrs.memberFilter.membershipDateFrom and empty cc.attrs.memberFilter.membershipDateTo}"/>
+                            <p:outputLabel style="font-size:small;" value="• #{dateFormat.formatDate(cc.attrs.memberFilter.membershipDateFrom,'MMM dd YYYY')} - #{dateFormat.formatDate(cc.attrs.memberFilter.membershipDateTo,'MMM dd YYYY')}" rendered="#{not empty cc.attrs.memberFilter.membershipDateFrom and not empty cc.attrs.memberFilter.membershipDateTo}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{(not empty cc.attrs.memberFilter.membershipDateFrom and empty cc.attrs.memberFilter.membershipDateTo) or (not empty cc.attrs.memberFilter.membershipDateFrom and not empty cc.attrs.memberFilter.membershipDateTo)}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{cc.attrs.memberFilter.ageFrom} yrs old" rendered="#{not empty cc.attrs.memberFilter.ageFrom and cc.attrs.memberFilter.ageTo eq 0}"/>
+                            <p:outputLabel style="font-size:small;" value="• #{cc.attrs.memberFilter.ageFrom}-#{cc.attrs.memberFilter.ageTo} yrs old" rendered="#{not empty cc.attrs.memberFilter.ageFrom and cc.attrs.memberFilter.ageTo gt 0}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{(not empty cc.attrs.memberFilter.ageFrom and empty cc.attrs.memberFilter.ageTo) or (not empty cc.attrs.memberFilter.ageFrom and cc.attrs.memberFilter.ageTo gt 0)}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{cc.attrs.memberFilter.occupation}" rendered="#{not empty cc.attrs.memberFilter.occupation}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.occupation}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{cc.attrs.memberFilter.compensation} Php" rendered="#{not empty cc.attrs.memberFilter.compensation}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.compensation}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{dataConvert.personStatusConv(cc.attrs.memberFilter.personStat)}" rendered="#{not empty cc.attrs.memberFilter.personStat}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.personStat}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{cc.attrs.memberFilter.membershipType}" rendered="#{not empty cc.attrs.memberFilter.membershipType}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.membershipType}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{cc.attrs.memberFilter.skill}" rendered="#{not empty cc.attrs.memberFilter.skill}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.skill}"/>
+                            
+                            <p:outputLabel style="font-size:small;" value="• #{cc.attrs.memberFilter.rankPos}" rendered="#{not empty cc.attrs.memberFilter.rankPos}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.rankPos}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• #{dataConvert.genderConv(cc.attrs.memberFilter.gender)}" rendered="#{not empty cc.attrs.memberFilter.gender}"/>
+                            <p:outputLabel style="font-size:small;" value="&nbsp;" rendered="#{not empty cc.attrs.memberFilter.gender}"/>
+
+                            <p:outputLabel style="font-size:small;" value="• All #{membershipType.memberType} Members" 
+                                           rendered="#{empty cc.attrs.memberFilter.ouCodeID
+                                                       and empty cc.attrs.memberFilter.status
+                                                       and not cc.attrs.memberFilter.current
+                                                       and empty cc.attrs.memberFilter.membershipDateFrom
+                                                       and empty cc.attrs.memberFilter.membershipDateTo
+                                                       and empty cc.attrs.memberFilter.ageFrom
+                                                       and empty cc.attrs.memberFilter.ageTo 
+                                                       and empty cc.attrs.memberFilter.occupation
+                                                       and empty cc.attrs.memberFilter.compensation
+                                                       and empty cc.attrs.memberFilter.personStat
+                                                       and empty cc.attrs.memberFilter.membershipType
+                                                       and empty cc.attrs.memberFilter.skill
+                                                       and empty cc.attrs.memberFilter.rankPos
+                                                       and empty cc.attrs.memberFilter.gender}"/>
+                        </h:panelGrid>
+                        <h:panelGrid>
+                            <p:outputLabel style="font-size:small;" 
+                                           value="Sorted by: #{not empty cc.attrs.sortOrderString.orderByStr[0] and cc.attrs.sortOrderString.orderByStr[0] eq 'c.lastName, c.firstName, c.middleName' ? 'Alphabetical' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[0] and cc.attrs.sortOrderString.orderByStr[0] eq 'c.memNo' ? 'Member No.' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[0] and cc.attrs.sortOrderString.orderByStr[0] eq 'c.memDate' ? 'Membership Date' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[0] and cc.attrs.sortOrderString.orderByStr[0] eq 'c.ouCode.ouCode' ? 'PT Number' : '' } 
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[1] and cc.attrs.sortOrderString.orderByStr[1] eq 'c.lastName, c.firstName, c.middleName' ? ', Alphabetical' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[1] and cc.attrs.sortOrderString.orderByStr[1] eq 'c.memNo' ? ', Member No.' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[1] and cc.attrs.sortOrderString.orderByStr[1] eq 'c.memDate' ? ', Membership Date' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[1] and cc.attrs.sortOrderString.orderByStr[1] eq 'c.ouCode.ouCode' ? ', PT Number' : '' } 
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[2] and cc.attrs.sortOrderString.orderByStr[2] eq 'c.lastName, c.firstName, c.middleName' ? ', Alphabetical' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[2] and cc.attrs.sortOrderString.orderByStr[2] eq 'c.memNo' ? ', Member No.' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[2] and cc.attrs.sortOrderString.orderByStr[2] eq 'c.memDate' ? ', Membership Date' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[2] and cc.attrs.sortOrderString.orderByStr[2] eq 'c.ouCode.ouCode' ? ', PT Number' : '' } 
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[3] and cc.attrs.sortOrderString.orderByStr[3] eq 'c.lastName, c.firstName, c.middleName' ? ', Alphabetical' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[3] and cc.attrs.sortOrderString.orderByStr[3] eq 'c.memNo' ? ', Member No.' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[3] and cc.attrs.sortOrderString.orderByStr[3] eq 'c.memDate' ? ', Membership Date' : '' }
+                                           #{not empty cc.attrs.sortOrderString.orderByStr[3] and cc.attrs.sortOrderString.orderByStr[3] eq 'c.ouCode.ouCode' ? ', PT Number' : '' }"
+                                           rendered="#{not empty cc.attrs.sortOrderString.orderByStr[0] or 
+                                                       not empty cc.attrs.sortOrderString.orderByStr[1] or 
+                                                       not empty cc.attrs.sortOrderString.orderByStr[2] or 
+                                                       not empty cc.attrs.sortOrderString.orderByStr[3]}"/>
+                        </h:panelGrid>
+                        <br/>
+                        <p:dataTable id="memberList"
+                                     value="#{cc.attrs.member}" 
+                                     var="member">
+                            <p:column style="width: 30%">
+                                <f:facet name="header">
+                                    <h:outputText style="font-size:small;" value="Member No." />
+                                </f:facet>
+                                <h:outputText value="#{member.memNo}" 
+                                              style="display:inline-block; font-size: small;"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText style="font-size:small;" value="Full Name" />
+                                </f:facet>
+                                <h:outputText value="#{member.PPrefix} #{member.firstName} #{member.middleName} #{member.lastName} #{member.suffix}" 
+                                              style="display:inline-block; font-size: small;"/>
+                            </p:column>
+                            <p:column style="width: 20%">
+                                <f:facet name="header">
+                                    <h:outputText style="font-size:small;" value="PT Number" />
+                                </f:facet>
+                                <h:outputText value="#{member.ouCode.ouShortName}" 
+                                              style="display:inline-block; font-size: small;"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <h:outputText value="Total: #{cc.attrs.member.size()} records #{returnObject.getPercentage(cc.attrs.member.size()/memberCount.total)} of total membership" 
+                                              style="display:inline-block; font-size: small;"/>
+                            </f:facet>
+                        </p:dataTable>
+                        <br/>
+                        <div style="page-break-before: auto; page-break-inside: avoid;">
+                            <p:panel id="footer" style="border: white">
+                                <h:panelGrid style="font-size: x-small; font-style: italic;" columns="2">
+                                    <p:outputLabel value="Date printed: "/>
+                                    <p:outputLabel value="#{currentDate}">
+                                        <f:convertDateTime pattern="MMM dd yyyy"/>
+                                    </p:outputLabel>                                
+                                </h:panelGrid>
+                                <h:panelGrid style="font-size: x-small; font-style: italic;" columns="2">
+                                    <p:outputLabel value="by: "/>
+                                    <p:outputLabel value="#{returnObject.memberUser(returnObject.liferayUser())}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </div>
+                    </p:panel>
+                </div>
+                <br/>
+                <p:commandButton value="PRINT"
+                                 icon="ui-icon-print"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-arrow-1-w"
+                                 style="margin-right: 7px;">
+                    <p:printer target="memberPanel"/>
+                </p:commandButton>
+                <p:commandButton value="CANCEL"
+                                 id="cancelBtn"
+                                 icon="ui-icon-cancel"
+                                 styleClass="ui-btn ui-btn-icon-left ui-icon-forbidden"
+                                 style="margin-right: 7px;"
+                                 immediate="true"
+                                 actionListener="#{updateController.mainViewMem}">
+                </p:commandButton>
+            </h:form>
+        </h:panelGroup>
+    </composite:implementation>
+</html>

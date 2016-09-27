@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="bean"/>
+        <composite:attribute name="renderName"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="personalPanel" style="border: white">
+            <h:panelGrid style="font-size: small;" columns="2">
+                <p:outputLabel value="Fullname" rendered="#{cc.attrs.renderName}" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{returnObject.fullname(cc.attrs.member.PPrefix, cc.attrs.member.lastName, cc.attrs.member.firstName, cc.attrs.member.middleName, cc.attrs.member.suffix)} " rendered="#{cc.attrs.renderName}"/>
+
+                <p:outputLabel value="Nickname" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.nickname}" rendered="#{not empty cc.attrs.member.nickname}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.nickname}"/>
+
+                <p:outputLabel value="Height(cm)" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.height}" rendered="#{not empty cc.attrs.member.height}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.height}"/>
+
+                <p:outputLabel value="Weight(kg)" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.weight}" rendered="#{not empty cc.attrs.member.weight}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.weight}"/>
+
+                <p:outputLabel value="Blood" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.blood}" rendered="#{not empty cc.attrs.member.blood}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.blood}"/>
+
+                <p:outputLabel value="Gender" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.bean.genderConv(cc.attrs.member.gender)}" rendered="#{not empty cc.attrs.member.gender}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.gender}"/>
+
+                <p:outputLabel value="Civil Status" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.bean.civilStatusConv(cc.attrs.member.civilStatus)}" rendered="#{not empty cc.attrs.member.civilStatus}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.civilStatus}"/>
+
+                <p:outputLabel value="Person Status" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.bean.personStatusConv(cc.attrs.member.personStatus)}" rendered="#{not empty cc.attrs.member.personStatus}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.personStatus}"/>
+
+                <p:outputLabel value="Nationality" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.bean.nationalityConv(cc.attrs.member.nationality)}" rendered="#{not empty cc.attrs.member.nationality}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.nationality}"/>
+
+                <p:outputLabel value="Religion" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.religion}" rendered="#{not empty cc.attrs.member.religion}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.religion}"/>
+
+                <p:outputLabel value="Birth Date" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{dateFormat.formatDate(cc.attrs.member.birthdate,'MMM dd yyyy')}" rendered="#{not empty cc.attrs.member.birthdate}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.birthdate}"/>
+
+                <p:outputLabel value="Birth Place" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.birthplace}" rendered="#{not empty cc.attrs.member.birthplace}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.birthplace}"/>
+
+                <p:outputLabel value="TIN" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.taxIdNo}" rendered="#{not empty cc.attrs.member.taxIdNo}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.taxIdNo}"/>
+
+                <p:outputLabel value="Pag-Ibig" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.pagIbig}" rendered="#{not empty cc.attrs.member.pagIbig}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.pagIbig}"/>
+
+                <p:outputLabel value="Philhealth" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.philhealth}" rendered="#{not empty cc.attrs.member.philhealth}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.philhealth}"/>
+
+                <p:outputLabel value="SSS" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.sss}" rendered="#{not empty cc.attrs.member.sss}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.sss}"/>
+
+                <p:outputLabel value="GSIS" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.gsis}" rendered="#{not empty cc.attrs.member.gsis}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.gsis}"/>
+            </h:panelGrid>
+
+            <p:separator/>
+            <p:outputLabel value="Person to notify in-case of emergency" style="font-weight: bold"/>
+            <h:panelGrid style="font-size: small" columns="2">
+                <p:outputLabel value="Name" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.notifyName}" rendered="#{not empty cc.attrs.member.notifyName}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.notifyName}"/>
+
+                <p:outputLabel value="Address" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.notifyAddress}" rendered="#{not empty cc.attrs.member.notifyAddress}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.notifyAddress}"/>
+
+                <p:outputLabel value="Phone" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.notifyPhone}" rendered="#{not empty cc.attrs.member.notifyPhone}"/>
+                <p:outputLabel rendered="#{empty cc.attrs.member.notifyPhone}"/>
+
+                <p:outputLabel value="Relation" style="margin-right: 30px;"/>
+                <p:outputLabel value=": #{cc.attrs.member.notifyRelation}" rendered="#{not empty cc.attrs.member.notifyRelation}"/>
+                <p:outputLabel value=": -" rendered="#{empty cc.attrs.member.notifyRelation}"/>
+            </h:panelGrid>
+        </p:panel>
+    </composite:implementation>
+</html>
+

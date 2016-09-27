@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="member"/>
+        <composite:attribute name="dataClear" method-signature="java.lang.String action()"/>
+        <composite:attribute name="dataCompClear" method-signature="java.lang.String action()"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:tabView id="memberRegTabView">
+            <p:ajax event="tabChange" 
+                    listener="#{pageController.viewTabName}"
+                    update=":#{p:component('btnPnl')}"/>
+            <p:tab title="Personal">
+                <prcc:personalView id="personal"
+                                   member="#{cc.attrs.member}"
+                                   bean="#{dataConvert}"
+                                   renderName="true"/>             
+            </p:tab>
+            <p:tab title="Address">
+                <prcc:addressView id="address"
+                                  member="#{cc.attrs.member}"
+                                  address="#{addressData.addlAddressList}"
+                                  bean="#{dataConvert}"/>
+            </p:tab>
+            <p:tab title="Contact">
+                <prcc:contactView id="contact"
+                                  member="#{cc.attrs.member}"
+                                  contact="#{contactsData.addlContactInfoList}"
+                                  bean="#{dataConvert}"/>
+            </p:tab>
+            <p:tab title="Relations"
+                   rendered="false">
+                <prcc:familyView id="relations"
+                                 family="#{familyData}"
+                                 bean="#{dataConvert}"/>
+            </p:tab>
+            <p:tab title="Education">
+                <prcc:educationView id="education"
+                                    education="#{educationData.educInfoList}"
+                                    bean="#{dataConvert}"/>
+            </p:tab>
+            <p:tab title="Occupation">
+                <prcc:occupationView id="occupation"
+                                     member="#{cc.attrs.member}"
+                                     skills="#{skillsData.skillsList}"
+                                     employment="#{employmentData.emplDtlList}"
+                                     business="#{businessData.bizInfoList}"
+                                     otherSoi="#{soiData.soiList}"/>
+            </p:tab>
+            <p:tab title="Organization">
+                <prcc:organizationView id="organization"
+                                       member="#{cc.attrs.member}"
+                                       positionTenure="#{positionTenureData.positionTenureList}"/>
+            </p:tab>
+            <p:tab title="Awards">
+                <prcc:awardsView id="awards"
+                                 awards="#{awardsData.awardsList}"/>
+            </p:tab>
+            <p:tab title="Images">
+                <!--prcc:printID id="printID" idData="{imgSigData}"
+                              member="{cc.attrs.member}"/-->
+                <!--p:separator/-->
+                <prcc:printEndorsement id="printEndorsement"
+                                       member="#{cc.attrs.member}"
+                                       selectedOfficer="#{memberOfficer.selectedOfficer(cc.attrs.member.ouCode.ouCode)}"
+                                       imgSig="#{imgSigData.imgSig}"/>
+            </p:tab>
+            <!--p:tab title="Print">
+                <prcc:printRecord id="printRecord"
+                                  bean="{dataConvert}"
+                                  member="{cc.attrs.member}"
+                                  address="{addressData.addlAddressList}"
+                                  contact="{contactsData.addlContactInfoList}"
+                                  education="{educationData.educInfoList}"
+                                  skills="{skillsData.skillsList}"
+                                  employment="{employmentData.emplDtlList}"
+                                  business="{businessData.bizInfoList}"
+                                  otherSoi="{otherSourceData.otherSourceInfoList}"
+                                  positionTenure="{positionTenureData.positionTenureList}"
+                                  awards="{awardsData.awardsList}"/>
+            </p:tab-->
+        </p:tabView>
+        <p:panel id="btnPnl" style="border-color: white">
+            <p:commandButton value="Print Page" 
+                             actionListener="#{updateController.prntPage}"
+                             immediate="true"
+                             icon="ui-icon-document"
+                             styleClass="ui-btn ui-btn-icon-left ui-icon-document"
+                             style="margin-right: 7px;"
+                             rendered="#{pageController.viewTabStr ne 'Images'}">
+            </p:commandButton>
+            <p:commandButton value="Print Record"
+                             actionListener="#{updateController.prntRecord}"
+                             immediate="true"
+                             icon="ui-icon-print"
+                             styleClass="ui-btn ui-btn-icon-left ui-icon-print"
+                             style="margin-right: 7px;"
+                             rendered="#{pageController.viewTabStr ne 'Images'}">
+            </p:commandButton>
+
+            <p:commandButton value="Print I.D." 
+                             icon="ui-icon-document"
+                             styleClass="ui-btn ui-btn-icon-left ui-icon-document"
+                             style="margin-right: 7px;"
+                             rendered="#{pageController.viewTabStr eq 'Images'}"
+                             disabled="#{cc.attrs.member.statusId.memStatus eq 'W' or cc.attrs.member.statusId.memStatus eq 'E' 
+                                         or cc.attrs.member.statusId.memStatus eq 'D' or cc.attrs.member.statusId.memStatus eq 'X'}">
+            </p:commandButton>
+            <p:commandButton value="Print Endorsement"
+                             icon="ui-icon-print"
+                             styleClass="ui-btn ui-btn-icon-left ui-icon-print"
+                             style="margin-right: 7px;"
+                             rendered="#{pageController.viewTabStr eq 'Images'}"
+                             disabled="#{cc.attrs.member.statusId.memStatus eq 'W' or cc.attrs.member.statusId.memStatus eq 'E' 
+                                         or cc.attrs.member.statusId.memStatus eq 'D' or cc.attrs.member.statusId.memStatus eq 'X'}">
+                <p:printer target="memberRegTabView:printEndorsement:recForm"/>
+            </p:commandButton>
+            <p:commandButton value="Cancel"
+                             id="confirmBtnR"
+                             icon="ui-icon-cancel"
+                             styleClass="ui-btn ui-btn-icon-left ui-icon-forbidden"
+                             style="margin-right: 7px;"
+                             immediate="true">
+                <p:ajax listener="#{cc.attrs.dataClear}"/>
+                <p:ajax listener="#{cc.attrs.dataCompClear}"/>
+                <p:ajax listener="#{updateController.clear()}"/>                    
+                <p:ajax listener="#{navigation.mainMember()}"/>
+            </p:commandButton>
+        </p:panel>
+    </composite:implementation>
+</html>
+
+

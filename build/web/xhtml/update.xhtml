@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define id="updateContent" 
+                   name="content">
+            <f:event type="preRenderView" 
+                     listener="#{checkUser.init}"/>
+            <h:form id="accessMessage" 
+                    rendered="#{not checkUser.showContent}">
+                <h:outputText value="You do not have the roles required to access this portlet."/>
+            </h:form>
+            #{updateController.init()}
+            <h:form id="updateForm" 
+                    rendered="#{checkUser.showContent}">
+                <prcc:confirmDialog/>
+                <prcc:ajaxStatus/>
+                <div class="ui-grid ui-grid-responsive">
+                    <prcc:growl/>
+                    <p:tabView id="autocompleteTabView">
+                        <p:tab title="Regular">
+                            <prcc:mAuto id="autocompleteDataM"
+                                        dataComp="#{memberDataComp}"
+                                        autoComplete="#{autoComplete}"
+                                        lsnr="#{updateController.loadM()}"
+                                        nvgt="#{navigation.navigateToTabView0()}"/>
+                        </p:tab>
+                        <p:tab title="Associate">
+                            <prcc:aAuto id="autocompleteDataA"
+                                        dataComp="#{associateDataComp}"
+                                        autoComplete="#{autoComplete}"
+                                        lsnr="#{updateController.loadA()}"
+                                        nvgt="#{navigation.navigateToTabView1()}"/>
+                        </p:tab>
+                    </p:tabView>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

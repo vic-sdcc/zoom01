@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="fam"/>
+        <composite:attribute name="pBean"/>
+        <composite:attribute name="sbBean"/>
+        <composite:attribute name="spBean"/>
+    </composite:interface>
+    <composite:implementation>
+        <p:panel id="relationsPanelC"
+                 style="border: white">
+            <h4>
+                <p:outputLabel value="Family Information"/>
+            </h4>
+            <p:panel id="pPanelC"
+                     style="border: white">
+                <h4>
+                    <p:outputLabel value="Parents"/>
+                </h4>
+                <p:outputLabel value="no data found."
+                               rendered="#{cc.attrs.pBean.parentAL.size() eq 0}"/>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Type:"
+                                       rendered="#{cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{dataConvert.pTypeConv(cc.attrs.pBean.parentAL[0].personTypeId)}" 
+                                       rendered="#{not empty cc.attrs.pBean.parentAL[0].personTypeId and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.pBean.parentAL[0].personTypeId and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Father:"
+                                       rendered="#{cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{cc.attrs.pBean.parentAL[0].firstName} #{cc.attrs.pBean.parentAL[0].middleName} #{cc.attrs.pBean.parentAL[0].lastName}" 
+                                       rendered="#{not empty cc.attrs.pBean.parentAL[0].firstName and not empty cc.attrs.pBean.parentAL[0].middleName and not empty cc.attrs.pBean.parentAL[0].lastName and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.pBean.parentAL[0].firstName and empty cc.attrs.pBean.parentAL[0].middleName and empty cc.attrs.pBean.parentAL[0].lastName and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Birthdate:"
+                                       rendered="#{cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{cc.attrs.pBean.parentAL[0].birthdate}" 
+                                       rendered="#{not empty cc.attrs.pBean.parentAL[0].birthdate and cc.attrs.pBean.parentAL.size() gt 0}">
+                            <f:convertDateTime parent="MMM dd yyyy"/>
+                        </p:outputLabel>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.pBean.parentAL[0].birthdate and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                </div>
+                <br/>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Type:"
+                                       rendered="#{cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{dataConvert.pTypeConv(cc.attrs.pBean.parentAL[1].personTypeId)}" 
+                                       rendered="#{not empty cc.attrs.pBean.parentAL[1].personTypeId and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.pBean.parentAL[1].personTypeId and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Mother:"
+                                       rendered="#{cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{cc.attrs.pBean.parentAL[1].firstName} #{cc.attrs.pBean.parentAL[1].middleName} #{cc.attrs.pBean.parentAL[1].lastName}" 
+                                       rendered="#{not empty cc.attrs.pBean.parentAL[1].firstName and not empty cc.attrs.pBean.parentAL[1].middleName and not empty cc.attrs.pBean.parentAL[1].lastName and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.pBean.parentAL[1].firstName and empty cc.attrs.pBean.parentAL[1].middleName and empty cc.attrs.pBean.parentAL[1].lastName and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-2">
+                        <p:outputLabel value="Birthdate:"
+                                       rendered="#{cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <p:outputLabel value="#{cc.attrs.pBean.parentAL[1].birthdate}" 
+                                       rendered="#{not empty cc.attrs.pBean.parentAL[1].birthdate and cc.attrs.pBean.parentAL.size() gt 0}">
+                            <f:convertDateTime parent="MMM dd yyyy"/>
+                        </p:outputLabel>
+                        <p:outputLabel value="-" 
+                                       rendered="#{empty cc.attrs.pBean.parentAL[1].birthdate and cc.attrs.pBean.parentAL.size() gt 0}"/>
+                    </div>
+                </div>
+            </p:panel>
+            <p:panel id="sbPanelC"
+                     style="border: white">
+                <h4>
+                    <p:outputLabel value="Siblings"/>
+                </h4>
+                <p:outputLabel value="no data found."
+                               rendered="#{cc.attrs.sbBean.siblingAL.size() eq 0}"/>
+                <c:forEach var="sb" 
+                           items="#{cc.attrs.sbBean.siblingAL}"
+                           rendered="#{cc.attrs.sbBean.siblingAL.size() gt 0}">
+                    <p:row>  
+                        <br/>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Type:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{dataConvert.pTypeConv(sb.personTypeId)}" 
+                                               rendered="#{not empty sb.personTypeId}"/>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty sb.personTypeId}"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Name:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{sb.firstName} #{sb.middleName} #{sb.lastName}" 
+                                               rendered="#{not empty sb.firstName and not empty sb.middleName and not empty sb.lastName}"/>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty sb.firstName and empty sb.middleName and empty sb.lastName}"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Birthdate:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{sb.birthdate}" 
+                                               rendered="#{not empty sb.birthdate}">
+                                    <f:convertDateTime parent="MMM dd yyyy"/>
+                                </p:outputLabel>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty sb.birthdate}"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Gender:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{sb.gender}" 
+                                               rendered="#{not empty sb.gender}"/>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty sb.gender}"/>
+                            </div>
+                        </div>
+                    </p:row>
+                </c:forEach>
+            </p:panel>
+            <p:panel id="spPanelC"
+                     style="border: white">
+                <h4>
+                    <p:outputLabel value="Spouse"/>
+                </h4>
+                <p:outputLabel value="no data found."
+                               rendered="#{cc.attrs.spBean.spouseAL.size() eq 0}"/>
+                <c:forEach var="sp" 
+                           items="#{cc.attrs.spBean.spouseAL}"
+                           varStatus="spLoop"
+                           rendered="#{cc.attrs.spBean.spouseAL.size() gt 0}">
+                    <p:row>  
+                        <br/>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Type:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{dataConvert.pTypeConv(sp.personTypeId)}" 
+                                               rendered="#{not empty sp.personTypeId}"/>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty sp.personTypeId}"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Name:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{sp.firstName} #{sp.middleName} #{sp.lastName}" 
+                                               rendered="#{not empty sp.firstName and not empty sp.middleName and not empty sp.lastName}"/>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty sp.firstName and empty sp.middleName and empty sp.lastName}"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Birthdate:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{sp.birthdate}" 
+                                               rendered="#{not empty sp.birthdate}">
+                                    <f:convertDateTime parent="MMM dd yyyy"/>
+                                </p:outputLabel>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty sp.birthdate}"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2">
+                                <p:outputLabel value="Gender:"/>
+                            </div>
+                            <div class="ui-grid-col-6">
+                                <p:outputLabel value="#{sp.gender}" 
+                                               rendered="#{not empty sp.gender}"/>
+                                <p:outputLabel value="-" 
+                                               rendered="#{empty sp.gender}"/>
+                            </div>
+                        </div>
+                    </p:row>
+                    <p:panel style="border: white">
+                        <h4>
+                            <p:outputLabel value="Children"/>
+                        </h4>
+                        <p:outputLabel value="no data found."
+                                       rendered="#{cc.attrs.spBean.newFamilyAL.size() eq 0}"/>
+                        <c:forEach var="ch" 
+                                   items="#{cc.attrs.spBean.newFamilyAL}"
+                                   varStatus="chLoop"
+                                   rendered="#{cc.attrs.spBean.newFamilyAL.size() gt 0}">
+                            <p:row>
+                                <br/>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">
+                                        <p:outputLabel value="Type:"/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="#{dataConvert.pTypeConv(cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].personTypeId)}" 
+                                                       rendered="#{not empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].personTypeId}"/>
+                                        <p:outputLabel value="-" 
+                                                       rendered="#{empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].personTypeId}"/>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">
+                                        <p:outputLabel value="Name:"/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="#{cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].firstName} #{cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].middleName} #{cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].lastName}" 
+                                                       rendered="#{not empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].firstName and not empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].middleName and not empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].lastName}"/>
+                                        <p:outputLabel value="-" 
+                                                       rendered="#{empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].firstName and empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].middleName and empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].lastName}"/>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">
+                                        <p:outputLabel value="Birthdate:"/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="#{cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].birthdate}" 
+                                                       rendered="#{not empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].birthdate}">
+                                            <f:convertDateTime parent="MMM dd yyyy"/>
+                                        </p:outputLabel>
+                                        <p:outputLabel value="-" 
+                                                       rendered="#{empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].birthdate}"/>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">
+                                        <p:outputLabel value="Gender:"/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:outputLabel value="#{cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].gender}" 
+                                                       rendered="#{not empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].gender}"/>
+                                        <p:outputLabel value="-" 
+                                                       rendered="#{empty cc.attrs.spBean.newFamilyAL[spLoop.index][chLoop.index].gender}"/>
+                                    </div>
+                                </div>
+                            </p:row>
+                        </c:forEach>
+                    </p:panel>
+                </c:forEach>
+            </p:panel>
+        </p:panel>
+    </composite:implementation>
+</html>
+

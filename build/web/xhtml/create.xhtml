@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <ui:composition template="/templates/layout.xhtml">
+        <ui:define id="createContent" 
+                   name="content">
+            <f:event type="preRenderView" 
+                     listener="#{checkUser.init}"/> 
+            <h:form id="accessMessage" 
+                    rendered="#{not checkUser.showContent}">
+                <h:outputText value="You do not have the roles required to access this portlet."/>
+            </h:form>
+            #{createController.init()}
+            <h:form id="createForm" 
+                    rendered="#{checkUser.showContent}">
+                <prcc:confirmDialog/>
+                <prcc:ajaxStatus/>
+                <div class="ui-grid ui-grid-responsive">
+                    <prcc:growl/>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-7">
+                            <p:tabView id="dataTableTabView">
+                                <p:ajax event="tabChange" 
+                                        listener="#{createController.changeTab}" 
+                                        update="dataTableTabView"/>
+                                <p:tab title="Regular">
+                                    <prcc:dataTableM id="dataTableM"/>
+                                </p:tab>
+                                <p:tab title="Associate">
+                                    <prcc:dataTableM id="dataTableA"/>
+                                </p:tab>
+                            </p:tabView>
+                        </div>
+                        <div class="ui-grid-col-4">
+                            <prcc:applicantPR applicant="#{applicantData.applicant}"
+                                              rendered="#{not empty applicantData.applicant.applicantNo}"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

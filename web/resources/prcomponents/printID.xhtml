@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:prcc="http://java.sun.com/jsf/composite/prcomponents"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+    <composite:interface>
+        <composite:attribute name="idData"/>
+        <composite:attribute name="member"/>
+    </composite:interface>
+    <composite:implementation>
+        <h:outputStylesheet library="css" name="idDesignFront.css" />
+        <h:outputStylesheet library="css" name="idDesignBack.css" />
+        <h:outputScript library="js" name="jquery.min.js"/>
+        <h:outputScript library="js" name="myJs.js"/>
+        <p:panel id="idPanel" style="border: white">
+            <div class="ui-grid ui-grid-responsive" >
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">
+                        <div class="card0">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="cmpLogoCntnr">
+                                            <h:graphicImage library="images" name="sdcc.png" class="cmpLogo"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <span class="companyName">
+                                                <h:graphicImage library="images" name="sdccTitle.png" class="cmpTitle"/>
+                                            </span>
+                                            <span class="companyEmail">
+                                                www.sandionisiocredit.coop
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="memDataCntnr">
+                                            <span class="acctNo">#{cc.attrs.member.memNo}</span>
+                                            <div id="nameTxt" class="nameTxt">
+                                                <div class="txt">#{returnObject.fullname('', cc.attrs.member.lastName, cc.attrs.member.firstName, cc.attrs.member.middleName, '')}</div>
+                                            </div>
+                                            <div class="brthDate">BIRTH DATE: #{dateFormat.formatDate(cc.attrs.member.birthdate,'MM/dd/yyyy')}</div>
+                                            <div class="btmTxt">
+                                                <span>ISSUED 05/16</span>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;
+                                                <span>VALID UNTIL 05/21</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="margin-left: 10px;">
+                                            <div class="idImgCntnr">
+                                                <h:graphicImage library="images" name="male.png" class="idImg"/>
+                                            </div>
+                                            <span>
+                                                <h:graphicImage library="images" name="signature.png" class="idSigImg"/>
+                                            </span>
+                                            <br/>
+                                            <hr class="sigHr"/>
+                                            <span class="signatureTxt">SIGNATURE</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="ui-grid-col-6">
+                        <div class="card1">
+                            <div class="headerCntnr">
+                                <div class="magneticStripe">
+                                </div>
+                            </div>
+                            <br/><br/><br/><br/>
+                            <div class="otherInfo">
+                                <div class="incaseOfEmergencyTxtCntnr">
+                                    <div>In case of emergency, please notify</div>
+                                    <div>Name: #{cc.attrs.member.notifyName}</div>
+                                </div>
+                                <div class="incaseOfEmergencyCntnr">
+                                    <div>Address: #{cc.attrs.member.notifyAddress}</div>
+                                    <div>Contact No.: #{cc.attrs.member.notifyPhone}</div>
+                                </div>
+                                <div class="ifFoundCntnr">
+                                    <div>If found, Please return to San Dionisio Credit Cooperative</div>
+                                    <div>0554 Quirino Avenue, San Dionisio Paranaque City</div>
+                                    <div>Tel Nos. 826-1055 / 826-6726</div>
+                                    <div>
+                                        <div class="idMentorCntnr">
+                                            <h:graphicImage library="images" name="mentor.png" class="idMentorImg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:panel>
+    </composite:implementation>
+</html>
